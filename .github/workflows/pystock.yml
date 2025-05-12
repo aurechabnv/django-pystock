@@ -8,7 +8,7 @@ env:
   ALLOWED_HOSTS: ${{ vars.ALLOWED_HOSTS }}
 
 jobs:
-  build:
+  pytest:
 
     runs-on: ubuntu-latest
 
