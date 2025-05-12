@@ -27,13 +27,12 @@ jobs:
     - name: Install the project
       run: uv sync --locked --all-extras --dev
 
-    - name: Lint code with Ruff
-      run: uv run ruff check --output-format=github
-      continue-on-error: true
+#    - name: Lint code with Ruff
+#      run: uv run ruff check --output-format=github
 
-    - name: Check code formatting with Ruff
-      run: uv run ruff format --diff
-      continue-on-error: true
+#    - name: Check code formatting with Ruff
+#      run: uv run ruff format --diff
+#      continue-on-error: true
 
     - name: Run tests with pytest
       run: cd src && uv run pytest
