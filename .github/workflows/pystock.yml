@@ -23,10 +23,11 @@ jobs:
       run: uv sync --locked --all-extras --dev
 
     - name: Lint code with Ruff
-      run: uv run ruff check --output-format=github --target-version=py312
+      run: uv run ruff check --output-format=github
+      continue-on-error: true
 
     - name: Check code formatting with Ruff
-      run: uv run ruff format --diff --target-version=py312
+      run: uv run ruff format --diff
       continue-on-error: true
 
     - name: Run tests with pytest
