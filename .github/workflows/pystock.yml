@@ -1,0 +1,38 @@
+name: pystock
+
+on: [workflow_dispatch, push, pull_request]
+
+env:
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  DEBUG: ${{ vars.DEBUG }}
+  ALLOWED_HOSTS: ${{ vars.ALLOWED_HOSTS }}
+
+jobs:
+  pytest:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
+
+    - name: Set up Python
+      run: uv python install
+
+    - name: Install the project
+      run: uv sync --locked --all-extras --dev
+
+#    - name: Lint code with Ruff
+#      run: uv run ruff check --output-format=github
+
+#    - name: Check code formatting with Ruff
+#      run: uv run ruff format --diff
+#      continue-on-error: true
+
+    - name: Run tests with pytest
+      run: cd src && uv run pytest
