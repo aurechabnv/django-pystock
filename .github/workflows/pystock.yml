@@ -2,11 +2,15 @@ name: pystock
 
 on: [workflow_dispatch, push, pull_request]
 
+env:
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  DEBUG: ${{ vars.DEBUG }}
+  ALLOWED_HOSTS: ${{ vars.ALLOWED_HOSTS }}
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    environment: dev
 
     steps:
     - uses: actions/checkout@v4
