@@ -31,7 +31,4 @@ jobs:
       continue-on-error: true
 
     - name: Run tests with pytest
-      env:
-        PYTHONPATH: .
-        DJANGO_SETTINGS_MODULE: pystock.settings
-      run: uv run pytest
+      run: cd src && uv run pytest
