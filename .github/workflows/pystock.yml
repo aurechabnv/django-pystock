@@ -35,4 +35,4 @@ jobs:
 #      continue-on-error: true
 
     - name: Run tests with pytest
-      run: cd src && uv run pytest
+      run: uv run pytest
