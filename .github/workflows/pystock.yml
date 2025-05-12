@@ -31,4 +31,4 @@ jobs:
       continue-on-error: true
 
     - name: Run tests with pytest
-      run: uv run pytest tests
+      run: uv run pytest
