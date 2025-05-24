@@ -4,7 +4,10 @@ from django.utils.text import slugify
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True)
+
+    class Meta:
+        verbose_name = "Catégorie"
 
     def __str__(self):
         return self.name
@@ -17,7 +20,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    sku = models.CharField(max_length=20, unique=True)
+    sku = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=100)
     price = models.FloatField()
     vat = models.FloatField(default=0.2)
@@ -25,5 +28,12 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     categories = models.ManyToManyField(Category, related_name='products')
 
+    class Meta:
+        verbose_name = "Produit"
+
     def __str__(self):
-        return self.name
+        return f"{self.name} [{self.sku}]"
+
+    def save(self, *args, **kwargs):
+        self.sku = self.sku.upper()
+        super().save(*args, **kwargs)
