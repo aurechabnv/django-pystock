@@ -5,10 +5,13 @@ from apps.catalog.models import Product
 
 class Company(models.Model):
     name = models.CharField(max_length=100)
-    siret = models.CharField(max_length=14)
+    siret = models.CharField(max_length=14, unique=True)
     phone = models.CharField(max_length=11, blank=True)
     website = models.URLField(blank=True)
     email = models.EmailField(blank=True)
+
+    class Meta:
+        verbose_name = "Société"
 
     def __str__(self):
         return f"{self.name} [{self.siret}]"
@@ -16,19 +19,27 @@ class Company(models.Model):
 
 class Location(models.Model):
     class LocationType(models.TextChoices):
-        SHOP = "SH", "Shop"
-        WAREHOUSE = "WH", "Warehouse"
+        SHOP = "SH", "Magasin"
+        WAREHOUSE = "WH", "Entrepôt"
+
+    class Meta:
+        verbose_name = "Site"
 
     type = models.CharField(max_length=2, choices=LocationType)
     name = models.CharField(max_length=100)
     city = models.CharField(max_length=30)
     zip_code = models.CharField(max_length=10)
-    address = models.CharField(max_length=100)
+    address_line_1 = models.CharField(max_length=100)
+    address_line_2 = models.CharField(max_length=100, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    siret = models.CharField(max_length=14, blank=True)
+    siret = models.CharField(max_length=14, blank=True, unique=True, null=True)
 
     def __str__(self):
-        return f"{self.name} ({self.type.label})"
+        return f"{self.company.name} - {self.name}{' [' + self.siret + ']' if self.siret else ''}"
+
+    @property
+    def full_address(self):
+        return f"{self.address_line_1 + ', '}{self.address_line_2 + ', ' if self.address_line_2 else ''}{self.zip_code} {self.city}"
 
 
 class Stock(models.Model):
@@ -36,53 +47,74 @@ class Stock(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     last_modified = models.DateTimeField(auto_now=True)
+    synch = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.quantity}x '{self.product.name}' ({self.location.name})"
+        return f"{self.product.sku} - {self.location.company.name} - {self.location.name} ({self.location.LocationType(self.location.type).label})"
+
+    def save(self, *args, **kwargs):
+        # Create a stock movement in case of create/update if synch is enabled
+        # Make sure to set the movement's attribute `synched` to True to prevent loop update Stock<>Movement
+        if self.synch:
+            if self.id:
+                cur_obj = Stock.objects.get(pk=self.id)
+                delta = self.quantity - cur_obj.quantity
+            else:
+                delta = self.quantity
+
+            is_inbound = delta > 0
+            movement_type = Movement.MovementType.INBOUND if is_inbound else Movement.MovementType.OUTBOUND
+            movement = Movement(type=movement_type, quantity=delta, product=self.product, synced=True)
+
+            if is_inbound:
+                movement.to_location = self.location
+            else:
+                movement.from_location = self.location
+            movement.save()
+        else:
+            # If synch has been bypassed by a movement direct update, re-enable it
+            self.synch = True
+
+        super().save(*args, **kwargs)
 
 
 class Movement(models.Model):
     class MovementType(models.TextChoices):
-        INBOUND = "I", "Inbound"
-        OUTBOUND = "O", "Outbound"
-        TRANSFER = "T", "Transfer"
+        INBOUND = "I", "Entrée"
+        OUTBOUND = "O", "Sortie"
+        TRANSFER = "T", "Transfert"
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='+')
-    from_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, related_name='+')
-    to_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, related_name='+')
+    from_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, related_name='+', help_text="Nécessaire pour les sorties et transferts")
+    to_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, related_name='+', help_text="Nécessaire pour les entrées et transferts")
     type = models.CharField(max_length=1, choices=MovementType)
     quantity = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
+    synced = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Mouvement"
 
     def __str__(self):
-        location = ""
-        if self.from_location:
-            location += f"from '{self.from_location.name}'"
-        if self.to_location:
-            if location:
-                location += " "
-            location += f"to '{self.to_location.name}'"
-        return f"{self.quantity}x '{self.product.name}' {location} ({self.type.label})"
+        return f"{self.MovementType(self.type).label} du {self.date.strftime('%d-%m-%Y %H:%M')}"
 
     def save(self, *args, **kwargs):
-        # Get origin location for OUTBOUND and TRANSFER
-        if self.type != Movement.MovementType.INBOUND:
-            from_stock = Stock.objects.get(location=self.from_location, product=self.product)
-        else:
-            from_stock = None
+        # Make sure to only update stocks if movement is not synched yet
+        # Movement will be defaulted synched=True if it has been created from a stock update directly
+        if not self.synced:
+            self.synced = True
+            # Get or create origin stock for OUTBOUND and TRANSFER
+            if self.type != Movement.MovementType.INBOUND:
+                from_stock, created = Stock.objects.get_or_create(location=self.from_location, product=self.product, defaults={'quantity': 0})
+                from_stock.quantity -= self.quantity
+                from_stock.synch = False
+                from_stock.save()
 
-        # Get destination location for INBOUND and TRANSFER
-        if self.type != Movement.MovementType.OUTBOUND:
-            to_stock = Stock.objects.get(location=self.to_location, product=self.product)
-        else:
-            to_stock = None
-
-        # Update stocks accordingly
-        if from_stock:
-            from_stock.quantity -= self.quantity
-            from_stock.save()
-        if to_stock:
-            to_stock.quantity += self.quantity
-            to_stock.save()
+            # Get or create destination stock for INBOUND and TRANSFER
+            if self.type != Movement.MovementType.OUTBOUND:
+                to_stock, created = Stock.objects.get_or_create(location=self.to_location, product=self.product, defaults={'quantity': 0})
+                to_stock.quantity += self.quantity
+                to_stock.synch = False
+                to_stock.save()
 
         super().save(*args, **kwargs)
