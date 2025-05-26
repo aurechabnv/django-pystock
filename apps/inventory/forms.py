@@ -1,74 +1,7 @@
 from django import forms
-from django.db import models
 from django.core.exceptions import ValidationError
 
-from apps.inventory.models import Movement, Location, Stock, Company
-
-
-def urlfields_assume_https(db_field, **kwargs):
-    """
-    ModelForm.Meta.formfield_callback function to assume HTTPS for scheme-less
-    domains in URLFields.
-    """
-    if isinstance(db_field, models.URLField):
-        kwargs["assume_scheme"] = "https"
-    return db_field.formfield(**kwargs)
-
-
-class CompanyForm(forms.ModelForm):
-    class Meta:
-        model = Company
-        fields = [
-            "name",
-            "siret",
-            "phone",
-            "website",
-            "email",
-        ]
-        labels = {
-            "name": "Nom de société",
-            "phone": "N° de téléphone",
-        }
-        formfield_callback = urlfields_assume_https
-
-
-class LocationForm(forms.ModelForm):
-    class Meta:
-        model = Location
-        fields = [
-            "type",
-            "company",
-            "name",
-            "siret",
-            "address_line_1",
-            "address_line_2",
-            "zip_code",
-            "city",
-        ]
-        labels = {
-            "company": "Société",
-            "name": "Nom du site",
-            "siret": "N° de SIRET",
-            "address_line_1": "Adresse ligne 1",
-            "address_line_2": "Adresse ligne 2",
-            "zip_code": "Code postal",
-            "city": "Ville",
-        }
-
-
-class StockForm(forms.ModelForm):
-    class Meta:
-        model = Stock
-        fields = [
-            "location",
-            "product",
-            "quantity",
-        ]
-        labels = {
-            "location": "Site",
-            "product": "Produit",
-            "quantity": "Quantité",
-        }
+from apps.inventory.models import Movement
 
 
 class MovementForm(forms.ModelForm):
@@ -81,12 +14,6 @@ class MovementForm(forms.ModelForm):
             "from_location",
             "to_location",
         ]
-        labels = {
-            "product": "Produit",
-            "quantity": "Quantité",
-            "from_location": "Origine",
-            "to_location": "Destination",
-        }
 
     def clean(self):
         cleaned_data = super().clean()
