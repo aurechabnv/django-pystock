@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
-from apps.inventory.forms import MovementForm, LocationForm, StockForm, CompanyForm
+from apps.inventory.forms import MovementForm
 from apps.inventory.models import Company, Location, Stock, Movement
 
 
@@ -11,8 +11,6 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'phone', 'email', 'website',)
     search_fields = ('name', 'siret',)
 
-    form = CompanyForm
-
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
@@ -20,7 +18,6 @@ class LocationAdmin(admin.ModelAdmin):
     search_fields = ('name', 'siret', 'company__name', 'company__siret',)
     list_filter = ('type', 'city',)
 
-    form = LocationForm
     autocomplete_fields = ('company',)
 
     def link_to_company(self, obj):
@@ -35,7 +32,7 @@ class StockAdmin(admin.ModelAdmin):
     search_fields = ('product__name', 'product__sku', 'location__name', 'location__siret', 'location__company__name', 'location__company__siret',)
     list_filter = ('location__type',)
 
-    form = StockForm
+    fields = ('location', 'product', 'quantity',)
     autocomplete_fields = ('location', 'product',)
 
     def link_to_product(self, obj):

@@ -4,11 +4,11 @@ from apps.catalog.models import Product
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name="Raison sociale")
     siret = models.CharField(max_length=14, unique=True)
-    phone = models.CharField(max_length=11, blank=True)
-    website = models.URLField(blank=True)
-    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=11, blank=True, verbose_name="Téléphone")
+    website = models.URLField(blank=True, verbose_name="Site internet")
+    email = models.EmailField(blank=True, verbose_name="Email de contact")
 
     class Meta:
         verbose_name = "Société"
@@ -26,13 +26,13 @@ class Location(models.Model):
         verbose_name = "Site"
 
     type = models.CharField(max_length=2, choices=LocationType)
-    name = models.CharField(max_length=100)
-    city = models.CharField(max_length=30)
-    zip_code = models.CharField(max_length=10)
-    address_line_1 = models.CharField(max_length=100)
-    address_line_2 = models.CharField(max_length=100, blank=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="Société")
+    name = models.CharField(max_length=100, verbose_name="Raison sociale")
     siret = models.CharField(max_length=14, blank=True, unique=True, null=True)
+    address_line_1 = models.CharField(max_length=100, verbose_name="Adresse ligne 1")
+    address_line_2 = models.CharField(max_length=100, blank=True, verbose_name="Adresse ligne 2")
+    zip_code = models.CharField(max_length=10, verbose_name="Code postal")
+    city = models.CharField(max_length=30, verbose_name="Ville")
 
     def __str__(self):
         return f"{self.company.name} - {self.name}{' [' + self.siret + ']' if self.siret else ''}"
@@ -43,9 +43,9 @@ class Location(models.Model):
 
 
 class Stock(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name="Site")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Produit")
+    quantity = models.IntegerField(verbose_name="Quantité")
     last_modified = models.DateTimeField(auto_now=True)
     synch = models.BooleanField(default=True)
 
@@ -84,11 +84,11 @@ class Movement(models.Model):
         OUTBOUND = "O", "Sortie"
         TRANSFER = "T", "Transfert"
 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='+')
-    from_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, related_name='+', help_text="Nécessaire pour les sorties et transferts")
-    to_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, related_name='+', help_text="Nécessaire pour les entrées et transferts")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='+', verbose_name="Produit")
+    from_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, related_name='+', verbose_name="Site d'origine", help_text="Nécessaire pour les sorties et transferts")
+    to_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, related_name='+', verbose_name="Site de destination", help_text="Nécessaire pour les entrées et transferts")
     type = models.CharField(max_length=1, choices=MovementType)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(verbose_name="Quantité")
     date = models.DateTimeField(auto_now_add=True)
     synced = models.BooleanField(default=False)
 
