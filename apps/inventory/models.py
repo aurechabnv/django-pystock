@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 from apps.catalog.models import Product
@@ -9,9 +10,11 @@ class Company(models.Model):
     phone = models.CharField(max_length=11, blank=True, verbose_name="Téléphone")
     website = models.URLField(blank=True, verbose_name="Site internet")
     email = models.EmailField(blank=True, verbose_name="Email de contact")
+    users = models.ManyToManyField(User, blank=True, verbose_name="Utilisateurs", related_name="companies")
 
     class Meta:
-        verbose_name = "Société"
+        verbose_name = "société"
+        permissions = [("company_update_stock", "Can update company stocks")]
 
     def __str__(self):
         return f"{self.name} [{self.siret}]"
@@ -23,7 +26,7 @@ class Location(models.Model):
         WAREHOUSE = "WH", "Entrepôt"
 
     class Meta:
-        verbose_name = "Site"
+        verbose_name = "site"
 
     type = models.CharField(max_length=2, choices=LocationType)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="Société")
@@ -93,7 +96,7 @@ class Movement(models.Model):
     synced = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = "Mouvement"
+        verbose_name = "mouvement"
 
     def __str__(self):
         return f"{self.MovementType(self.type).label} du {self.date.strftime('%d-%m-%Y %H:%M')}"
