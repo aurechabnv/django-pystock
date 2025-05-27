@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}PyStock{% endblock %}
+
+{% block content %}
+    <p>Je suis la homepage !</p>
+{% if user.is_authenticated %}
+    <p>Bonjour {{ user.username }} !</p>
+    <a href="{% url 'logout' %}">Déconnexion</a>
+{% else %}
+    <a href="{% url 'login' %}">Connexion</a>
+{% endif %}
+{% endblock %}

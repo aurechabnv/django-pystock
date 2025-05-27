@@ -1,3 +1,26 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
 
-# Create your views here.
+def login_view(request):
+    context = {}
+
+    if request.method == "POST":
+        form = AuthenticationForm(None, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, "Vous êtes connecté.")
+            return redirect("index")
+    else:
+        form = AuthenticationForm()
+
+    context["form"] = form
+    return render(request, "users/login.html", context)
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Vous êtes déconnecté.")
+    return redirect("index")

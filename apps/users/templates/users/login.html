@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+     <h2>Connexion</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <p class="errornote">
+            {{ error }}
+        </p>
+        {% endfor %}
+        {% endif %}
+        <div class="form-row">
+            {{ form.username.label_tag }} {{ form.username }}
+        </div>
+        <div class="form-row">
+            {{ form.password.label_tag }} {{ form.password }}
+        </div>
+        <input type="submit" value="Se connecter">
+    </form>
+{% endblock %}

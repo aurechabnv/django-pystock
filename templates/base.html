@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Gestionnaire de stocks</h1>
+    <div class="nav"></div>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
