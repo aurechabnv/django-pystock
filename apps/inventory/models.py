@@ -14,7 +14,11 @@ class Company(models.Model):
 
     class Meta:
         verbose_name = "société"
-        permissions = [("company_update_stock", "Can update company stocks")]
+        permissions = [
+            ("company_update_stock", "Can update company stocks"),
+            ("company_delete_stock", "Can delete company stocks"),
+            ("company_add_stock", "Can add company stocks"),
+        ]
 
     def __str__(self):
         return f"{self.name} [{self.siret}]"
