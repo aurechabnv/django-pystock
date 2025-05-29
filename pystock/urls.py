@@ -20,7 +20,7 @@ from django.urls import path, include
 from pystock import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.home, name='home'),
     path('backend/', admin.site.urls),
     path("auth/", include("apps.auth.urls")),
 ]
