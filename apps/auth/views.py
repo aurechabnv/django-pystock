@@ -17,7 +17,7 @@ def login_view(request):
         form = AuthenticationForm()
 
     context["form"] = form
-    return render(request, "users/login.html", context)
+    return render(request, "auth/login.html", context)
 
 
 def logout_view(request):
@@ -40,4 +40,4 @@ def reset_password_view(request):
         form = PasswordResetForm()
 
     context["form"] = form
-    return render(request, "users/reset_password.html", context)
+    return render(request, "auth/reset_password.html", context)
