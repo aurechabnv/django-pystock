@@ -22,5 +22,5 @@ from pystock import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('backend/', admin.site.urls),
-    path("auth/", include("apps.auth.urls")),
+    path('auth/', include('apps.authentication.urls')),
 ]

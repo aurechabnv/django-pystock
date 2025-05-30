@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+     <h2>Connexion</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button button_type="submit" content="Se connecter" %}
+    </form>
+    <p>Mot de passe oublié ? <a href="#">Réinitialiser votre mot de passe.</a></p>
+    <p>Pas inscrit ? <a href="{% url 'register' %}">Créer un compte.</a></p>
+{% endblock %}

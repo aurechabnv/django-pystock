@@ -5,8 +5,11 @@
 {% block content %}
     <p>Je suis la homepage !</p>
 {% if user.is_authenticated %}
-    <p>Bonjour {{ user.username }} !</p>
-    <a href="{% url 'logout' %}">Déconnexion</a>
+    <p>Bonjour {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %} !</p>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn-logout">Logout</button>
+    </form>
 {% else %}
     <a href="{% url 'login' %}">Connexion</a>
 {% endif %}
