@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
 from django.db import models
 
 from apps.catalog.models import Product
+
+
+User = get_user_model()
 
 
 class Company(models.Model):
@@ -11,7 +13,7 @@ class Company(models.Model):
     phone = models.CharField(max_length=11, blank=True, verbose_name="Téléphone")
     website = models.URLField(blank=True, verbose_name="Site internet")
     email = models.EmailField(blank=True, verbose_name="Email de contact")
-    users = models.ManyToManyField(get_user_model(), blank=True, verbose_name="Utilisateurs", related_name="companies")
+    users = models.ManyToManyField(User, blank=True, verbose_name="Utilisateurs", related_name="companies")
 
     class Meta:
         verbose_name = "société"
