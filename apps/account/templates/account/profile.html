@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+     <h2>Profile</h2>
+    {% bootstrap_messages %}
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <div class="mb-3">
+            <a href="{% url 'account:password_change' %}">Changer de mot de passe</a>
+        </div>
+        {% bootstrap_button button_type="submit" content="Mettre à jour" %}
+    </form>
+{% endblock %}

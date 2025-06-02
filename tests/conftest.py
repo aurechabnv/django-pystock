@@ -1,7 +1,29 @@
 import pytest
+from django.contrib.auth import get_user_model
 
 from apps.catalog.models import Product, Category
 from apps.inventory.models import Company, Location, Stock, Movement
+
+
+User = get_user_model()
+
+
+@pytest.fixture
+def user1():
+    return User.objects.create_user(
+        username='user1',
+        email='user1@example.com',
+        password='azerty123*',
+    )
+
+
+@pytest.fixture
+def user2():
+    return User.objects.create_user(
+        username='user2',
+        email='user2@example.com',
+        password='azerty123*',
+    )
 
 
 @pytest.fixture
