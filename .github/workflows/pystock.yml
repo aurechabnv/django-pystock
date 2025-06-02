@@ -6,6 +6,11 @@ env:
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
   DEBUG: ${{ vars.DEBUG }}
   ALLOWED_HOSTS: ${{ vars.ALLOWED_HOSTS }}
+  EMAIL_HOST: ${{ vars.EMAIL_HOST }}
+  EMAIL_HOST_PORT: ${{ vars.EMAIL_HOST_PORT }}
+  EMAIL_USE_TLS: ${{ vars.EMAIL_USE_TLS }}
+  EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+  EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
 
 jobs:
   pytest:

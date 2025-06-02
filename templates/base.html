@@ -1,0 +1,19 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <h1>Gestionnaire de stocks</h1>
+    <nav></nav>
+    <section>
+        {% block content %}{% endblock %}
+    </section>
+</body>
+</html>

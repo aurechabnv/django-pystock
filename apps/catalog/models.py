@@ -7,7 +7,7 @@ class Category(models.Model):
     slug = models.SlugField(blank=True)
 
     class Meta:
-        verbose_name = "Catégorie"
+        verbose_name = "catégorie"
 
     def __str__(self):
         return self.name
@@ -29,7 +29,7 @@ class Product(models.Model):
     categories = models.ManyToManyField(Category, related_name='products', verbose_name="Catégories")
 
     class Meta:
-        verbose_name = "Produit"
+        verbose_name = "produit"
 
     def __str__(self):
         return f"{self.name} [{self.sku}]"

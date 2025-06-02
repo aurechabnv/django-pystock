@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}PyStock{% endblock %}
+
+{% block content %}
+    <p>Je suis la homepage !</p>
+{% if user.is_authenticated %}
+    <p>Bonjour {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %} !</p>
+    <a href="{% url 'account:profile' %}">Mettre à jour mon profil</a>
+    <form action="{% url 'account:logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn-logout">Déconnexion</button>
+    </form>
+{% else %}
+    <a href="{% url 'account:login' %}">Connexion</a>
+{% endif %}
+{% endblock %}
