@@ -11,6 +11,6 @@
         <button type="submit" class="btn-logout">Logout</button>
     </form>
 {% else %}
-    <a href="{% url 'login' %}">Connexion</a>
+    <a href="{% url 'account:login' %}">Connexion</a>
 {% endif %}
 {% endblock %}

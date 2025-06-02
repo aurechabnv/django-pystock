@@ -1,11 +1,11 @@
 from django.contrib.auth import login
 from django.views.generic import FormView
 
-from apps.authentication.forms import RegisterForm
+from apps.account.forms import RegisterForm
 
 
 class RegisterView(FormView):
-    template_name = "authentication/register.html"
+    template_name = "account/register.html"
     form_class = RegisterForm
     redirect_authenticated_user = True
     success_url = "/"
