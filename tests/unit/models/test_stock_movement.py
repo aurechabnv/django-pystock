@@ -1,54 +1,6 @@
 import pytest
 
-from apps.catalog.models import Category, Product
-from apps.inventory.models import Stock, Company, Movement, Location
-
-
-@pytest.mark.django_db
-def test_category():
-    """
-    Check that the category model works as expected.
-    """
-    category = Category(name="Test Category")
-    assert str(category) == "Test Category"
-    assert category.slug == ""
-    category.save()
-    assert category.slug == "test-category"
-
-
-@pytest.mark.django_db
-def test_product():
-    """
-    Check that the product model works as expected.
-    """
-    product = Product(name="Test Product", sku="test-product", price=15.0, stock_threshold=10)
-    assert str(product) == "Test Product [test-product]"
-    assert product.vat == 0.2
-    product.vat = 0.1
-    product.save()
-    assert str(product) == "Test Product [TEST-PRODUCT]"
-    assert product.vat == 0.1
-
-
-@pytest.mark.django_db
-def test_company(company):
-    """
-    Check that the company model works as expected.
-    """
-    assert str(company) == "Great Place for Computer Parts [12345678912345]"
-
-
-@pytest.mark.django_db
-def test_location(shop):
-    """
-    Check that the location model works as expected.
-    """
-    assert str(shop) == "Great Place for Computer Parts - GPCP Montpellier"
-    shop.siret = "32543442257446"
-    assert str(shop) == "Great Place for Computer Parts - GPCP Montpellier [32543442257446]"
-    assert shop.full_address == "45 rue des peupliers, 34000 Montpellier"
-    shop.address_line_2 = "info"
-    assert shop.full_address == "45 rue des peupliers, info, 34000 Montpellier"
+from apps.inventory.models import Stock, Movement
 
 
 @pytest.mark.django_db
@@ -132,44 +84,3 @@ def test_stock_transfer_updates(product1, warehouse, shop, stock_in_shop, stock_
     assert from_stock.quantity == 100
     assert to_stock.quantity == 80
     assert total_movements == Movement.objects.all().count()
-
-
-@pytest.mark.django_db
-def test_product_deletion(product1, stock_in_warehouse, stock_in_shop,
-                          movement_inbound, movement_outbound, movement_transfer):
-    """
-    Check that the product deletion cascades properly.
-    """
-    total, items = product1.delete()
-    assert total == 10
-    assert items['catalog.Product'] == 1
-    assert items['catalog.Product_categories'] == 2
-    assert items['inventory.Stock'] == 2
-    assert items['inventory.Movement'] == 5
-
-
-@pytest.mark.django_db
-def test_company_deletion(product1, company, warehouse, shop, stock_in_warehouse, stock_in_shop,
-                          movement_transfer, movement_inbound, movement_outbound):
-    """
-    Check that the company deletion cascades properly.
-    """
-    total, items = company.delete()
-    assert total == 10
-    assert items['inventory.Company'] == 1
-    assert items['inventory.Location'] == 2
-    assert items['inventory.Stock'] == 2
-    assert items['inventory.Movement'] == 5
-
-
-@pytest.mark.django_db
-def test_location_deletion(product1, company, shop, stock_in_shop, stock_in_warehouse,
-                           movement_transfer, movement_inbound, movement_outbound):
-    """
-    Check that the location deletion cascades properly.
-    """
-    total, items = shop.delete()
-    assert total == 5
-    assert items['inventory.Location'] == 1
-    assert items['inventory.Stock'] == 1
-    assert items['inventory.Movement'] == 3
