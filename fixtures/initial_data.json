@@ -1,0 +1,545 @@
+[
+{
+    "model": "inventory.company",
+    "pk": 1,
+    "fields": {
+        "name": "Great Place for Computer Parts",
+        "siret": "12345678901231",
+        "phone": "0123435325",
+        "website": "https://gpcp.com",
+        "email": "contact@gpcp.com",
+        "users": []
+    }
+},
+{
+    "model": "inventory.company",
+    "pk": 3,
+    "fields": {
+        "name": "Open Computer Market",
+        "siret": "03465729573475",
+        "phone": "0123466564",
+        "website": "https://opm-group.com",
+        "email": "service-client@opm-group.com",
+        "users": []
+    }
+},
+{
+    "model": "inventory.location",
+    "pk": 1,
+    "fields": {
+        "type": "SH",
+        "company": 1,
+        "name": "GPCP Montpellier",
+        "siret": "13243253532352",
+        "address_line_1": "13 rue des bleuets",
+        "address_line_2": "",
+        "zip_code": "34000",
+        "city": "Montpellier"
+    }
+},
+{
+    "model": "inventory.location",
+    "pk": 2,
+    "fields": {
+        "type": "WH",
+        "company": 1,
+        "name": "Entrepôt GPCP 1",
+        "siret": null,
+        "address_line_1": "34 rue des peupliers",
+        "address_line_2": "ZAE",
+        "zip_code": "78000",
+        "city": "Versailles"
+    }
+},
+{
+    "model": "inventory.location",
+    "pk": 3,
+    "fields": {
+        "type": "SH",
+        "company": 1,
+        "name": "GPCP Versailles",
+        "siret": "03849753976953",
+        "address_line_1": "134 avenue du général leclerc",
+        "address_line_2": "",
+        "zip_code": "78000",
+        "city": "Versailles"
+    }
+},
+{
+    "model": "inventory.location",
+    "pk": 4,
+    "fields": {
+        "type": "SH",
+        "company": 3,
+        "name": "OCM Lille",
+        "siret": "12345325657543",
+        "address_line_1": "65 rue des lilas",
+        "address_line_2": "",
+        "zip_code": "59000",
+        "city": "Lille"
+    }
+},
+{
+    "model": "inventory.location",
+    "pk": 5,
+    "fields": {
+        "type": "SH",
+        "company": 3,
+        "name": "OCM Rennes",
+        "siret": "23445231543626",
+        "address_line_1": "16 impasse des charmes",
+        "address_line_2": "",
+        "zip_code": "35000",
+        "city": "Rennes"
+    }
+},
+{
+    "model": "inventory.location",
+    "pk": 6,
+    "fields": {
+        "type": "SH",
+        "company": 3,
+        "name": "OCM Toulouse",
+        "siret": "23416135367453",
+        "address_line_1": "23 rue René Descartes",
+        "address_line_2": "",
+        "zip_code": "31555",
+        "city": "Toulouse"
+    }
+},
+{
+    "model": "inventory.location",
+    "pk": 7,
+    "fields": {
+        "type": "WH",
+        "company": 3,
+        "name": "OCM Storage 1253",
+        "siret": null,
+        "address_line_1": "4 avenue du général de gaulle",
+        "address_line_2": "",
+        "zip_code": "31000",
+        "city": "Toulouse"
+    }
+},
+{
+    "model": "inventory.location",
+    "pk": 8,
+    "fields": {
+        "type": "WH",
+        "company": 3,
+        "name": "OCM Storage 4325",
+        "siret": null,
+        "address_line_1": "45 rue Alexandre Dumas",
+        "address_line_2": "",
+        "zip_code": "21000",
+        "city": "Dijon"
+    }
+},
+{
+    "model": "inventory.stock",
+    "pk": 1,
+    "fields": {
+        "location": 1,
+        "product": 1,
+        "quantity": 250,
+        "last_modified": "2025-06-03T11:30:02.589Z",
+        "synch": true
+    }
+},
+{
+    "model": "inventory.stock",
+    "pk": 2,
+    "fields": {
+        "location": 2,
+        "product": 1,
+        "quantity": 260,
+        "last_modified": "2025-05-20T12:28:35.209Z",
+        "synch": true
+    }
+},
+{
+    "model": "inventory.stock",
+    "pk": 3,
+    "fields": {
+        "location": 4,
+        "product": 2,
+        "quantity": 200,
+        "last_modified": "2025-05-20T23:00:50.155Z",
+        "synch": true
+    }
+},
+{
+    "model": "inventory.stock",
+    "pk": 4,
+    "fields": {
+        "location": 7,
+        "product": 3,
+        "quantity": 120,
+        "last_modified": "2025-05-20T23:06:50.555Z",
+        "synch": true
+    }
+},
+{
+    "model": "inventory.stock",
+    "pk": 5,
+    "fields": {
+        "location": 3,
+        "product": 1,
+        "quantity": 150,
+        "last_modified": "2025-06-03T11:30:02.595Z",
+        "synch": true
+    }
+},
+{
+    "model": "inventory.stock",
+    "pk": 6,
+    "fields": {
+        "location": 7,
+        "product": 5,
+        "quantity": 270,
+        "last_modified": "2025-06-03T11:34:15.729Z",
+        "synch": true
+    }
+},
+{
+    "model": "inventory.stock",
+    "pk": 7,
+    "fields": {
+        "location": 4,
+        "product": 5,
+        "quantity": 30,
+        "last_modified": "2025-06-03T11:34:15.734Z",
+        "synch": true
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 1,
+    "fields": {
+        "product": 1,
+        "from_location": null,
+        "to_location": 1,
+        "type": "I",
+        "quantity": 100,
+        "date": "2025-05-20T10:26:48.158Z",
+        "synced": false
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 2,
+    "fields": {
+        "product": 1,
+        "from_location": null,
+        "to_location": 2,
+        "type": "I",
+        "quantity": 250,
+        "date": "2025-05-20T12:11:43.479Z",
+        "synced": false
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 3,
+    "fields": {
+        "product": 1,
+        "from_location": 2,
+        "to_location": null,
+        "type": "O",
+        "quantity": 40,
+        "date": "2025-05-20T12:23:12.290Z",
+        "synced": false
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 4,
+    "fields": {
+        "product": 1,
+        "from_location": 1,
+        "to_location": 2,
+        "type": "T",
+        "quantity": 50,
+        "date": "2025-05-20T12:28:35.210Z",
+        "synced": false
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 5,
+    "fields": {
+        "product": 1,
+        "from_location": null,
+        "to_location": 1,
+        "type": "I",
+        "quantity": 100,
+        "date": "2025-05-20T22:58:27.083Z",
+        "synced": false
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 6,
+    "fields": {
+        "product": 2,
+        "from_location": null,
+        "to_location": 4,
+        "type": "I",
+        "quantity": 200,
+        "date": "2025-05-20T23:00:50.156Z",
+        "synced": false
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 7,
+    "fields": {
+        "product": 3,
+        "from_location": null,
+        "to_location": 7,
+        "type": "I",
+        "quantity": 120,
+        "date": "2025-05-20T23:06:50.556Z",
+        "synced": false
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 8,
+    "fields": {
+        "product": 1,
+        "from_location": 1,
+        "to_location": null,
+        "type": "O",
+        "quantity": 50,
+        "date": "2025-05-20T23:08:02.278Z",
+        "synced": false
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 9,
+    "fields": {
+        "product": 1,
+        "from_location": null,
+        "to_location": 1,
+        "type": "I",
+        "quantity": 400,
+        "date": "2025-06-03T11:29:26.190Z",
+        "synced": true
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 11,
+    "fields": {
+        "product": 1,
+        "from_location": 1,
+        "to_location": 3,
+        "type": "T",
+        "quantity": 150,
+        "date": "2025-06-03T11:30:02.596Z",
+        "synced": true
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 12,
+    "fields": {
+        "product": 5,
+        "from_location": null,
+        "to_location": 7,
+        "type": "I",
+        "quantity": 300,
+        "date": "2025-06-03T11:33:41.953Z",
+        "synced": true
+    }
+},
+{
+    "model": "inventory.movement",
+    "pk": 13,
+    "fields": {
+        "product": 5,
+        "from_location": 7,
+        "to_location": 4,
+        "type": "T",
+        "quantity": 30,
+        "date": "2025-06-03T11:34:15.735Z",
+        "synced": true
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Audio",
+        "slug": "audio"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 5,
+    "fields": {
+        "name": "Cartes graphiques",
+        "slug": "cartes-graphiques"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 6,
+    "fields": {
+        "name": "Composants PC",
+        "slug": "composants-pc"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 7,
+    "fields": {
+        "name": "Processeurs",
+        "slug": "processeurs"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name": "ASRock AMD Radeon RX 9070 XT Steel Legend 16G",
+        "sku": "ASR-STEEL-LEGEND-RX9070XT-16G",
+        "price": 829.95,
+        "vat": 0.2,
+        "stock_threshold": 30,
+        "description": "",
+        "categories": [
+            5,
+            6
+        ]
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "SAPPHIRE Pulse AMD RADEON RX 9070 XT OC 16G",
+        "sku": "SAPH-PULSE-RX9070XT-16G-OC",
+        "price": 799.95,
+        "vat": 0.2,
+        "stock_threshold": 35,
+        "description": "",
+        "categories": [
+            5,
+            6
+        ]
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "Sapphire NITRO+ AMD Radeon RX 9070 XT 16GB",
+        "sku": "SAPH-NITRO-RX9070XT-16G",
+        "price": 899.95,
+        "vat": 0.2,
+        "stock_threshold": 25,
+        "description": "",
+        "categories": [
+            5,
+            6
+        ]
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name": "AMD Ryzen 7 9800X3D (4.7 GHz / 5.2 GHz)",
+        "sku": "AMD-RYZEN7-9800X3D",
+        "price": 584.95,
+        "vat": 0.2,
+        "stock_threshold": 50,
+        "description": "",
+        "categories": [
+            6,
+            7
+        ]
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+        "name": "AMD Ryzen 7 7800X3D (4.2 GHz / 5.0 GHz)",
+        "sku": "AMD-RYZEN7-7800X3D",
+        "price": 519.95,
+        "vat": 0.2,
+        "stock_threshold": 40,
+        "description": "",
+        "categories": [
+            6,
+            7
+        ]
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+        "name": "Intel Core i7-14700KF (3.4 GHz / 5.6 GHz)",
+        "sku": "INTEL-I7-14700KF",
+        "price": 426.95,
+        "vat": 0.2,
+        "stock_threshold": 40,
+        "description": "",
+        "categories": [
+            6,
+            7
+        ]
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+        "name": "Intel Core i5-12400F (2.5 GHz / 4.4 GHz)",
+        "sku": "INTEL-I7-12400KF",
+        "price": 139.95,
+        "vat": 0.2,
+        "stock_threshold": 20,
+        "description": "",
+        "categories": [
+            6,
+            7
+        ]
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+        "name": "Shokz OpenRun Pro 2 (Noir)",
+        "sku": "SHOKZ-OPENRUNPRO2-BK",
+        "price": 199.95,
+        "vat": 0.2,
+        "stock_threshold": 10,
+        "description": "",
+        "categories": [
+            3
+        ]
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 9,
+    "fields": {
+        "name": "Bose SoundLink Flex II - Noir",
+        "sku": "BOSE-SOUNLINK-FLEX-II-BK",
+        "price": 129.99,
+        "vat": 0.2,
+        "stock_threshold": 20,
+        "description": "Enceinte portable Bluetooth",
+        "categories": [
+            3
+        ]
+    }
+}
+]
