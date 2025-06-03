@@ -69,10 +69,12 @@ def test_stock_inbound_updates(product1, warehouse, stock_in_warehouse, movement
 
 
 @pytest.mark.django_db
-def test_stock_transfer_updates(product1, warehouse, shop, stock_in_shop, stock_in_warehouse,
-                                movement_transfer):
+def test_stock_transfer_updates(product1, warehouse, shop, stock_in_warehouse, movement_transfer):
     """
     Check that the stocks are properly updated on transfer and do not produce additional movement items.
+
+    Additionally, the target location is set as new and without existing stock, so that we check that
+    this use case does not produce additional movement either.
     """
     total_movements = Movement.objects.all().count()
     movement_transfer.synced = False
@@ -82,5 +84,5 @@ def test_stock_transfer_updates(product1, warehouse, shop, stock_in_shop, stock_
     from_stock = Stock.objects.get(location=movement_transfer.from_location, product=movement_transfer.product)
     to_stock = Stock.objects.get(location=movement_transfer.to_location, product=movement_transfer.product)
     assert from_stock.quantity == 100
-    assert to_stock.quantity == 80
+    assert to_stock.quantity == 20
     assert total_movements == Movement.objects.all().count()

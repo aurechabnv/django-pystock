@@ -115,14 +115,22 @@ class Movement(models.Model):
             self.synced = True
             # Get or create origin stock for OUTBOUND and TRANSFER
             if self.type != Movement.MovementType.INBOUND:
-                from_stock, created = Stock.objects.get_or_create(location=self.from_location, product=self.product, defaults={'quantity': 0})
+                from_stock, created = Stock.objects.get_or_create(
+                    location=self.from_location,
+                    product=self.product,
+                    defaults={'quantity': 0, 'synch': False}
+                )
                 from_stock.quantity -= self.quantity
                 from_stock.synch = False
                 from_stock.save()
 
             # Get or create destination stock for INBOUND and TRANSFER
             if self.type != Movement.MovementType.OUTBOUND:
-                to_stock, created = Stock.objects.get_or_create(location=self.to_location, product=self.product, defaults={'quantity': 0})
+                to_stock, created = Stock.objects.get_or_create(
+                    location=self.to_location,
+                    product=self.product,
+                    defaults={'quantity': 0, 'synch': False}
+                )
                 to_stock.quantity += self.quantity
                 to_stock.synch = False
                 to_stock.save()
