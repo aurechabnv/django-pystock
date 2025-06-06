@@ -3,15 +3,21 @@
 {% block title %}PyStock{% endblock %}
 
 {% block content %}
-    <p>Je suis la homepage !</p>
-{% if user.is_authenticated %}
-    <p>Bonjour {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %} !</p>
-    <a href="{% url 'account:profile' %}">Mettre à jour mon profil</a>
-    <form action="{% url 'account:logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn-logout">Déconnexion</button>
-    </form>
-{% else %}
-    <a href="{% url 'account:login' %}">Connexion</a>
-{% endif %}
+    <main id="home-page" class="container text-center">
+        <div class="p-2">
+            <p class="fw-bold">PyStock est votre application de gestion de stocks multi-entreprises.</p>
+            <p>Vous serez en mesure de :</p>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">gérer votre catalogue par catégorie</li>
+                <li class="list-group-item">répartir vos stocks par site et entreprise</li>
+                <li class="list-group-item">mettre à jour et tracer les mouvements de stocks (entrées, sorties, transferts)</li>
+                <li class="list-group-item">définir des seuils d'alerte de stock par produit</li>
+            </ul>
+            {% if not user.is_authenticated %}
+            <br>
+            <a class="btn btn-primary" href="{% url 'account:login' %}">Connexion</a>
+            <a class="btn btn-outline-primary" href="{% url 'account:register' %}">S'inscrire</a>
+            {% endif %}
+        </div>
+    </main>
 {% endblock %}
