@@ -28,17 +28,20 @@
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              {{ user.username | capfirst }}
-                          </a>
-                          <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{% url 'account:profile' %}">Mon profil</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><form action="{% url 'account:logout' %}" method="post">
-                                {% csrf_token %}
-                                <button class="dropdown-item" type="submit">Déconnexion</button>
-                            </form></li>
-                          </ul>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ user.username | capfirst }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'account:profile' %}">Mon compte</a></li>
+                                {% if user.is_superuser %}
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}">Administration</a></li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><form action="{% url 'account:logout' %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="dropdown-item" type="submit">Se déconnecter</button>
+                                </form></li>
+                            </ul>
                         </li>
                     </ul>
                     {% endif %}
