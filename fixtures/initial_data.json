@@ -8,6 +8,8 @@
         "phone": "0123435325",
         "website": "https://gpcp.com",
         "email": "contact@gpcp.com",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "users": []
     }
 },
@@ -20,6 +22,8 @@
         "phone": "0123466564",
         "website": "https://opm-group.com",
         "email": "service-client@opm-group.com",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "users": []
     }
 },
@@ -34,7 +38,9 @@
         "address_line_1": "13 rue des bleuets",
         "address_line_2": "",
         "zip_code": "34000",
-        "city": "Montpellier"
+        "city": "Montpellier",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -48,7 +54,9 @@
         "address_line_1": "34 rue des peupliers",
         "address_line_2": "ZAE",
         "zip_code": "78000",
-        "city": "Versailles"
+        "city": "Versailles",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -62,7 +70,9 @@
         "address_line_1": "134 avenue du général leclerc",
         "address_line_2": "",
         "zip_code": "78000",
-        "city": "Versailles"
+        "city": "Versailles",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -76,7 +86,9 @@
         "address_line_1": "65 rue des lilas",
         "address_line_2": "",
         "zip_code": "59000",
-        "city": "Lille"
+        "city": "Lille",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -90,7 +102,9 @@
         "address_line_1": "16 impasse des charmes",
         "address_line_2": "",
         "zip_code": "35000",
-        "city": "Rennes"
+        "city": "Rennes",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -104,7 +118,9 @@
         "address_line_1": "23 rue René Descartes",
         "address_line_2": "",
         "zip_code": "31555",
-        "city": "Toulouse"
+        "city": "Toulouse",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -118,7 +134,9 @@
         "address_line_1": "4 avenue du général de gaulle",
         "address_line_2": "",
         "zip_code": "31000",
-        "city": "Toulouse"
+        "city": "Toulouse",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -132,7 +150,9 @@
         "address_line_1": "45 rue Alexandre Dumas",
         "address_line_2": "",
         "zip_code": "21000",
-        "city": "Dijon"
+        "city": "Dijon",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -142,6 +162,7 @@
         "location": 1,
         "product": 1,
         "quantity": 250,
+        "created": "2025-05-10T12:28:35.210Z",
         "last_modified": "2025-06-03T11:30:02.589Z",
         "synch": true
     }
@@ -153,6 +174,7 @@
         "location": 2,
         "product": 1,
         "quantity": 260,
+        "created": "2025-05-10T12:28:35.210Z",
         "last_modified": "2025-05-20T12:28:35.209Z",
         "synch": true
     }
@@ -164,6 +186,7 @@
         "location": 4,
         "product": 2,
         "quantity": 200,
+        "created": "2025-05-10T12:28:35.210Z",
         "last_modified": "2025-05-20T23:00:50.155Z",
         "synch": true
     }
@@ -175,6 +198,7 @@
         "location": 7,
         "product": 3,
         "quantity": 120,
+        "created": "2025-05-10T12:28:35.210Z",
         "last_modified": "2025-05-20T23:06:50.555Z",
         "synch": true
     }
@@ -186,6 +210,7 @@
         "location": 3,
         "product": 1,
         "quantity": 150,
+        "created": "2025-05-10T12:28:35.210Z",
         "last_modified": "2025-06-03T11:30:02.595Z",
         "synch": true
     }
@@ -197,6 +222,7 @@
         "location": 7,
         "product": 5,
         "quantity": 270,
+        "created": "2025-05-10T12:28:35.210Z",
         "last_modified": "2025-06-03T11:34:15.729Z",
         "synch": true
     }
@@ -208,6 +234,7 @@
         "location": 4,
         "product": 5,
         "quantity": 30,
+        "created": "2025-05-10T12:28:35.210Z",
         "last_modified": "2025-06-03T11:34:15.734Z",
         "synch": true
     }
@@ -373,7 +400,9 @@
     "pk": 3,
     "fields": {
         "name": "Audio",
-        "slug": "audio"
+        "slug": "audio",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -381,7 +410,9 @@
     "pk": 5,
     "fields": {
         "name": "Cartes graphiques",
-        "slug": "cartes-graphiques"
+        "slug": "cartes-graphiques",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -389,7 +420,9 @@
     "pk": 6,
     "fields": {
         "name": "Composants PC",
-        "slug": "composants-pc"
+        "slug": "composants-pc",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -397,7 +430,9 @@
     "pk": 7,
     "fields": {
         "name": "Processeurs",
-        "slug": "processeurs"
+        "slug": "processeurs",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
@@ -410,6 +445,8 @@
         "vat": 0.2,
         "stock_threshold": 30,
         "description": "",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "categories": [
             5,
             6
@@ -426,6 +463,8 @@
         "vat": 0.2,
         "stock_threshold": 35,
         "description": "",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "categories": [
             5,
             6
@@ -442,6 +481,8 @@
         "vat": 0.2,
         "stock_threshold": 25,
         "description": "",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "categories": [
             5,
             6
@@ -458,6 +499,8 @@
         "vat": 0.2,
         "stock_threshold": 50,
         "description": "",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "categories": [
             6,
             7
@@ -474,6 +517,8 @@
         "vat": 0.2,
         "stock_threshold": 40,
         "description": "",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "categories": [
             6,
             7
@@ -490,6 +535,8 @@
         "vat": 0.2,
         "stock_threshold": 40,
         "description": "",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "categories": [
             6,
             7
@@ -506,6 +553,8 @@
         "vat": 0.2,
         "stock_threshold": 20,
         "description": "",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "categories": [
             6,
             7
@@ -522,6 +571,8 @@
         "vat": 0.2,
         "stock_threshold": 10,
         "description": "",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "categories": [
             3
         ]
@@ -537,6 +588,8 @@
         "vat": 0.2,
         "stock_threshold": 20,
         "description": "Enceinte portable Bluetooth",
+        "created": "2025-05-10T12:28:35.210Z",
+        "last_modified": "2025-05-10T12:28:35.210Z",
         "categories": [
             3
         ]

@@ -14,6 +14,8 @@ class Company(models.Model):
     website = models.URLField(blank=True, verbose_name="Site internet")
     email = models.EmailField(blank=True, verbose_name="Email de contact")
     users = models.ManyToManyField(User, blank=True, verbose_name="Utilisateurs", related_name="companies")
+    created = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "société"
@@ -43,6 +45,8 @@ class Location(models.Model):
     address_line_2 = models.CharField(max_length=100, blank=True, verbose_name="Adresse ligne 2")
     zip_code = models.CharField(max_length=10, verbose_name="Code postal")
     city = models.CharField(max_length=30, verbose_name="Ville")
+    created = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.company.name} - {self.name}{' [' + self.siret + ']' if self.siret else ''}"
@@ -56,6 +60,7 @@ class Stock(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name="Site")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Produit")
     quantity = models.IntegerField(verbose_name="Quantité")
+    created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     synch = models.BooleanField(default=True)
 

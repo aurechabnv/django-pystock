@@ -5,6 +5,8 @@ from django.utils.text import slugify
 class Category(models.Model):
     name = models.CharField(max_length=30, verbose_name="Nom de catégorie")
     slug = models.SlugField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "catégorie"
@@ -27,6 +29,8 @@ class Product(models.Model):
     stock_threshold = models.IntegerField(verbose_name="Alerte de stock")
     description = models.TextField(blank=True)
     categories = models.ManyToManyField(Category, related_name='products', verbose_name="Catégories")
+    created = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "produit"
