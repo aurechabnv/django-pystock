@@ -29,9 +29,20 @@ def test_product_delete_view_get_unauthorized(client: Client, product1):
 
 
 @pytest.mark.django_db
-def test_catalog_view_get(client: Client, user1):
+def test_catalog_view_get(client: Client, user1, product1, product2):
     client.force_login(user1)
     response = client.get(reverse("product:list"))
+    assert response.context.get("products").count() == 2
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_catalog_view_get_filter(client: Client, user1, product1, product2):
+    client.force_login(user1)
+    response = client.get(reverse("product:list"), {"q": "gpu"})
+    assert response.context.get("products").count() == 1
+    assert "filters" in response.context
+    assert "q" in response.context.get("filters")
     assert response.status_code == 200
 
 

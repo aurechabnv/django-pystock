@@ -11,7 +11,24 @@ class CatalogView(LoginRequiredMixin, ListView):
     context_object_name = 'products'
     paginate_by = 5
     ordering = ['-created']
-    #TODO: add some basic filtering
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        query = self.request.GET.get("q")
+        if query:
+            query_by_sku = Product.objects.filter(sku__icontains=query)
+            query_by_name = Product.objects.filter(name__icontains=query)
+            queryset = query_by_sku.union(query_by_name).order_by("-created")
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filters"] = {
+            "q": self.request.GET.get("q", "")
+        }
+        return context
 
 
 class CatalogCreateView(LoginRequiredMixin, CreateView):

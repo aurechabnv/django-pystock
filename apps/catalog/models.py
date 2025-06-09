@@ -38,6 +38,9 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} [{self.sku}]"
 
+    def get_categories(self):
+        return ", ".join([c.name for c in self.categories.all()])
+
     def save(self, *args, **kwargs):
         self.sku = self.sku.upper()
         super().save(*args, **kwargs)
