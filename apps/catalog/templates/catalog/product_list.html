@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% block title %}Catalogue de produits{% endblock %}
+
+{% block content %}
+<main id="catalog-page" class="container">
+    <!-- Button trigger modal -->
+{#    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">#}
+{#      Ajouter un produit#}
+{#    </button>#}
+    <nav class="navbar row">
+        <form class="d-flex col" role="search">
+            <input class="form-control me-2 md-6" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un produit par nom ou SKU" aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+        </form>
+        <ul class="navbar-nav col text-end">
+            <li class="nav-item">
+                <a class="btn btn-primary" href="{% url 'product:add' %}">Ajouter un produit</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Modal -->
+{#    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+{#      <div class="modal-dialog">#}
+{#        <div class="modal-content">#}
+{#          <div class="modal-header">#}
+{#            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>#}
+{#            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+{#          </div>#}
+{#          <div class="modal-body">#}
+{#            ...#}
+{#          </div>#}
+{#          <div class="modal-footer">#}
+{#            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>#}
+{#            <button type="button" class="btn btn-primary">Save changes</button>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">SKU</th>
+                <th scope="col">Nom du produit</th>
+                <th scope="col">Prix</th>
+                <th scope="col">TVA</th>
+                <th scope="col">Seuil d'alerte</th>
+                <th scope="col">Catégories</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <th scope="row">{{ product.sku }}</th>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.vat }}</td>
+                <td>{{ product.stock_threshold }}</td>
+                <td>{{ product.get_categories }}</td>
+                <td>
+                    <div class=" me-2 btn-group-sm" role="group" aria-label="Basic example">
+                      <a class="btn btn-outline-primary" href="{% url 'product:edit' product.id %}">{% bs_icon 'pencil-fill' %}</a>
+                      <a class="btn btn-outline-danger" href="{% url 'product:delete' product.id %}">{% bs_icon 'trash-fill' %}</a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">Aucun produit</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="centered">
+        {% bootstrap_pagination page_obj url=request.get_full_path %}
+    </div>
+</main>
+{% endblock %}

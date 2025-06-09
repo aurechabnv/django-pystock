@@ -30,6 +30,14 @@ def test_product():
 
 
 @pytest.mark.django_db
+def test_product_categories(product1):
+    """
+    Check that the product method get_categories works as expected.
+    """
+    assert product1.get_categories() == "Composants PC, Cartes graphiques"
+
+
+@pytest.mark.django_db
 def test_product_deletion(product1, stock_in_warehouse, stock_in_shop,
                           movement_inbound, movement_outbound, movement_transfer):
     """

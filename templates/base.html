@@ -21,24 +21,27 @@
 
                     {% if user.is_authenticated %}
                     <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#">Tableau de bord</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Catalogue</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Inventaire</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Historique</a></li>
+                        <li class="nav-item"><a class="nav-link {% if 'dashboard' in request.path %}active{% endif %}" href="#">Tableau de bord</a></li>
+                        <li class="nav-item"><a class="nav-link {% if 'catalog' in request.path %}active{% endif %}" href="{% url 'product:list' %}">Catalogue</a></li>
+                        <li class="nav-item"><a class="nav-link {% if 'inventory' in request.path %}active{% endif %}" href="#">Inventaire</a></li>
+                        <li class="nav-item"><a class="nav-link {% if 'history' in request.path %}active{% endif %}" href="#">Historique</a></li>
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              {{ user.username | capfirst }}
-                          </a>
-                          <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{% url 'account:profile' %}">Mon profil</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><form action="{% url 'account:logout' %}" method="post">
-                                {% csrf_token %}
-                                <button class="dropdown-item" type="submit">Déconnexion</button>
-                            </form></li>
-                          </ul>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ user.username | capfirst }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'account:profile' %}">Mon compte</a></li>
+                                {% if user.is_superuser %}
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}">Administration</a></li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><form action="{% url 'account:logout' %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="dropdown-item" type="submit">Se déconnecter</button>
+                                </form></li>
+                            </ul>
                         </li>
                     </ul>
                     {% endif %}
