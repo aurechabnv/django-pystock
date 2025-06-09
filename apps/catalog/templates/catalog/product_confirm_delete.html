@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Suppression de produit{% endblock %}
+
+{% block content %}
+    <main id="auth-page" class="container">
+        <div class="content p-6">
+            <h3 class="text-center">Suppression du produit #{{ product.id }}</h3>
+            {% bootstrap_messages %}
+            <form method="POST">
+                {% csrf_token %}
+{#                {% bootstrap_form form layout="floating" %}#}
+                <p>Êtes-vous certain de vouloir supprimer le produit {{ product }} ?</p>
+                <div class="text-center">
+                    {% bootstrap_button button_type="submit" content="Confirmer" %}
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

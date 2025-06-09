@@ -21,10 +21,10 @@
 
                     {% if user.is_authenticated %}
                     <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#">Tableau de bord</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Catalogue</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Inventaire</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Historique</a></li>
+                        <li class="nav-item"><a class="nav-link {% if 'dashboard' in request.path %}active{% endif %}" href="#">Tableau de bord</a></li>
+                        <li class="nav-item"><a class="nav-link {% if 'catalog' in request.path %}active{% endif %}" href="{% url 'product:list' %}">Catalogue</a></li>
+                        <li class="nav-item"><a class="nav-link {% if 'inventory' in request.path %}active{% endif %}" href="#">Inventaire</a></li>
+                        <li class="nav-item"><a class="nav-link {% if 'history' in request.path %}active{% endif %}" href="#">Historique</a></li>
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item dropdown">

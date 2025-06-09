@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+            {% if not product %}
+            Création de produit
+            {% else %}
+            Mise à jour du produit #{{ product.id }}
+            {% endif %}
+{% endblock %}
+
+{% block content %}
+    <main id="auth-page" class="container">
+        <div class="content p-6">
+            {% if not product %}
+            <h3 class="text-center">Création de produit</h3>
+            {% else %}
+            <h3 class="text-center">Produit #{{ product.id }}</h3>
+            {% endif %}
+            {% bootstrap_messages %}
+            <form method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form layout="floating" %}
+                <div class="text-center">
+                    {% if not product %}
+                    {% bootstrap_button button_type="submit" content="Créer" %}
+                    {% else %}
+                    {% bootstrap_button button_type="submit" content="Mettre à jour" %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

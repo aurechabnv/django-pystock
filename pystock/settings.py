@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.catalog',
     'apps.inventory',
     'django_bootstrap5',
+    'django_bootstrap_icons',
 ]
 
 MIDDLEWARE = [
