@@ -33,19 +33,16 @@ class CatalogView(LoginRequiredMixin, ListView):
 
 class CatalogCreateView(LoginRequiredMixin, CreateView):
     model = Product
-    context_object_name = 'product'
     form_class = ProductForm
     success_url = reverse_lazy('product:list')
 
 
 class CatalogUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
-    context_object_name = 'product'
     form_class = ProductForm
     success_url = reverse_lazy('product:list')
 
 
 class CatalogDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
-    context_object_name = 'product'
     success_url = reverse_lazy('product:list')

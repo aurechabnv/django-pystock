@@ -63,7 +63,7 @@
                 <td>{{ product.stock_threshold }}</td>
                 <td>{{ product.get_categories }}</td>
                 <td>
-                    <div class=" me-2 btn-group-sm" role="group" aria-label="Basic example">
+                    <div class="btn-group me-2 btn-group-sm" role="group" aria-label="Basic example">
                       <a class="btn btn-outline-primary" href="{% url 'product:edit' product.id %}">{% bs_icon 'pencil-fill' %}</a>
                       <a class="btn btn-outline-danger" href="{% url 'product:delete' product.id %}">{% bs_icon 'trash-fill' %}</a>
                     </div>

@@ -25,21 +25,21 @@ p {
         margin: -0.5em auto;
     }
 }
-#auth-page .content {
+.content.reduced-width {
     margin: 0 auto;
 }
 @media (min-width: 576px) {
-    #auth-page .content {
+    .content.reduced-width {
         width: 100%;
     }
 }
 @media (min-width: 768px) {
-    #auth-page .content {
+    .content.reduced-width {
         width: 75%;
     }
 }
 @media (min-width: 992px) {
-    #auth-page .content {
+    .content.reduced-width {
         width: 50%;
     }
 }
