@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from apps.catalog.forms import ProductForm
 from apps.catalog.models import Product
+from apps.inventory.models import Stock
 
 
 class CatalogView(LoginRequiredMixin, ListView):
@@ -46,3 +47,12 @@ class CatalogUpdateView(LoginRequiredMixin, UpdateView):
 class CatalogDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('product:list')
+
+    def get_object(self, queryset=None):
+        obj = super().get_object()
+
+        # add known stocks for information
+        stocks = Stock.objects.filter(product=obj)
+        obj.stocks = stocks
+
+        return obj
