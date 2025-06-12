@@ -1,7 +1,23 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from apps.inventory.models import Movement
+from apps.inventory.models import Movement, Stock
+
+
+def validate_quantity(instance, error_message):
+    quantity = instance.cleaned_data.get("quantity")
+    if quantity < 0:
+        raise forms.ValidationError(message=error_message, code="invalid_qty")
+    return quantity
+
+
+class StockForm(forms.ModelForm):
+    class Meta:
+        model = Stock
+        fields = ["product", "location", "quantity"]
+
+    def clean_quantity(self):
+        return validate_quantity(self, "La quantité doit être supérieure ou égale à zéro.")
 
 
 class MovementForm(forms.ModelForm):
@@ -10,10 +26,13 @@ class MovementForm(forms.ModelForm):
         fields = [
             "type",
             "product",
-            "quantity",
             "from_location",
             "to_location",
+            "quantity",
         ]
+
+    def clean_quantity(self):
+        return validate_quantity(self, "La quantité doit être supérieure à zéro.")
 
     def clean(self):
         cleaned_data = super().clean()

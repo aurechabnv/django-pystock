@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Suppression de stock{% endblock %}
+
+{% block content %}
+    <main id="inventory-page" class="container">
+        <div class="content p-6 reduced-width">
+            <h3 class="text-center">Suppression de stock</h3>
+            {% bootstrap_messages %}
+            <form method="POST">
+                {% csrf_token %}
+                <p class="text-center">Êtes-vous certain de vouloir supprimer le stock suivant ?</p>
+                <table class="table">
+                    <tr>
+                        <th>Quantité</th>
+                        <td>{{ object.quantity }} unités</td>
+                    </tr>
+                    <tr>
+                        <th>Produit</th>
+                        <td>{{ object.product }}</td>
+                    </tr>
+                    <tr>
+                        <th>Site</th>
+                        <td>{{ object.location }}</td>
+                    </tr>
+                </table>
+                <div class="text-center">
+                    {% bootstrap_button button_type="submit" content="Confirmer" %}
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

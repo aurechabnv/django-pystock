@@ -24,4 +24,5 @@ urlpatterns = [
     path('backend/', admin.site.urls),
     path('auth/', include('apps.account.urls')),
     path('', include('apps.catalog.urls')),
+    path('', include('apps.inventory.urls')),
 ]
