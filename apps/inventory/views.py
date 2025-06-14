@@ -71,3 +71,37 @@ def inventory_update(request, pk):
 class InventoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Stock
     success_url = reverse_lazy('stock:list')
+
+
+class MovementsView(LoginRequiredMixin, ListView):
+    model = Movement
+    context_object_name = "movements"
+    paginate_by = 10
+    ordering = ['-date']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Make sure normal user has company access
+        if not self.request.user.is_superuser:
+            queryset = queryset.filter(
+                Q(to_location__company__in=self.request.user.companies.all()) |
+                Q(from_location__company__in=self.request.user.companies.all())
+            )
+
+        query = self.request.GET.get("q")
+        if query:
+            queryset = queryset.filter(
+                Q(product__name__icontains=query) |
+                Q(to_location__name__icontains=query) |
+                Q(from_location__name__icontains=query)
+            ).order_by("-date")
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filters"] = {
+            "q": self.request.GET.get("q", "")
+        }
+        return context

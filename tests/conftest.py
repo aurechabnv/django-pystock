@@ -137,7 +137,7 @@ def stock3(product1, location3):
 
 
 @pytest.fixture
-def movement_transfer(product1, location1, location2):
+def movement1_tr(product1, location1, location2):
     return Movement.objects.create(
         product=product1,
         from_location=location2,
@@ -149,7 +149,7 @@ def movement_transfer(product1, location1, location2):
 
 
 @pytest.fixture
-def movement_inbound(product1, location2):
+def movement2_in(product1, location2):
     return Movement.objects.create(
         product=product1,
         to_location=location2,
@@ -160,11 +160,22 @@ def movement_inbound(product1, location2):
 
 
 @pytest.fixture
-def movement_outbound(product1, location1):
+def movement3_out(product1, location1):
     return Movement.objects.create(
         product=product1,
         from_location=location1,
         quantity=35,
         type=Movement.MovementType.OUTBOUND,
+        synced=True,
+    )
+
+
+@pytest.fixture
+def movement4(product1, location3):
+    return Movement.objects.create(
+        product=product1,
+        from_location=location3,
+        quantity=75,
+        type=Movement.MovementType.INBOUND,
         synced=True,
     )

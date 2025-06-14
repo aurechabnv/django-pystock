@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% block title %}Mouvements de stock{% endblock %}
+
+{% block content %}
+<main id="movements-page" class="container">
+    <nav class="navbar row">
+        <form class="d-flex col" role="search">
+            <input class="form-control me-2 md-6" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un stock par produit, origine ou destination" aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+        </form>
+    </nav>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Type</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Origine</th>
+                <th scope="col">Destination</th>
+                <th scope="col">Produit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in movements %}
+            <tr>
+                <td>{{ obj.date }}</td>
+                <td>{{ obj.get_type_display }}</td>
+                <td>{{ obj.quantity }}</td>
+                <td>{{ obj.from_location.name }}</td>
+                <td>{{ obj.to_location.name }}</td>
+                <td>{{ obj.product.name }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">Aucun mouvement</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="paginator-container">
+        {% bootstrap_pagination page_obj url=request.get_full_path %}
+        <p class="side total text-end">{{ page_obj.paginator.count }} résultat{% if page_obj.paginator.count > 1 %}s{% endif %}</p>
+    </div>
+</main>
+{% endblock %}
