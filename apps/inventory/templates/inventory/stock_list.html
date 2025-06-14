@@ -31,9 +31,9 @@
         <tbody>
             {% for stock in stocks %}
             <tr>
-                <td scope="row">{{ stock.location.get_type_display }}</td>
-                <td scope="row">{{ stock.location.company.name }}</td>
-                <td scope="row">{{ stock.location.name }}</td>
+                <td>{{ stock.location.get_type_display }}</td>
+                <td>{{ stock.location.company.name }}</td>
+                <td>{{ stock.location.name }}</td>
                 <td>{{ stock.product.name }}</td>
                 <td>{{ stock.quantity }}</td>
                 <td>
@@ -45,7 +45,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="7">Aucun stock</td>
+                <td colspan="6">Aucun stock</td>
             </tr>
             {% endfor %}
         </tbody>
