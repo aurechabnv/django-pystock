@@ -31,7 +31,7 @@
         <tbody>
             {% for stock in stocks %}
             <tr>
-                <td scope="row">{{ stock.location.type }}</td>
+                <td scope="row">{{ stock.location.get_type_display }}</td>
                 <td scope="row">{{ stock.location.company.name }}</td>
                 <td scope="row">{{ stock.location.name }}</td>
                 <td>{{ stock.product.name }}</td>
