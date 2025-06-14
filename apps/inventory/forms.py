@@ -1,14 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from apps.inventory.models import Movement, Stock
-
-
-def validate_quantity(instance, error_message):
-    quantity = instance.cleaned_data.get("quantity")
-    if quantity < 0:
-        raise forms.ValidationError(message=error_message, code="invalid_qty")
-    return quantity
+from apps.inventory.models import Movement, Stock, Location
 
 
 class StockForm(forms.ModelForm):
@@ -16,8 +9,17 @@ class StockForm(forms.ModelForm):
         model = Stock
         fields = ["product", "location", "quantity"]
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user")
+        super().__init__(*args, **kwargs)
+        if not user.is_superuser:
+            self.fields["location"].queryset = Location.objects.filter(company__in=user.companies.all())
+
     def clean_quantity(self):
-        return validate_quantity(self, "La quantité doit être supérieure ou égale à zéro.")
+        quantity = self.cleaned_data.get("quantity")
+        if quantity < 0:
+            raise forms.ValidationError(message="La quantité doit être supérieure ou égale à zéro.", code="invalid_qty")
+        return quantity
 
 
 class MovementForm(forms.ModelForm):
@@ -31,8 +33,18 @@ class MovementForm(forms.ModelForm):
             "quantity",
         ]
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user")
+        super().__init__(*args, **kwargs)
+        if not user.is_superuser:
+            self.fields["from_location"].queryset = Location.objects.filter(company__in=user.companies.all())
+            self.fields["to_location"].queryset = Location.objects.filter(company__in=user.companies.all())
+
     def clean_quantity(self):
-        return validate_quantity(self, "La quantité doit être supérieure à zéro.")
+        quantity = self.cleaned_data.get("quantity")
+        if quantity <= 0:
+            raise forms.ValidationError(message="La quantité doit être supérieure à zéro.", code="invalid_qty")
+        return quantity
 
     def clean(self):
         cleaned_data = super().clean()

@@ -6,6 +6,7 @@
 
 {% block content %}
 <main id="inventory-page" class="container">
+    {% bootstrap_messages %}
     <nav class="navbar row">
         <form class="d-flex col" role="search">
             <input class="form-control me-2 md-6" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un stock par entreprise, produit ou site" aria-label="Search">

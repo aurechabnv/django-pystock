@@ -1,9 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.forms import Form
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DeleteView
+from django.views.generic import ListView
 
 from apps.inventory.forms import MovementForm, StockForm
 from apps.inventory.models import Stock, Movement
@@ -16,6 +17,10 @@ class InventoryView(LoginRequiredMixin, ListView):
     ordering = ['-created']
 
     def get_queryset(self):
+        """
+        Filter the queryset based on user company rights, and user filter input
+        :return: Queryset of stocks
+        """
         queryset = super().get_queryset()
 
         # Make sure normal user has company access
@@ -31,6 +36,10 @@ class InventoryView(LoginRequiredMixin, ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
+        """
+        Add query fields back into the context
+        :return: Updated context data
+        """
         context = super().get_context_data(**kwargs)
         context["filters"] = {
             "q": self.request.GET.get("q", "")
@@ -38,14 +47,21 @@ class InventoryView(LoginRequiredMixin, ListView):
         return context
 
 
-class InventoryCreateView(LoginRequiredMixin, CreateView):
-    model = Stock
-    form_class = StockForm
-    success_url = reverse_lazy('stock:list')
+@login_required(login_url='account:login')
+def inventory_create_view(request):
+    if request.method == "POST":
+        form = StockForm(request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('stock:list')
+    else:
+        form = StockForm(user=request.user)
+
+    return render(request, 'inventory/stock_form.html', { 'form': form })
 
 
 @login_required(login_url='account:login')
-def inventory_update(request, pk):
+def inventory_update_view(request, pk):
     stock = Stock.objects.get(pk=pk)
     defaults = {
         "type": Movement.MovementType.INBOUND,
@@ -54,13 +70,19 @@ def inventory_update(request, pk):
         "to_location": stock.location.id,
     }
 
+    # user must have access to the location's company to access stock
+    # this check prevents access to unauthorized items from direct url
+    if not request.user.is_superuser and stock.location.company not in request.user.companies.all():
+        messages.error(request, "Vous n'avez pas accès à ce stock")
+        return redirect("stock:list")
+
     if request.method == "POST":
-        form = MovementForm(request.POST)
+        form = MovementForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('stock:list')
     else:
-        form = MovementForm(initial=defaults)
+        form = MovementForm(initial=defaults, user=request.user)
 
     return render(request, 'inventory/movement_form.html', {
         'initial_location': stock.location.id,
@@ -68,9 +90,24 @@ def inventory_update(request, pk):
     })
 
 
-class InventoryDeleteView(LoginRequiredMixin, DeleteView):
-    model = Stock
-    success_url = reverse_lazy('stock:list')
+@login_required(login_url='account:login')
+def inventory_delete_view(request, pk):
+    stock = Stock.objects.get(pk=pk)
+
+    # user must have access to the location's company to access stock
+    # this check prevents access to unauthorized items from direct url
+    if not request.user.is_superuser and stock.location.company not in request.user.companies.all():
+        messages.error(request, "Vous n'avez pas accès à ce stock")
+        return redirect("stock:list")
+
+    if request.method == "POST":
+        form = Form(request.POST)
+        if form.is_valid():
+            stock.delete()
+            messages.success(request, "Stock supprimé")
+            return redirect('stock:list')
+
+    return render(request, 'inventory/stock_confirm_delete.html', { 'object': stock })
 
 
 class MovementsView(LoginRequiredMixin, ListView):
@@ -80,6 +117,10 @@ class MovementsView(LoginRequiredMixin, ListView):
     ordering = ['-date']
 
     def get_queryset(self):
+        """
+        Filter the queryset based on user company rights, and user filter input
+        :return: Queryset of movements
+        """
         queryset = super().get_queryset()
 
         # Make sure normal user has company access
@@ -100,6 +141,10 @@ class MovementsView(LoginRequiredMixin, ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
+        """
+        Add query fields back into the context
+        :return: Updated context data
+        """
         context = super().get_context_data(**kwargs)
         context["filters"] = {
             "q": self.request.GET.get("q", "")

@@ -15,6 +15,10 @@ class CatalogView(LoginRequiredMixin, ListView):
     ordering = ['-created']
 
     def get_queryset(self):
+        """
+        Support queryset filtering based on user input
+        :return: Queryset of products
+        """
         queryset = super().get_queryset()
 
         query = self.request.GET.get("q")
@@ -26,6 +30,10 @@ class CatalogView(LoginRequiredMixin, ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
+        """
+        Add query fields back into the context
+        :return: Updated context data
+        """
         context = super().get_context_data(**kwargs)
         context["filters"] = {
             "q": self.request.GET.get("q", "")

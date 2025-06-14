@@ -14,7 +14,7 @@
                 <table class="table">
                     <tr>
                         <th>Quantité</th>
-                        <td>{{ object.quantity }} unités</td>
+                        <td>{{ object.quantity }} unité{% if object.quantity > 1 %}s{% endif %}</td>
                     </tr>
                     <tr>
                         <th>Produit</th>
