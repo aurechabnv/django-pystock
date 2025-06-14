@@ -6,12 +6,19 @@ from apps.inventory.models import Stock, Movement
 @pytest.mark.django_db
 def test_stock_creation(product2, location2):
     """
+    Check that no movement is created when initializing an empty stock.
+    """
+    Stock.objects.create(location=location2, product=product2, quantity=0)
+    assert Movement.objects.all().count() == 0
+
+
+@pytest.mark.django_db
+def test_stock_creation_with_qty(product2, location2):
+    """
     Check that the stock creation works as expected.
     """
-    stock = Stock(location=location2, product=product2, quantity=35)
+    stock = Stock.objects.create(location=location2, product=product2, quantity=35)
     assert str(stock) == "MY-OTHER-PRODUCT - Great Place for Computer Parts - Entrepot des tilleuls (Entrepôt)"
-    assert stock.last_modified is None
-    stock.save()
     assert len(Movement.objects.all()) == 1
     latest_movement = Movement.objects.filter(product=product2).last()
     assert latest_movement.type == Movement.MovementType.INBOUND
