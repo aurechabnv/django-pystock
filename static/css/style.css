@@ -19,6 +19,16 @@ h3 {
 p {
     margin-top: 1rem!important;
 }
+.paginator-container {
+    display: flex;
+
+    .side {
+        flex: 1;
+    }
+    .total {
+        margin-top: 6px!important;
+    }
+}
 #home-page {
     .list-group {
         width: fit-content;

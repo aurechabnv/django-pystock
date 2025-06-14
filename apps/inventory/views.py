@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView
@@ -15,22 +16,25 @@ class InventoryView(LoginRequiredMixin, ListView):
     ordering = ['-created']
 
     def get_queryset(self):
-        # TODO: update filters
         queryset = super().get_queryset()
 
-        # query = self.request.GET.get("q")
-        # if query:
-        #     query_by_sku = Stock.objects.filter(sku__icontains=query)
-        #     query_by_name = Stock.objects.filter(name__icontains=query)
-        #     queryset = query_by_sku.union(query_by_name).order_by("-created")
+        # Make sure normal user has company access
+        if not self.request.user.is_superuser:
+            queryset = queryset.filter(location__company__in=self.request.user.companies.all())
+
+        query = self.request.GET.get("q")
+        if query:
+            queryset = queryset.filter(
+                Q(product__name__icontains=query) | Q(location__name__icontains=query) | Q(location__company__name__icontains=query)
+            ).order_by("-created")
 
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context["filters"] = {
-        #     "q": self.request.GET.get("q", "")
-        # }
+        context["filters"] = {
+            "q": self.request.GET.get("q", "")
+        }
         return context
 
 

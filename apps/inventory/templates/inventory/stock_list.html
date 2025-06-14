@@ -7,10 +7,10 @@
 {% block content %}
 <main id="inventory-page" class="container">
     <nav class="navbar row">
-{#        <form class="d-flex col" role="search">#}
-{#            <input class="form-control me-2 md-6" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un stock" aria-label="Search">#}
-{#            <button class="btn btn-outline-primary" type="submit">Rechercher</button>#}
-{#        </form>#}
+        <form class="d-flex col" role="search">
+            <input class="form-control me-2 md-6" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un stock par entreprise, produit ou site" aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+        </form>
         <ul class="navbar-nav col text-end">
             <li class="nav-item">
                 <a class="btn btn-primary" href="{% url 'stock:add' %}">Ajouter un stock</a>
@@ -50,8 +50,9 @@
             {% endfor %}
         </tbody>
     </table>
-    <div class="centered">
+    <div class="paginator-container">
         {% bootstrap_pagination page_obj url=request.get_full_path %}
+        <p class="side total text-end">{{ page_obj.paginator.count }} résultat{% if page_obj.paginator.count > 1 %}s{% endif %}</p>
     </div>
 </main>
 {% endblock %}
