@@ -39,37 +39,37 @@ def test_stock_update(stock1):
 
 
 @pytest.mark.django_db
-def test_stock_outbound_updates(product1, location1, stock1, movement_outbound):
+def test_stock_outbound_updates(product1, location1, stock1, movement3_out):
     """
     Check that the stock is properly updated on outbound and does not produce an additional movement item.
     """
     total_movements = Movement.objects.all().count()
-    movement_outbound.synced = False
-    movement_outbound.save()
+    movement3_out.synced = False
+    movement3_out.save()
 
-    assert str(movement_outbound) == f"Sortie du {movement_outbound.date.strftime('%d-%m-%Y %H:%M')}"
-    from_stock = Stock.objects.get(location=movement_outbound.from_location, product=movement_outbound.product)
+    assert str(movement3_out) == f"Sortie du {movement3_out.date.strftime('%d-%m-%Y %H:%M')}"
+    from_stock = Stock.objects.get(location=movement3_out.from_location, product=movement3_out.product)
     assert from_stock.quantity == 25
     assert total_movements == Movement.objects.all().count()
 
 
 @pytest.mark.django_db
-def test_stock_inbound_updates(product1, location2, stock2, movement_inbound):
+def test_stock_inbound_updates(product1, location2, stock2, movement2_in):
     """
     Check that the stock is properly updated on inbound and does not produce an additional movement item.
     """
     total_movements = Movement.objects.all().count()
-    movement_inbound.synced = False
-    movement_inbound.save()
+    movement2_in.synced = False
+    movement2_in.save()
 
-    assert str(movement_inbound) == f"Entrée du {movement_inbound.date.strftime('%d-%m-%Y %H:%M')}"
-    to_stock = Stock.objects.get(location=movement_inbound.to_location, product=movement_inbound.product)
+    assert str(movement2_in) == f"Entrée du {movement2_in.date.strftime('%d-%m-%Y %H:%M')}"
+    to_stock = Stock.objects.get(location=movement2_in.to_location, product=movement2_in.product)
     assert to_stock.quantity == 220
     assert total_movements == Movement.objects.all().count()
 
 
 @pytest.mark.django_db
-def test_stock_transfer_updates(product1, location2, location1, stock2, movement_transfer):
+def test_stock_transfer_updates(product1, location2, location1, stock2, movement1_tr):
     """
     Check that the stocks are properly updated on transfer and do not produce additional movement items.
 
@@ -77,12 +77,12 @@ def test_stock_transfer_updates(product1, location2, location1, stock2, movement
     this use case does not produce additional movement either.
     """
     total_movements = Movement.objects.all().count()
-    movement_transfer.synced = False
-    movement_transfer.save()
+    movement1_tr.synced = False
+    movement1_tr.save()
 
-    assert str(movement_transfer) == f"Transfert du {movement_transfer.date.strftime('%d-%m-%Y %H:%M')}"
-    from_stock = Stock.objects.get(location=movement_transfer.from_location, product=movement_transfer.product)
-    to_stock = Stock.objects.get(location=movement_transfer.to_location, product=movement_transfer.product)
+    assert str(movement1_tr) == f"Transfert du {movement1_tr.date.strftime('%d-%m-%Y %H:%M')}"
+    from_stock = Stock.objects.get(location=movement1_tr.from_location, product=movement1_tr.product)
+    to_stock = Stock.objects.get(location=movement1_tr.to_location, product=movement1_tr.product)
     assert from_stock.quantity == 100
     assert to_stock.quantity == 20
     assert total_movements == Movement.objects.all().count()

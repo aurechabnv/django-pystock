@@ -16,7 +16,7 @@ def test_location(location1):
 
 @pytest.mark.django_db
 def test_location_deletion(product1, company1, location1, stock1, stock2,
-                           movement_transfer, movement_inbound, movement_outbound):
+                           movement1_tr, movement2_in, movement3_out):
     """
     Check that the location deletion cascades properly.
     """

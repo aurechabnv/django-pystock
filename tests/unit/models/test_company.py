@@ -11,7 +11,7 @@ def test_company(company1):
 
 @pytest.mark.django_db
 def test_company_deletion(product1, company1, location2, location1, stock2, stock1,
-                          movement_transfer, movement_inbound, movement_outbound):
+                          movement1_tr, movement2_in, movement3_out):
     """
     Check that the company deletion cascades properly.
     """
