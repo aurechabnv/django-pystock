@@ -38,7 +38,7 @@ def test_product_categories(product1):
 
 
 @pytest.mark.django_db
-def test_product_deletion(product1, stock_in_warehouse, stock_in_shop,
+def test_product_deletion(product1, stock2, stock1,
                           movement_inbound, movement_outbound, movement_transfer):
     """
     Check that the product deletion cascades properly.

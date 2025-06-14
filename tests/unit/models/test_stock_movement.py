@@ -4,11 +4,11 @@ from apps.inventory.models import Stock, Movement
 
 
 @pytest.mark.django_db
-def test_stock_creation(product2, warehouse):
+def test_stock_creation(product2, location2):
     """
     Check that the stock creation works as expected.
     """
-    stock = Stock(location=warehouse, product=product2, quantity=35)
+    stock = Stock(location=location2, product=product2, quantity=35)
     assert str(stock) == "MY-OTHER-PRODUCT - Great Place for Computer Parts - Entrepot des tilleuls (Entrepôt)"
     assert stock.last_modified is None
     stock.save()
@@ -16,30 +16,30 @@ def test_stock_creation(product2, warehouse):
     latest_movement = Movement.objects.filter(product=product2).last()
     assert latest_movement.type == Movement.MovementType.INBOUND
     assert latest_movement.quantity == 35
-    assert latest_movement.to_location == warehouse
+    assert latest_movement.to_location == location2
 
 
 @pytest.mark.django_db
-def test_stock_update(stock_in_shop):
+def test_stock_update(stock1):
     """
     Check that the stock update works as expected.
     """
-    stock_modified_date = stock_in_shop.last_modified
+    stock_modified_date = stock1.last_modified
     last_movement = Movement.objects.all().last()
-    stock_in_shop.quantity -= 5
-    stock_in_shop.save()
+    stock1.quantity -= 5
+    stock1.save()
     movements = Movement.objects.all()
     assert movements.count() == 2
     latest_movement = movements.last()
-    assert stock_modified_date < stock_in_shop.last_modified
+    assert stock_modified_date < stock1.last_modified
     assert last_movement.date < latest_movement.date
     assert latest_movement.type == Movement.MovementType.OUTBOUND
     assert latest_movement.quantity == -5
-    assert latest_movement.from_location == stock_in_shop.location
+    assert latest_movement.from_location == stock1.location
 
 
 @pytest.mark.django_db
-def test_stock_outbound_updates(product1, shop, stock_in_shop, movement_outbound):
+def test_stock_outbound_updates(product1, location1, stock1, movement_outbound):
     """
     Check that the stock is properly updated on outbound and does not produce an additional movement item.
     """
@@ -54,7 +54,7 @@ def test_stock_outbound_updates(product1, shop, stock_in_shop, movement_outbound
 
 
 @pytest.mark.django_db
-def test_stock_inbound_updates(product1, warehouse, stock_in_warehouse, movement_inbound):
+def test_stock_inbound_updates(product1, location2, stock2, movement_inbound):
     """
     Check that the stock is properly updated on inbound and does not produce an additional movement item.
     """
@@ -69,7 +69,7 @@ def test_stock_inbound_updates(product1, warehouse, stock_in_warehouse, movement
 
 
 @pytest.mark.django_db
-def test_stock_transfer_updates(product1, warehouse, shop, stock_in_warehouse, movement_transfer):
+def test_stock_transfer_updates(product1, location2, location1, stock2, movement_transfer):
     """
     Check that the stocks are properly updated on transfer and do not produce additional movement items.
 
