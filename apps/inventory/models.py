@@ -59,7 +59,7 @@ class Location(models.Model):
 class Stock(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name="Site")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Produit")
-    quantity = models.IntegerField(verbose_name="Quantité")
+    quantity = models.IntegerField(verbose_name="Quantité", default=0)
     created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     synch = models.BooleanField(default=True)
@@ -77,7 +77,7 @@ class Stock(models.Model):
             else:
                 delta = self.quantity
 
-            is_inbound = delta > 0
+            is_inbound = delta >= 0
             movement_type = Movement.MovementType.INBOUND if is_inbound else Movement.MovementType.OUTBOUND
             movement = Movement(type=movement_type, quantity=delta, product=self.product, synced=True)
 
@@ -103,7 +103,7 @@ class Movement(models.Model):
     from_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, related_name='+', verbose_name="Site d'origine", help_text="Nécessaire pour les sorties et transferts")
     to_location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True, related_name='+', verbose_name="Site de destination", help_text="Nécessaire pour les entrées et transferts")
     type = models.CharField(max_length=1, choices=MovementType)
-    quantity = models.IntegerField(verbose_name="Quantité")
+    quantity = models.IntegerField(verbose_name="Quantité", default=0)
     date = models.DateTimeField(auto_now_add=True)
     synced = models.BooleanField(default=False)
 

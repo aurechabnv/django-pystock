@@ -19,27 +19,37 @@ h3 {
 p {
     margin-top: 1rem!important;
 }
+.paginator-container {
+    display: flex;
+
+    .side {
+        flex: 1;
+    }
+    .total {
+        margin-top: 6px!important;
+    }
+}
 #home-page {
     .list-group {
         width: fit-content;
         margin: -0.5em auto;
     }
 }
-#auth-page .content {
+.content.reduced-width {
     margin: 0 auto;
 }
 @media (min-width: 576px) {
-    #auth-page .content {
+    .content.reduced-width {
         width: 100%;
     }
 }
 @media (min-width: 768px) {
-    #auth-page .content {
+    .content.reduced-width {
         width: 75%;
     }
 }
 @media (min-width: 992px) {
-    #auth-page .content {
+    .content.reduced-width {
         width: 50%;
     }
 }

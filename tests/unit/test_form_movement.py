@@ -46,7 +46,7 @@ def test_movement_form_transfer_mandatory_fields():
 
 
 @pytest.mark.django_db
-def test_movement_form_inbound(product1, shop, warehouse):
+def test_movement_form_inbound(product1, location1, location2):
     """
     Test that the unnecessary `from_location` field is cleared
     when the `type` is INBOUND
@@ -59,7 +59,7 @@ def test_movement_form_inbound(product1, shop, warehouse):
 
 
 @pytest.mark.django_db
-def test_movement_form_outbound(product1, shop, warehouse):
+def test_movement_form_outbound(product1, location1, location2):
     """
     Test that the unnecessary `to_location` field is cleared
     when the `type` is OUTBOUND

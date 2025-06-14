@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
 
-{% block title %}Mise à jour de mot de passe{% endblock %}
+{% block title %}Mise à jour du stock{% endblock %}
 
 {% block content %}
-    <main id="auth-page" class="container">
+    <main id="inventory-page" class="container">
         <div class="content p-6 reduced-width">
-            <h3 class="text-center">Mise à jour de mot de passe</h3>
+            <h3 class="text-center">Mise à jour de stock</h3>
             {% bootstrap_messages %}
-            <form method="POST">
+            <form method="POST" id="stock_update_form">
                 {% csrf_token %}
+                <input id="initial_location" type="hidden" value="{{ initial_location }}">
                 {% bootstrap_form form layout="floating" %}
                 <div class="text-center">
                     {% bootstrap_button button_type="submit" content="Mettre à jour" %}
@@ -17,4 +19,6 @@
             </form>
         </div>
     </main>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
 {% endblock %}

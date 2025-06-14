@@ -1,9 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from apps.catalog.forms import ProductForm
 from apps.catalog.models import Product
+from apps.inventory.models import Stock
 
 
 class CatalogView(LoginRequiredMixin, ListView):
@@ -17,9 +19,9 @@ class CatalogView(LoginRequiredMixin, ListView):
 
         query = self.request.GET.get("q")
         if query:
-            query_by_sku = Product.objects.filter(sku__icontains=query)
-            query_by_name = Product.objects.filter(name__icontains=query)
-            queryset = query_by_sku.union(query_by_name).order_by("-created")
+            queryset = queryset.filter(
+                Q(sku__icontains=query) | Q(name__icontains=query)
+            ).order_by("-created")
 
         return queryset
 
@@ -33,19 +35,25 @@ class CatalogView(LoginRequiredMixin, ListView):
 
 class CatalogCreateView(LoginRequiredMixin, CreateView):
     model = Product
-    context_object_name = 'product'
     form_class = ProductForm
     success_url = reverse_lazy('product:list')
 
 
 class CatalogUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
-    context_object_name = 'product'
     form_class = ProductForm
     success_url = reverse_lazy('product:list')
 
 
 class CatalogDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
-    context_object_name = 'product'
     success_url = reverse_lazy('product:list')
+
+    def get_object(self, queryset=None):
+        obj = super().get_object()
+
+        # add known stocks for information
+        stocks = Stock.objects.filter(product=obj)
+        obj.stocks = stocks
+
+        return obj

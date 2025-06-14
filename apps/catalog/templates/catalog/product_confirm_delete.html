@@ -4,14 +4,54 @@
 {% block title %}Suppression de produit{% endblock %}
 
 {% block content %}
-    <main id="auth-page" class="container">
-        <div class="content p-6">
-            <h3 class="text-center">Suppression du produit #{{ product.id }}</h3>
+    <main id="catalog-page" class="container">
+        <div class="content p-6 reduced-width">
+            <h3 class="text-center">Suppression du produit #{{ object.id }}</h3>
             {% bootstrap_messages %}
             <form method="POST">
                 {% csrf_token %}
-{#                {% bootstrap_form form layout="floating" %}#}
-                <p>Êtes-vous certain de vouloir supprimer le produit {{ product }} ?</p>
+                <p class="text-center">Êtes-vous certain de vouloir supprimer le produit suivant ?</p>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>SKU</th>
+                            <td>{{ object.sku }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nom</th>
+                            <td>{{ object.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Prix</th>
+                            <td>{{ object.price }} €</td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% if object.stocks %}
+                <p>Les stocks du produit seront également supprimés.
+                    <a data-bs-toggle="collapse" href="#collapseStocks" role="button" aria-expanded="false" aria-controls="collapseStocks">
+                        Afficher les stocks.
+                    </a>
+                </p>
+                <div class="collapse" id="collapseStocks">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Quantité</th>
+                                <th>Site</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for stock in object.stocks %}
+                            <tr>
+                                <td>{{ stock.quantity }}</td>
+                                <td>{{ stock.location }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
                 <div class="text-center">
                     {% bootstrap_button button_type="submit" content="Confirmer" %}
                 </div>

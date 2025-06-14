@@ -24,9 +24,9 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nom de produit")
     sku = models.CharField(max_length=50, unique=True, verbose_name="Identifiant")
-    price = models.FloatField(verbose_name="Prix")
+    price = models.FloatField(verbose_name="Prix", default=0)
     vat = models.FloatField(default=0.2, verbose_name="TVA")
-    stock_threshold = models.IntegerField(verbose_name="Alerte de stock")
+    stock_threshold = models.IntegerField(verbose_name="Alerte de stock", default=0)
     description = models.TextField(blank=True)
     categories = models.ManyToManyField(Category, related_name='products', verbose_name="Catégories")
     created = models.DateTimeField(auto_now_add=True)

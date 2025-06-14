@@ -23,6 +23,7 @@ def user2():
         username='user2',
         email='user2@example.com',
         password='azerty123*',
+        is_superuser=True,
     )
 
 
@@ -36,7 +37,7 @@ def product1():
     )
     category1 = Category.objects.create(name='Composants PC')
     category2 = Category.objects.create(name='Cartes graphiques')
-    product.categories.set((category1, category2))
+    product.categories.set((category1, category2,))
     return product
 
 
@@ -53,17 +54,28 @@ def product2():
 
 
 @pytest.fixture
-def company():
-    return Company.objects.create(
+def company1(user1):
+    company = Company.objects.create(
         name='Great Place for Computer Parts',
         siret='12345678912345',
     )
+    company.users.set((user1,))
+    return company
 
 
 @pytest.fixture
-def shop(company):
+def company2():
+    company = Company.objects.create(
+        name='Another Great Company',
+        siret='45634626643446',
+    )
+    return company
+
+
+@pytest.fixture
+def location1(company1):
     return Location.objects.create(
-        company=company,
+        company=company1,
         type=Location.LocationType.SHOP,
         name='GPCP Montpellier',
         city='Montpellier',
@@ -73,9 +85,9 @@ def shop(company):
 
 
 @pytest.fixture
-def warehouse(company):
+def location2(company1):
     return Location.objects.create(
-        company=company,
+        company=company1,
         type=Location.LocationType.WAREHOUSE,
         name='Entrepot des tilleuls',
         city='Orléans',
@@ -86,29 +98,50 @@ def warehouse(company):
 
 
 @pytest.fixture
-def stock_in_shop(product1, shop):
+def location3(company2):
+    return Location.objects.create(
+        company=company2,
+        type=Location.LocationType.SHOP,
+        name='Whatisit',
+        city='Montpellier',
+        zip_code='34000',
+        address_line_1='28 rue Edmond Dantes',
+    )
+
+
+@pytest.fixture
+def stock1(product1, location1):
     return Stock.objects.create(
-        location=shop,
+        location=location1,
         product=product1,
         quantity=60,
     )
 
 
 @pytest.fixture
-def stock_in_warehouse(product1, warehouse):
+def stock2(product1, location2):
     return Stock.objects.create(
-        location=warehouse,
+        location=location2,
         product=product1,
         quantity=120,
     )
 
 
 @pytest.fixture
-def movement_transfer(product1, shop, warehouse):
+def stock3(product1, location3):
+    return Stock.objects.create(
+        location=location3,
+        product=product1,
+        quantity=55,
+    )
+
+
+@pytest.fixture
+def movement_transfer(product1, location1, location2):
     return Movement.objects.create(
         product=product1,
-        from_location=warehouse,
-        to_location=shop,
+        from_location=location2,
+        to_location=location1,
         quantity=20,
         type=Movement.MovementType.TRANSFER,
         synced=True,
@@ -116,10 +149,10 @@ def movement_transfer(product1, shop, warehouse):
 
 
 @pytest.fixture
-def movement_inbound(product1, warehouse):
+def movement_inbound(product1, location2):
     return Movement.objects.create(
         product=product1,
-        to_location=warehouse,
+        to_location=location2,
         quantity=100,
         type=Movement.MovementType.INBOUND,
         synced=True,
@@ -127,10 +160,10 @@ def movement_inbound(product1, warehouse):
 
 
 @pytest.fixture
-def movement_outbound(product1, shop):
+def movement_outbound(product1, location1):
     return Movement.objects.create(
         product=product1,
-        from_location=shop,
+        from_location=location1,
         quantity=35,
         type=Movement.MovementType.OUTBOUND,
         synced=True,
