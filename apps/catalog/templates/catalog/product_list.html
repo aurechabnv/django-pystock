@@ -76,8 +76,9 @@
             {% endfor %}
         </tbody>
     </table>
-    <div class="centered">
+    <div class="paginator-container">
         {% bootstrap_pagination page_obj url=request.get_full_path %}
+        <p class="side total text-end">{{ page_obj.paginator.count }} résultat{% if page_obj.paginator.count > 1 %}s{% endif %}</p>
     </div>
 </main>
 {% endblock %}

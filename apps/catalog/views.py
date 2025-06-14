@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -18,9 +19,9 @@ class CatalogView(LoginRequiredMixin, ListView):
 
         query = self.request.GET.get("q")
         if query:
-            query_by_sku = Product.objects.filter(sku__icontains=query)
-            query_by_name = Product.objects.filter(name__icontains=query)
-            queryset = query_by_sku.union(query_by_name).order_by("-created")
+            queryset = queryset.filter(
+                Q(sku__icontains=query) | Q(name__icontains=query)
+            ).order_by("-created")
 
         return queryset
 
