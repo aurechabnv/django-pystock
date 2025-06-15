@@ -89,6 +89,7 @@ def inventory_update_view(request, pk):
 
     return render(request, 'inventory/movement_form.html', {
         'initial_location': stock.location.id,
+        'stock_id': stock.id,
         'form': form,
     })
 
