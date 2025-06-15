@@ -2,12 +2,12 @@
 {% load static %}
 {% load django_bootstrap5 %}
 
-{% block title %}Mise à jour du stock{% endblock %}
+{% block title %}Mise à jour du stock #{{ stock_id }}{% endblock %}
 
 {% block content %}
     <main id="inventory-page" class="container">
         <div class="content p-6 reduced-width">
-            <h3 class="text-center">Mise à jour de stock</h3>
+            <h3 class="text-center">Mise à jour du stock #{{ stock_id }}</h3>
             {% bootstrap_messages %}
             <form method="POST" id="stock_update_form">
                 {% csrf_token %}

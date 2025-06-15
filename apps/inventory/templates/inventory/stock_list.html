@@ -6,6 +6,7 @@
 
 {% block content %}
 <main id="inventory-page" class="container">
+    {% bootstrap_messages %}
     <nav class="navbar row">
         <form class="d-flex col" role="search">
             <input class="form-control me-2 md-6" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un stock par entreprise, produit ou site" aria-label="Search">
@@ -31,21 +32,22 @@
         <tbody>
             {% for stock in stocks %}
             <tr>
-                <td scope="row">{{ stock.location.get_type_display }}</td>
-                <td scope="row">{{ stock.location.company.name }}</td>
-                <td scope="row">{{ stock.location.name }}</td>
+                <td>{{ stock.location.get_type_display }}</td>
+                <td>{{ stock.location.company.name }}</td>
+                <td>{{ stock.location.name }}</td>
                 <td>{{ stock.product.name }}</td>
                 <td>{{ stock.quantity }}</td>
                 <td>
                     <div class="btn-group me-2 btn-group-sm" role="group" aria-label="Basic example">
-                      <a class="btn btn-outline-primary" href="{% url 'stock:edit' stock.id %}">{% bs_icon 'pencil-fill' %}</a>
-                      <a class="btn btn-outline-danger" href="{% url 'stock:delete' stock.id %}">{% bs_icon 'trash-fill' %}</a>
+                      <a class="btn btn-outline-primary" href="{% url 'stock:edit' stock.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                      <a class="btn btn-outline-secondary" href="{% url 'product:list' %}?q={{ stock.product.sku }}" title="Voir produit">{% bs_icon 'info-circle-fill' %}</a>
+                      <a class="btn btn-outline-danger" href="{% url 'stock:delete' stock.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
                     </div>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="7">Aucun stock</td>
+                <td colspan="6">Aucun stock</td>
             </tr>
             {% endfor %}
         </tbody>

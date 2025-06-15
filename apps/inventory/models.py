@@ -77,15 +77,16 @@ class Stock(models.Model):
             else:
                 delta = self.quantity
 
-            is_inbound = delta >= 0
-            movement_type = Movement.MovementType.INBOUND if is_inbound else Movement.MovementType.OUTBOUND
-            movement = Movement(type=movement_type, quantity=delta, product=self.product, synced=True)
+            if delta != 0:
+                is_inbound = delta > 0
+                movement_type = Movement.MovementType.INBOUND if is_inbound else Movement.MovementType.OUTBOUND
+                movement = Movement(type=movement_type, quantity=delta, product=self.product, synced=True)
 
-            if is_inbound:
-                movement.to_location = self.location
-            else:
-                movement.from_location = self.location
-            movement.save()
+                if is_inbound:
+                    movement.to_location = self.location
+                else:
+                    movement.from_location = self.location
+                movement.save()
         else:
             # If synch has been bypassed by a movement direct update, re-enable it
             self.synch = True

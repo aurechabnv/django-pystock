@@ -1,5 +1,6 @@
 {% load static %}
 {% load django_bootstrap5 %}
+{% load bootstrap_icons %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -29,7 +30,7 @@
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ user.username | capfirst }}
+                                {% bs_icon 'person-fill' size='1.5em' %} {{ user.username }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{% url 'account:profile' %}">Mon compte</a></li>
