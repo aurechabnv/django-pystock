@@ -34,13 +34,13 @@
             <tr>
                 <th scope="row">{{ product.sku }}</th>
                 <td>{{ product.name }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.vat }}</td>
-                <td>{{ product.stock_threshold }}</td>
+                <td>{{ product.price }}&nbsp;€</td>
+                <td>{{ product.get_vat }}&nbsp;%</td>
+                <td>{{ product.stock_threshold }} unités</td>
                 <td>{{ product.get_categories }}</td>
                 <td>
                     <div class="btn-group me-2 btn-group-sm" role="group" aria-label="Boutons d'action">
-                      <a class="btn btn-outline-primary" href="{% url 'product:edit' product.id %}" title="Éditer">{% bs_icon 'pencil-fill' %}</a>
+                      <a class="btn btn-outline-primary" href="{% url 'product:edit' product.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
                       <a class="btn btn-outline-secondary" href="{% url 'stock:list' %}?q={{ product.sku }}" title="Voir stocks">{% bs_icon 'boxes' %}</a>
                       <a class="btn btn-outline-danger" href="{% url 'product:delete' product.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
                     </div>
