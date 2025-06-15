@@ -30,7 +30,10 @@ class InventoryView(LoginRequiredMixin, ListView):
         query = self.request.GET.get("q")
         if query:
             queryset = queryset.filter(
-                Q(product__name__icontains=query) | Q(location__name__icontains=query) | Q(location__company__name__icontains=query)
+                Q(product__sku__icontains=query) |
+                Q(product__name__icontains=query) |
+                Q(location__name__icontains=query) |
+                Q(location__company__name__icontains=query)
             ).order_by("-created")
 
         return queryset
