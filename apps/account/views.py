@@ -24,7 +24,7 @@ class RegisterView(FormView):
         return super(RegisterView, self).form_valid(form)
 
 
-@login_required(login_url="account:login")
+@login_required()
 def profile_view(request):
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=request.user)

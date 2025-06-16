@@ -33,12 +33,12 @@
                                 {% bs_icon 'person-fill' size='1.5em' %} {{ user.username }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{% url 'account:profile' %}">Mon compte</a></li>
+                                <li><a class="dropdown-item" href="{% url 'profile' %}">Mon compte</a></li>
                                 {% if user.is_superuser %}
                                 <li><a class="dropdown-item" href="{% url 'admin:index' %}">Administration</a></li>
                                 {% endif %}
                                 <li><hr class="dropdown-divider"></li>
-                                <li><form action="{% url 'account:logout' %}" method="post">
+                                <li><form action="{% url 'logout' %}" method="post">
                                     {% csrf_token %}
                                     <button class="dropdown-item" type="submit">Se déconnecter</button>
                                 </form></li>
