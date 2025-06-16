@@ -1,6 +1,9 @@
 body {
     font-size: 12px;
 }
+svg.bi {
+    margin-top: -2px;
+}
 button.btn-logout {
     display: inline;
   background: none!important;
