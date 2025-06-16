@@ -6,16 +6,17 @@
 
 {% block content %}
 <main id="catalog-page" class="container">
-    <nav class="navbar row">
-        <form class="d-flex col" role="search">
-            <input class="form-control me-2 md-6" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un produit par nom ou SKU" aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit">Rechercher</button>
-        </form>
-        <ul class="navbar-nav col text-end">
-            <li class="nav-item">
+    {% bootstrap_messages %}
+    <nav class="navbar">
+        <div class="container-fluid">
+            <form class="d-flex w-75" role="search" id="search">
+                <input class="form-control me-2 w-50" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un produit par nom ou SKU" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+            </form>
+            <div class="text-end">
                 <a class="btn btn-primary" href="{% url 'product:add' %}">Ajouter un produit</a>
-            </li>
-        </ul>
+            </div>
+        </div>
     </nav>
     <table class="table">
         <thead>

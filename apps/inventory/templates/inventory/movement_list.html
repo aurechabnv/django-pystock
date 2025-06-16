@@ -6,11 +6,14 @@
 
 {% block content %}
 <main id="movements-page" class="container">
-    <nav class="navbar row">
-        <form class="d-flex col" role="search">
-            <input class="form-control me-2 md-6" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un stock par produit, origine ou destination" aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit">Rechercher</button>
-        </form>
+    {% bootstrap_messages %}
+    <nav class="navbar">
+        <div class="container-fluid">
+            <form class="d-flex w-75" role="search" id="search">
+                <input class="form-control me-2 w-50" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un stock par produit, origine ou destination" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+            </form>
+        </div>
     </nav>
     <table class="table">
         <thead>
