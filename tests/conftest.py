@@ -33,7 +33,7 @@ def product1():
         sku='gpu-radeon-rx-9070-xt',
         name='RADEON RX 9070 XT',
         price=700.0,
-        stock_threshold=10,
+        stock_threshold=100,
     )
     category1 = Category.objects.create(name='Composants PC')
     category2 = Category.objects.create(name='Cartes graphiques')

@@ -143,6 +143,21 @@ def test_inventory_view_query_filter(client: Client, user1, stock1, stock2, stoc
     assert response.context.get("stocks").count() == 1
     assert "filters" in response.context
     assert "q" in response.context.get("filters")
+    assert response.context.get("filters").get("q") == "tilleuls"
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_inventory_view_low_stock_filter(client: Client, user2, stock1, stock2, stock3):
+    """
+    Test that the results can be filtered based on user search
+    """
+    client.force_login(user2)
+    response = client.get(reverse("stock:list"), {"low_stock": "on"})
+    assert response.context.get("stocks").count() == 2
+    assert "filters" in response.context
+    assert "low_stock" in response.context.get("filters")
+    assert response.context.get("filters").get("low_stock") == "on"
     assert response.status_code == 200
 
 
