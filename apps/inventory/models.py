@@ -63,11 +63,15 @@ class Stock(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     synch = models.BooleanField(default=True)
+    is_low = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.product.sku} - {self.location.company.name} - {self.location.name} ({self.location.LocationType(self.location.type).label})"
 
     def save(self, *args, **kwargs):
+        # Update the stock `is_low` flag on save
+        self.is_low = self.quantity <= self.product.stock_threshold
+
         # Create a stock movement in case of create/update if synch is enabled
         # Make sure to set the movement's attribute `synched` to True to prevent loop update Stock<>Movement
         if self.synch:
