@@ -25,7 +25,7 @@ class CatalogView(LoginRequiredMixin, ListView):
         if query:
             queryset = queryset.filter(
                 Q(sku__icontains=query) | Q(name__icontains=query)
-            ).order_by("-created")
+            ).order_by("-last_modified")
 
         return queryset
 

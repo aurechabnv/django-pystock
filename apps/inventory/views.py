@@ -14,7 +14,7 @@ class InventoryView(LoginRequiredMixin, ListView):
     model = Stock
     context_object_name = "stocks"
     paginate_by = 5
-    ordering = ['-created']
+    ordering = ['-last_modified']
 
     def get_queryset(self):
         """
@@ -34,7 +34,11 @@ class InventoryView(LoginRequiredMixin, ListView):
                 Q(product__name__icontains=query) |
                 Q(location__name__icontains=query) |
                 Q(location__company__name__icontains=query)
-            ).order_by("-created")
+            ).order_by("-last_modified")
+
+        low_stock = self.request.GET.get("low_stock") == "on"
+        if low_stock:
+            queryset = queryset.filter(is_low=low_stock)
 
         return queryset
 
@@ -45,7 +49,8 @@ class InventoryView(LoginRequiredMixin, ListView):
         """
         context = super().get_context_data(**kwargs)
         context["filters"] = {
-            "q": self.request.GET.get("q", "")
+            "q": self.request.GET.get("q", ""),
+            "low_stock": self.request.GET.get("low_stock", ""),
         }
         return context
 
