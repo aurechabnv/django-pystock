@@ -27,6 +27,10 @@ class InventoryView(LoginRequiredMixin, ListView):
         if not self.request.user.is_superuser:
             queryset = queryset.filter(location__company__in=self.request.user.companies.all())
 
+        low_stock = self.request.GET.get("low_stock") == "on"
+        if low_stock:
+            queryset = queryset.filter(is_low=low_stock)
+
         query = self.request.GET.get("q")
         if query:
             queryset = queryset.filter(
@@ -34,11 +38,7 @@ class InventoryView(LoginRequiredMixin, ListView):
                 Q(product__name__icontains=query) |
                 Q(location__name__icontains=query) |
                 Q(location__company__name__icontains=query)
-            ).order_by("-last_modified")
-
-        low_stock = self.request.GET.get("low_stock") == "on"
-        if low_stock:
-            queryset = queryset.filter(is_low=low_stock)
+            )
 
         return queryset
 
@@ -145,7 +145,7 @@ class MovementsView(LoginRequiredMixin, ListView):
                 Q(product__name__icontains=query) |
                 Q(to_location__name__icontains=query) |
                 Q(from_location__name__icontains=query)
-            ).order_by("-date")
+            )
 
         return queryset
 
