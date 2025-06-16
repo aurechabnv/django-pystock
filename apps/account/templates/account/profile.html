@@ -11,7 +11,7 @@
             <form method="POST">
                 {% csrf_token %}
                 {% bootstrap_form form layout="floating" %}
-                <p><a href="{% url 'account:password_change' %}">Changer de mot de passe</a></p>
+                <p><a href="{% url 'password_change' %}">Changer de mot de passe</a></p>
                 <div class="text-center">
                     {% bootstrap_button button_type="submit" content="Mettre à jour" %}
                 </div>

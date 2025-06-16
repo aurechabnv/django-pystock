@@ -17,14 +17,14 @@ VALID_SIGNUP_DATA = {
 
 
 def test_register_view_get(client: Client):
-    response = client.get(reverse("account:register"))
+    response = client.get(reverse("register"))
     assert response.status_code == 200
     assertTemplateUsed(response, "account/register.html")
 
 
 @pytest.mark.django_db
 def test_register_view_post(client: Client):
-    response = client.post(reverse("account:register"), data=VALID_SIGNUP_DATA)
+    response = client.post(reverse("register"), data=VALID_SIGNUP_DATA)
     user = User.objects.get(username=VALID_SIGNUP_DATA["username"])
     assert user.is_authenticated
     assert response.status_code == 302
@@ -34,7 +34,7 @@ def test_register_view_post(client: Client):
 def test_register_view_password_mismatch(client: Client):
     incorrect_data = VALID_SIGNUP_DATA.copy()
     incorrect_data["password1"] = "whatever"
-    response = client.post(reverse("account:register"), data=incorrect_data)
+    response = client.post(reverse("register"), data=incorrect_data)
     errors = response.context["form"].errors.as_data()
     assert "password2" in errors
     assert "password_mismatch" in [e.code for e in errors["password2"]]
@@ -46,7 +46,7 @@ def test_register_view_password_length(client: Client):
     incorrect_data = VALID_SIGNUP_DATA.copy()
     incorrect_data["password1"] = "azerty"
     incorrect_data["password2"] = "azerty"
-    response = client.post(reverse("account:register"), data=incorrect_data)
+    response = client.post(reverse("register"), data=incorrect_data)
     errors = response.context["form"].errors.as_data()
     assert "password2" in errors
     assert "password_too_short" in [e.code for e in errors["password2"]]

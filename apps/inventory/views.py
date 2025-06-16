@@ -55,7 +55,7 @@ class InventoryView(LoginRequiredMixin, ListView):
         return context
 
 
-@login_required(login_url='account:login')
+@login_required()
 def inventory_create_view(request):
     if request.method == "POST":
         form = StockForm(request.POST, user=request.user)
@@ -68,7 +68,7 @@ def inventory_create_view(request):
     return render(request, 'inventory/stock_form.html', { 'form': form })
 
 
-@login_required(login_url='account:login')
+@login_required()
 def inventory_update_view(request, pk):
     stock = Stock.objects.get(pk=pk)
     defaults = {
@@ -99,7 +99,7 @@ def inventory_update_view(request, pk):
     })
 
 
-@login_required(login_url='account:login')
+@login_required()
 def inventory_delete_view(request, pk):
     stock = Stock.objects.get(pk=pk)
 
