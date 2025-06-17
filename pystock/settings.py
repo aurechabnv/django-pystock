@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'apps.management',
     'apps.catalog',
     'apps.inventory',
+    'apps.reporting',
     'django_bootstrap5',
     'django_bootstrap_icons',
 ]
