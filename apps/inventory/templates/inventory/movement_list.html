@@ -15,6 +15,13 @@
             </form>
         </div>
     </nav>
+    {% if filters.product and filters.location %}
+    <div class="alert alert-secondary alert-dismissible alert-filter">
+        <div><span class="fw-bold">Produit&nbsp;:</span> {{ filters.product }}</div>
+        <div><span class="fw-bold">Site&nbsp;:</span> {{ filters.location }}</div>
+        <a href="{% url 'stock:movements' %}" class="btn-close" aria-label="Retirer le filtre produit/site"></a>
+    </div>
+    {% endif %}
     <table class="table align-middle">
         <thead>
             <tr>
@@ -35,7 +42,7 @@
                 <td>{{ obj.from_location.name }}</td>
                 <td>{{ obj.to_location.name }}</td>
                 <td>{{ obj.product.name }}
-                    <a class="btn-icon" data-bs-toggle="collapse" href="#collapseProduct{{ obj.id }}" role="button" aria-expanded="false" aria-controls="collapseProduct{{ obj.id }}" title="Voir produit">{% bs_icon 'info-circle' %}</a>
+                    <a class="btn-icon" data-bs-toggle="collapse" href="#collapseProduct{{ obj.id }}" role="button" aria-expanded="false" aria-controls="collapseProduct{{ obj.id }}" title="Voir les détails">{% bs_icon 'info-circle' %}</a>
                     <div class="collapse" id="collapseProduct{{ obj.id }}">
                         <div>
                             <table class="mt-2">

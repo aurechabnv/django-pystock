@@ -42,7 +42,7 @@
                 <td>{{ stock.location.name }}</td>
                 <td>
                     {{ stock.product.name }}
-                    <a class="btn-icon" data-bs-toggle="collapse" href="#collapseProduct{{ stock.id }}" role="button" aria-expanded="false" aria-controls="collapseProduct{{ stock.id }}" title="Voir produit">{% bs_icon 'info-circle' %}</a>
+                    <a class="btn-icon" data-bs-toggle="collapse" href="#collapseProduct{{ stock.id }}" role="button" aria-expanded="false" aria-controls="collapseProduct{{ stock.id }}" title="Voir les détails">{% bs_icon 'info-circle' %}</a>
                     <div class="collapse" id="collapseProduct{{ stock.id }}">
                         <div>
                             <table class="mt-2">
@@ -58,9 +58,10 @@
                     {% if stock.is_low %}{% bs_icon 'exclamation-triangle-fill' color='red' %}{% endif %}
                 </td>
                 <td>
-                    <div class="btn-group me-2 btn-group-sm" role="group" aria-label="Basic example">
-                      <a class="btn btn-outline-primary" href="{% url 'stock:edit' stock.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
-                      <a class="btn btn-outline-danger" href="{% url 'stock:delete' stock.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                    <div class="btn-group me-2 btn-group-sm" role="group" aria-label="Boutons d'action">
+                        <a class="btn btn-outline-primary" href="{% url 'stock:edit' stock.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                        <a class="btn btn-outline-secondary" href="{% url 'stock:movements' %}?p={{ stock.product.id }}&l={{ stock.location.id }}" title="Voir les mouvements de stock">{% bs_icon 'graph-up' %}</a>
+                        <a class="btn btn-outline-danger" href="{% url 'stock:delete' stock.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
                     </div>
                 </td>
             </tr>
