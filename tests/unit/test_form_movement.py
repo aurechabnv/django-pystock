@@ -49,7 +49,7 @@ def test_movement_form_transfer_mandatory_fields(user1):
 
 
 @pytest.mark.django_db
-def test_movement_form_inbound(product1, location1, location2, user1):
+def test_movement_form_inbound_cleaned(product1, location1, location2, user1):
     """
     Test that the unnecessary `from_location` field is cleared
     when the `type` is INBOUND
@@ -62,7 +62,7 @@ def test_movement_form_inbound(product1, location1, location2, user1):
 
 
 @pytest.mark.django_db
-def test_movement_form_outbound(product1, location1, location2, user1):
+def test_movement_form_outbound_cleaned(product1, location1, location2, user1):
     """
     Test that the unnecessary `to_location` field is cleared
     when the `type` is OUTBOUND
@@ -82,7 +82,9 @@ def test_movement_form_filter_location_fields_user(user1, product1, location1, l
     data = MOVEMENT_FORM_DATA.copy()
     data["type"] = Movement.MovementType.TRANSFER
     form = MovementForm(user=user1)
-    assert form.fields["to_location"].queryset.count() == 2
+    queryset = form.fields["to_location"].queryset
+    assert queryset.count() == 2
+    assert location3 not in queryset
 
 
 @pytest.mark.django_db

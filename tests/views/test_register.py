@@ -16,14 +16,14 @@ VALID_SIGNUP_DATA = {
 }
 
 
-def test_register_view_get(client: Client):
+def test_register_view_unauthenticated_access(client: Client):
     response = client.get(reverse("register"))
     assert response.status_code == 200
     assertTemplateUsed(response, "account/register.html")
 
 
 @pytest.mark.django_db
-def test_register_view_post(client: Client):
+def test_register_view_post_success(client: Client):
     response = client.post(reverse("register"), data=VALID_SIGNUP_DATA)
     user = User.objects.get(username=VALID_SIGNUP_DATA["username"])
     assert user.is_authenticated
@@ -31,7 +31,7 @@ def test_register_view_post(client: Client):
 
 
 @pytest.mark.django_db
-def test_register_view_password_mismatch(client: Client):
+def test_register_view_post_password_mismatch_error(client: Client):
     incorrect_data = VALID_SIGNUP_DATA.copy()
     incorrect_data["password1"] = "whatever"
     response = client.post(reverse("register"), data=incorrect_data)
@@ -42,7 +42,7 @@ def test_register_view_password_mismatch(client: Client):
 
 
 @pytest.mark.django_db
-def test_register_view_password_length(client: Client):
+def test_register_view_post_password_length_error(client: Client):
     incorrect_data = VALID_SIGNUP_DATA.copy()
     incorrect_data["password1"] = "azerty"
     incorrect_data["password2"] = "azerty"

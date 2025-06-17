@@ -154,7 +154,9 @@ def test_inventory_view_low_stock_filter(client: Client, user2, stock1, stock2, 
     """
     client.force_login(user2)
     response = client.get(reverse("stock:list"), {"low_stock": "on"})
-    assert response.context.get("stocks").count() == 2
+    objects = response.context.get("stocks")
+    assert objects.count() == 2
+    assert stock2 not in objects
     assert "filters" in response.context
     assert "low_stock" in response.context.get("filters")
     assert response.context.get("filters").get("low_stock") == "on"

@@ -9,7 +9,9 @@ def test_stock_form_filter_location_field_user(user1, location1, location2, loca
     Test that the location field are filtered based on user company rights
     """
     form = StockForm(user=user1)
-    assert form.fields["location"].queryset.count() == 2
+    queryset = form.fields["location"].queryset
+    assert queryset.count() == 2
+    assert location3 not in queryset
 
 
 @pytest.mark.django_db
