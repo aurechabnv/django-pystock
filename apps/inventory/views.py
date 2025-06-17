@@ -6,14 +6,15 @@ from django.forms import Form
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
+from apps.catalog.models import Product
 from apps.inventory.forms import MovementForm, StockForm
-from apps.inventory.models import Stock, Movement
+from apps.inventory.models import Stock, Movement, Location
 
 
 class InventoryView(LoginRequiredMixin, ListView):
     model = Stock
     context_object_name = "stocks"
-    paginate_by = 5
+    paginate_by = 10
     ordering = ['-last_modified']
 
     def get_queryset(self):
@@ -139,6 +140,14 @@ class MovementsView(LoginRequiredMixin, ListView):
                 Q(from_location__company__in=self.request.user.companies.all())
             )
 
+        product = self.request.GET.get("p")
+        location = self.request.GET.get("l")
+        if product and location:
+            queryset = queryset.filter(
+                Q(product__id=product, to_location__id=location) |
+                Q(product__id=product, from_location__id=location)
+            )
+
         query = self.request.GET.get("q")
         if query:
             queryset = queryset.filter(
@@ -156,6 +165,15 @@ class MovementsView(LoginRequiredMixin, ListView):
         """
         context = super().get_context_data(**kwargs)
         context["filters"] = {
-            "q": self.request.GET.get("q", "")
+            "q": self.request.GET.get("q", ""),
         }
+
+        product_id = self.request.GET.get("p")
+        location_id = self.request.GET.get("l")
+        if product_id and location_id:
+            product = Product.objects.get(id=product_id)
+            location = Location.objects.get(id=location_id)
+            context["filters"]["product"] = str(product)
+            context["filters"]["location"] = str(location)
+
         return context

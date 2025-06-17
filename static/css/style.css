@@ -22,6 +22,9 @@ h3 {
 p {
     margin-top: 1rem!important;
 }
+.alert-filter {
+    width: fit-content;
+}
 .paginator-container {
     display: flex;
 

@@ -8,13 +8,13 @@ from pytest_django.asserts import assertTemplateUsed
 User = get_user_model()
 
 
-def test_profile_view_get_unauthorized(client: Client):
+def test_profile_view_unauthenticated_access(client: Client):
     response = client.get(reverse("profile"))
     assert response.status_code == 302
 
 
 @pytest.mark.django_db
-def test_profile_view_get(client: Client, user1):
+def test_profile_view_authenticated_access(client: Client, user1):
     client.force_login(user1)
     response = client.get(reverse("profile"))
     assert response.status_code == 200

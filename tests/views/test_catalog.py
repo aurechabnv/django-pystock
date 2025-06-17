@@ -5,31 +5,31 @@ from django.urls import reverse
 from apps.catalog.models import Product
 
 
-def test_catalog_view_get_unauthorized(client: Client):
+def test_catalog_view_unauthenticated_access(client: Client):
     response = client.get(reverse("product:list"))
     assert response.status_code == 302
 
 
 @pytest.mark.django_db
-def test_product_add_view_get_unauthorized(client: Client):
+def test_product_add_view_unauthenticated_access(client: Client):
     response = client.get(reverse("product:add"))
     assert response.status_code == 302
 
 
 @pytest.mark.django_db
-def test_product_edit_view_get_unauthorized(client: Client, product1):
+def test_product_edit_view_unauthenticated_access(client: Client, product1):
     response = client.get(reverse("product:edit", args=[product1.pk]))
     assert response.status_code == 302
 
 
 @pytest.mark.django_db
-def test_product_delete_view_get_unauthorized(client: Client, product1):
+def test_product_delete_view_unauthenticated_access(client: Client, product1):
     response = client.get(reverse("product:delete", args=[product1.pk]))
     assert response.status_code == 302
 
 
 @pytest.mark.django_db
-def test_catalog_view_get(client: Client, user1, product1, product2):
+def test_catalog_view_authenticated_access(client: Client, user1, product1, product2):
     client.force_login(user1)
     response = client.get(reverse("product:list"))
     assert response.context.get("products").count() == 2
@@ -37,7 +37,7 @@ def test_catalog_view_get(client: Client, user1, product1, product2):
 
 
 @pytest.mark.django_db
-def test_catalog_view_get_filter(client: Client, user1, product1, product2):
+def test_catalog_view_query_filter(client: Client, user1, product1, product2):
     client.force_login(user1)
     response = client.get(reverse("product:list"), {"q": "gpu"})
     assert response.context.get("products").count() == 1
@@ -47,21 +47,21 @@ def test_catalog_view_get_filter(client: Client, user1, product1, product2):
 
 
 @pytest.mark.django_db
-def test_product_add_view_get(client: Client, user1):
+def test_product_add_view_authenticated_access(client: Client, user1):
     client.force_login(user1)
     response = client.get(reverse("product:add"))
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_product_edit_view_get(client: Client, user1, product1):
+def test_product_edit_view_authenticated_access(client: Client, user1, product1):
     client.force_login(user1)
     response = client.get(reverse("product:edit", args=[product1.pk]))
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_product_delete_view_get(client: Client, user1, product1):
+def test_product_delete_view_authenticated_access(client: Client, user1, product1):
     client.force_login(user1)
     response = client.get(reverse("product:delete", args=[product1.pk]))
     assert response.status_code == 200

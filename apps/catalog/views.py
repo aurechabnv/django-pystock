@@ -11,7 +11,7 @@ from apps.inventory.models import Stock
 class CatalogView(LoginRequiredMixin, ListView):
     model = Product
     context_object_name = 'products'
-    paginate_by = 5
+    paginate_by = 8
     ordering = ['-last_modified']
 
     def get_queryset(self):

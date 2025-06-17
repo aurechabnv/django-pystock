@@ -18,7 +18,7 @@
             </div>
         </div>
     </nav>
-    <table class="table">
+    <table class="table align-middle">
         <thead>
             <tr>
                 <th scope="col">SKU</th>
@@ -42,7 +42,7 @@
                 <td>
                     <div class="btn-group me-2 btn-group-sm" role="group" aria-label="Boutons d'action">
                       <a class="btn btn-outline-primary" href="{% url 'product:edit' product.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
-                      <a class="btn btn-outline-secondary" href="{% url 'stock:list' %}?q={{ product.sku }}" title="Voir stocks">{% bs_icon 'boxes' %}</a>
+                      <a class="btn btn-outline-secondary" href="{% url 'stock:list' %}?q={{ product.sku }}" title="Voir les stocks">{% bs_icon 'boxes' %}</a>
                       <a class="btn btn-outline-danger" href="{% url 'product:delete' product.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
                     </div>
                 </td>
@@ -55,7 +55,7 @@
         </tbody>
     </table>
     <div class="paginator-container">
-        {% bootstrap_pagination page_obj url=request.get_full_path %}
+        {% bootstrap_pagination page_obj url=request.get_full_path pages_to_show=5 %}
         <p class="side total text-end">{{ page_obj.paginator.count }} résultat{% if page_obj.paginator.count > 1 %}s{% endif %}</p>
     </div>
 </main>
