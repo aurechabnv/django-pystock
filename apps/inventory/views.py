@@ -13,7 +13,7 @@ from apps.inventory.models import Stock, Movement
 class InventoryView(LoginRequiredMixin, ListView):
     model = Stock
     context_object_name = "stocks"
-    paginate_by = 5
+    paginate_by = 10
     ordering = ['-last_modified']
 
     def get_queryset(self):

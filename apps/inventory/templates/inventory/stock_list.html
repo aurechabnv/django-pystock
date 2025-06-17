@@ -23,7 +23,7 @@
             </div>
         </div>
     </nav>
-    <table class="table">
+    <table class="table align-middle">
         <thead>
             <tr>
                 <th scope="col">Type</th>
@@ -61,7 +61,7 @@
         </tbody>
     </table>
     <div class="paginator-container">
-        {% bootstrap_pagination page_obj url=request.get_full_path %}
+        {% bootstrap_pagination page_obj url=request.get_full_path pages_to_show=5 %}
         <p class="side total text-end">{{ page_obj.paginator.count }} résultat{% if page_obj.paginator.count > 1 %}s{% endif %}</p>
     </div>
 </main>
