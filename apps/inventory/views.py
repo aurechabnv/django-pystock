@@ -25,7 +25,7 @@ class InventoryView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
 
         # Make sure normal user has company access
-        if not self.request.user.is_superuser:
+        if not self.request.user.is_staff:
             queryset = queryset.filter(location__company__in=self.request.user.companies.all())
 
         low_stock = self.request.GET.get("low_stock") == "on"
@@ -81,7 +81,7 @@ def inventory_update_view(request, pk):
 
     # user must have access to the location's company to access stock
     # this check prevents access to unauthorized items from direct url
-    if not request.user.is_superuser and stock.location.company not in request.user.companies.all():
+    if not request.user.is_staff and stock.location.company not in request.user.companies.all():
         messages.error(request, "Vous n'avez pas accès à ce stock")
         return redirect("stock:list")
 
@@ -106,7 +106,7 @@ def inventory_delete_view(request, pk):
 
     # user must have access to the location's company to access stock
     # this check prevents access to unauthorized items from direct url
-    if not request.user.is_superuser and stock.location.company not in request.user.companies.all():
+    if not request.user.is_staff and stock.location.company not in request.user.companies.all():
         messages.error(request, "Vous n'avez pas accès à ce stock")
         return redirect("stock:list")
 
@@ -134,7 +134,7 @@ class MovementsView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
 
         # Make sure normal user has company access
-        if not self.request.user.is_superuser:
+        if not self.request.user.is_staff:
             queryset = queryset.filter(
                 Q(to_location__company__in=self.request.user.companies.all()) |
                 Q(from_location__company__in=self.request.user.companies.all())

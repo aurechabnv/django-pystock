@@ -12,7 +12,7 @@ class StockForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
-        if not user.is_superuser:
+        if not user.is_staff:
             self.fields["location"].queryset = Location.objects.filter(company__in=user.companies.all())
 
     def clean_quantity(self):
@@ -36,7 +36,7 @@ class MovementForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
-        if not user.is_superuser:
+        if not user.is_staff:
             self.fields["from_location"].queryset = Location.objects.filter(company__in=user.companies.all())
             self.fields["to_location"].queryset = Location.objects.filter(company__in=user.companies.all())
 

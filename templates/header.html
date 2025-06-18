@@ -14,7 +14,9 @@
                         <li class="nav-item"><a class="nav-link {% if 'inventory' in request.path %}active{% endif %}" href="{% url 'stock:list' %}">Inventaire</a></li>
                         <li class="nav-item"><a class="nav-link {% if 'catalog' in request.path %}active{% endif %}" href="{% url 'product:list' %}">Catalogue</a></li>
                         <li class="nav-item"><a class="nav-link {% if 'movements' in request.path %}active{% endif %}" href="{% url 'stock:movements' %}">Mouvements</a></li>
+                        {% if user.is_staff %}
                         <li class="nav-item"><a class="nav-link {% if 'management' in request.path %}active{% endif %}" href="{% url 'management:company-list' %}">Gestion</a></li>
+                        {% endif %}
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
@@ -23,7 +25,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{% url 'profile' %}">Mon compte</a></li>
-                                {% if user.is_staff %}
+                                {% if user.is_superuser %}
                                 <li><a class="dropdown-item" href="{% url 'admin:index' %}">Administration</a></li>
                                 {% endif %}
                                 <li><hr class="dropdown-divider"></li>
