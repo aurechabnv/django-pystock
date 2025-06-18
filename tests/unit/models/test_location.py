@@ -22,6 +22,6 @@ def test_location_deletion(product1, company1, location1, stock1, stock2,
     """
     total, items = location1.delete()
     assert total == 5
-    assert items['inventory.Location'] == 1
+    assert items['management.Location'] == 1
     assert items['inventory.Stock'] == 1
     assert items['inventory.Movement'] == 3

@@ -2,8 +2,8 @@ import pytest
 from django.contrib.auth import get_user_model
 
 from apps.catalog.models import Product, Category
-from apps.inventory.models import Company, Location, Stock, Movement
-
+from apps.inventory.models import Stock, Movement
+from apps.management.models import Company, Location
 
 User = get_user_model()
 
@@ -23,7 +23,7 @@ def user2():
         username='user2',
         email='user2@example.com',
         password='azerty123*',
-        is_superuser=True,
+        is_staff=True,
     )
 
 

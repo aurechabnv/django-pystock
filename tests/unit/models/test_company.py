@@ -17,9 +17,9 @@ def test_company_deletion(product1, company1, location2, location1, stock2, stoc
     """
     total, items = company1.delete()
     assert total == 11
-    assert items['inventory.Company'] == 1
-    assert items['inventory.Location'] == 2
+    assert items['management.Company'] == 1
+    assert items['management.Location'] == 2
     assert items['inventory.Stock'] == 2
     assert items['inventory.Movement'] == 5
-    assert items['inventory.Company_users'] == 1
+    assert items['management.Company_users'] == 1
 
