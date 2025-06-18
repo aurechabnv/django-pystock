@@ -12,14 +12,14 @@
         <div class="container-fluid">
             <form class="d-flex w-75" role="search" id="search">
                 <input class="form-control me-2 w-50" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un stock par entreprise, produit ou site" aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+                <button class="btn btn-outline-primary" type="submit">{% bs_icon 'search' %}Rechercher</button>
                 <div class="form-check form-switch ms-3 mt-2">
                     <input class="form-check-input" type="checkbox" role="switch" name="low_stock" {% if filters.low_stock == "on" %}checked{% endif %} id="switchLowStock">
                     <label class="form-check-label" for="switchLowStock">Voir les stocks en alerte</label>
                 </div>
             </form>
             <div class="text-end">
-                <a class="btn btn-primary" href="{% url 'stock:add' %}">Ajouter un stock</a>
+                <a class="btn btn-primary" href="{% url 'stock:add' %}">{% bs_icon 'plus-lg' %}Ajouter un stock</a>
             </div>
         </div>
     </nav>

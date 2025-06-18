@@ -11,10 +11,10 @@
         <div class="container-fluid">
             <form class="d-flex w-75" role="search" id="search">
                 <input class="form-control me-2 w-50" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un produit par nom ou SKU" aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+                <button class="btn btn-outline-primary" type="submit">{% bs_icon 'search' %}Rechercher</button>
             </form>
             <div class="text-end">
-                <a class="btn btn-primary" href="{% url 'product:add' %}">Ajouter un produit</a>
+                <a class="btn btn-primary" href="{% url 'product:add' %}">{% bs_icon 'plus-lg' %}Ajouter un produit</a>
             </div>
         </div>
     </nav>
