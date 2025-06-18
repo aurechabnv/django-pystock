@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load bootstrap_icons %}
+
+{% block title %}Gestion des entreprises et utilisateurs{% endblock %}
+
+{% block content %}
+<div class="container-xxl py-layout">
+    <aside class="py-sidebar mt-3">
+        <div class="offcanvas-lg">
+            <div class="offcanvas-body">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'companies' in request.path %}active{% endif %}" aria-current="page" href="{% url 'management:company-list' %}">Entreprises</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'locations' in request.path %}active{% endif %}" href="{% url 'management:location-list' %}">Sites</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'users' in request.path %}active{% endif %}" href="{% url 'management:user-list' %}">Utilisateurs</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <main id="management-page" class="container">
+        <div class="tab-content">
+            {% block tab %}{% endblock %}
+        </div>
+    </main>
+</div>
+{% endblock %}

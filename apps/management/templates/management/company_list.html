@@ -1,0 +1,33 @@
+{% extends 'management/index.html' %}
+{% load bootstrap_icons %}
+
+{% block tab %}
+    <a class="btn btn-primary my-3" href="{% url 'management:company-add' %}">{% bs_icon 'building-fill-add' size='1.5em' %}Créer une entreprise</a>
+
+    <div class="row row-cols-3 row-cols-md-3 g-3">
+    {% for company in object_list %}
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ company.name }}</h5>
+                    <p class="card-text"><span class="fw-bold">N° de SIRET&nbsp;:</span> {{ company.siret }}</p>
+                    <p class="card-text"><span class="fw-bold">Contact&nbsp;:</span> {{ company.email }}</p>
+                    <p class="card-text"><span class="fw-bold">Téléphone&nbsp;:</span> {{ company.phone }}</p>
+                    <p class="card-text"><span class="fw-bold">Site internet&nbsp;:</span> {{ company.website }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% with count=company.location_count %}
+                        <li class="list-group-item"><span class="fw-bold">{{ count.SH }} magasin{% if count.SH > 1 %}s{% endif %}</span>
+                        et <span class="fw-bold">{{ count.WH }} entrepôt{% if count.WH > 1 %}s{% endif %}</span></li>
+                        <li class="list-group-item">Stocks gérés par <span class="fw-bold">{{ company.users.count }} utilisateur{% if company.users.count > 1 %}s{% endif %}</span></li>
+                    {% endwith %}
+                </ul>
+                <div class="card-footer text-center">
+                    <a class="btn btn-outline-primary" href="{% url 'management:company-edit' company.pk %}">{% bs_icon 'pencil-fill' %}Modifier</a>
+                    <a class="btn btn-outline-danger" href="{% url 'management:company-delete' company.pk %}">{% bs_icon 'trash-fill' %}Supprimer</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

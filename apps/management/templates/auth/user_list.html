@@ -1,0 +1,38 @@
+{% extends 'management/index.html' %}
+{% load bootstrap_icons %}
+
+{% block tab %}
+    <a class="btn btn-primary my-3" href="{% url 'management:user-add' %}">{% bs_icon 'person-fill-add' size='1.5em' %}Créer un utilisateur</a>
+
+    <table class="table">
+        <tr>
+            <th>Admin</th>
+            <th>Nom d'utilisateur</th>
+            <th>Adresse e-mail</th>
+            <th>Accès entreprise</th>
+            <th>Actions</th>
+        </tr>
+        {% for user in object_list %}
+            <tr>
+                <td class="text-center">{% if user.is_staff %}{% bs_icon 'check-circle-fill' color='green'%}{% else %}{% bs_icon 'x-circle-fill' color='grey'%}{% endif %}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% for company in user.companies.all %}
+                        {{ company.name }}
+                    {% empty %}
+
+                    {% endfor %}
+                </td>
+                <td>
+                    <div class="btn-group me-2 btn-group-sm" role="group" aria-label="Boutons d'action">
+                      <a class="btn btn-outline-primary" href="{% url 'management:user-edit' user.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                      <a class="btn btn-outline-danger" href="{% url 'management:user-delete' user.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                    </div>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td>Pas d'utilisateurs</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}
