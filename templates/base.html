@@ -1,55 +1,16 @@
 {% load static %}
 {% load django_bootstrap5 %}
-{% load bootstrap_icons %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg sticky-top">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarToggler">
-                    <a class="navbar-brand" href="/">PyStock</a>
-
-                    {% if user.is_authenticated %}
-                    <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link {% if 'dashboard' in request.path %}active{% endif %}" href="#">Tableau de bord</a></li>
-                        <li class="nav-item"><a class="nav-link {% if 'inventory' in request.path %}active{% endif %}" href="{% url 'stock:list' %}">Inventaire</a></li>
-                        <li class="nav-item"><a class="nav-link {% if 'catalog' in request.path %}active{% endif %}" href="{% url 'product:list' %}">Catalogue</a></li>
-                        <li class="nav-item"><a class="nav-link {% if 'movements' in request.path %}active{% endif %}" href="{% url 'stock:movements' %}">Mouvements</a></li>
-                    </ul>
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {% bs_icon 'person-fill' size='1.5em' %} {{ user.username }}
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{% url 'profile' %}">Mon compte</a></li>
-                                {% if user.is_superuser %}
-                                <li><a class="dropdown-item" href="{% url 'admin:index' %}">Administration</a></li>
-                                {% endif %}
-                                <li><hr class="dropdown-divider"></li>
-                                <li><form action="{% url 'logout' %}" method="post">
-                                    {% csrf_token %}
-                                    <button class="dropdown-item" type="submit">Se déconnecter</button>
-                                </form></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    {% endif %}
-                </div>
-            </div>
-        </nav>
-    </header>
+    {% include 'header.html' %}
     {% block content %}{% endblock %}
     <footer></footer>
 </body>
