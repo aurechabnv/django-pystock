@@ -14,18 +14,27 @@ class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return self.request.user.is_staff
 
 
-class UserCreateView(LoginRequiredMixin, CreateView):
+class UserCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = User
     fields = ("username", "email", "is_staff", "companies",)
     success_url = reverse_lazy("management:user:list")
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+
+class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
     fields = ("username", "email", "is_staff", "is_active", "companies",)
     success_url = reverse_lazy("management:user:list")
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class UserDeleteView(LoginRequiredMixin, DeleteView):
+
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = User
     success_url = reverse_lazy("management:user:list")
+
+    def test_func(self):
+        return self.request.user.is_staff

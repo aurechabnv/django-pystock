@@ -12,18 +12,27 @@ class CompanyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return self.request.user.is_staff
 
 
-class CompanyCreateView(LoginRequiredMixin, CreateView):
+class CompanyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Company
     fields = "__all__"
     success_url = reverse_lazy("management:company:list")
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class CompanyUpdateView(LoginRequiredMixin, UpdateView):
+
+class CompanyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Company
     fields = "__all__"
     success_url = reverse_lazy("management:company:list")
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class CompanyDeleteView(LoginRequiredMixin, DeleteView):
+
+class CompanyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Company
     success_url = reverse_lazy("management:company:list")
+
+    def test_func(self):
+        return self.request.user.is_staff

@@ -43,18 +43,27 @@ class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-class LocationCreateView(LoginRequiredMixin, CreateView):
+class LocationCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Location
     fields = "__all__"
     success_url = reverse_lazy("management:location:list")
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class LocationUpdateView(LoginRequiredMixin, UpdateView):
+
+class LocationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Location
     fields = "__all__"
     success_url = reverse_lazy("management:location:list")
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class LocationDeleteView(LoginRequiredMixin, DeleteView):
+
+class LocationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Location
     success_url = reverse_lazy("management:location:list")
+
+    def test_func(self):
+        return self.request.user.is_staff
