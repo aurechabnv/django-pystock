@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+from warnings import filterwarnings
+
 import environ
 from pathlib import Path
 
@@ -138,6 +140,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "account.User"
 
 LOGIN_URL = 'login'
+
+filterwarnings(
+    "ignore", "The FORMS_URLFIELD_ASSUME_HTTPS transitional setting is deprecated."
+)
+FORMS_URLFIELD_ASSUME_HTTPS = True
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
