@@ -21,7 +21,7 @@
             <th>Entreprise</th>
             <th>Site</th>
             <th>Adresse</th>
-            <th>Actions</th>
+            <th class="text-center">Actions</th>
         </tr>
         {% for location in object_list %}
             <tr>
@@ -29,8 +29,8 @@
                 <td>{{ location.company.name }}</td>
                 <td>{{ location.full_name }}</td>
                 <td>{{ location.full_address }}</td>
-                <td>
-                    <div class="btn-group me-2 btn-group-sm" role="group" aria-label="Boutons d'action">
+                <td class="text-center">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Boutons d'action">
                       <a class="btn btn-outline-primary" href="{% url 'management:location-edit' location.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
                       <a class="btn btn-outline-secondary" href="{% url 'stock:list' %}?q={{ location.name }}" title="Voir les stocks">{% bs_icon 'boxes' %}</a>
                       <a class="btn btn-outline-danger" href="{% url 'management:location-delete' location.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
