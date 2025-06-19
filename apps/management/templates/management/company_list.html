@@ -2,7 +2,7 @@
 {% load bootstrap_icons %}
 
 {% block tab %}
-    <a class="btn btn-primary my-3" href="{% url 'management:company-add' %}">{% bs_icon 'building-fill-add' size='1.5em' %}Créer une entreprise</a>
+    <a class="btn btn-primary my-3" href="{% url 'management:company:add' %}">{% bs_icon 'building-fill-add' size='1.5em' %}Créer une entreprise</a>
 
     <div class="row row-cols-3 row-cols-md-3 g-3">
     {% for company in object_list %}
@@ -23,8 +23,8 @@
                     {% endwith %}
                 </ul>
                 <div class="card-footer text-center">
-                    <a class="btn btn-outline-primary" href="{% url 'management:company-edit' company.pk %}">{% bs_icon 'pencil-fill' %}Modifier</a>
-                    <a class="btn btn-outline-danger" href="{% url 'management:company-delete' company.pk %}">{% bs_icon 'trash-fill' %}Supprimer</a>
+                    <a class="btn btn-outline-primary" href="{% url 'management:company:edit' company.pk %}">{% bs_icon 'pencil-fill' %}Modifier</a>
+                    <a class="btn btn-outline-danger" href="{% url 'management:company:delete' company.pk %}">{% bs_icon 'trash-fill' %}Supprimer</a>
                 </div>
             </div>
         </div>

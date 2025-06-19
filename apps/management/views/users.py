@@ -17,15 +17,15 @@ class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class UserCreateView(LoginRequiredMixin, CreateView):
     model = User
     fields = ("username", "email", "is_staff", "companies",)
-    success_url = reverse_lazy("management:user-list")
+    success_url = reverse_lazy("management:user:list")
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     fields = ("username", "email", "is_staff", "is_active", "companies",)
-    success_url = reverse_lazy("management:user-list")
+    success_url = reverse_lazy("management:user:list")
 
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
-    success_url = reverse_lazy("management:user-list")
+    success_url = reverse_lazy("management:user:list")

@@ -46,15 +46,15 @@ class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class LocationCreateView(LoginRequiredMixin, CreateView):
     model = Location
     fields = "__all__"
-    success_url = reverse_lazy("management:location-list")
+    success_url = reverse_lazy("management:location:list")
 
 
 class LocationUpdateView(LoginRequiredMixin, UpdateView):
     model = Location
     fields = "__all__"
-    success_url = reverse_lazy("management:location-list")
+    success_url = reverse_lazy("management:location:list")
 
 
 class LocationDeleteView(LoginRequiredMixin, DeleteView):
     model = Location
-    success_url = reverse_lazy("management:location-list")
+    success_url = reverse_lazy("management:location:list")

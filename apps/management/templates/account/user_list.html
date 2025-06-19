@@ -2,7 +2,7 @@
 {% load bootstrap_icons %}
 
 {% block tab %}
-    <a class="btn btn-primary my-3" href="{% url 'management:user-add' %}">{% bs_icon 'person-fill-add' size='1.5em' %}Créer un utilisateur</a>
+    <a class="btn btn-primary my-3" href="{% url 'management:user:add' %}">{% bs_icon 'person-fill-add' size='1.5em' %}Créer un utilisateur</a>
 
     <table class="table">
         <tr>
@@ -28,8 +28,8 @@
                 </td>
                 <td class="text-center">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Boutons d'action">
-                      <a class="btn btn-outline-primary" href="{% url 'management:user-edit' user.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
-                      <a class="btn btn-outline-danger" href="{% url 'management:user-delete' user.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                      <a class="btn btn-outline-primary" href="{% url 'management:user:edit' user.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                      <a class="btn btn-outline-danger" href="{% url 'management:user:delete' user.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
                     </div>
                 </td>
             </tr>

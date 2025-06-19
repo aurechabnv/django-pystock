@@ -22,7 +22,7 @@
                 {% csrf_token %}
                 {% bootstrap_form form layout="floating" %}
                 <div class="text-center">
-                    <a class="btn btn-outline-danger" href="{% url 'management:user-list' %}">Annuler</a>
+                    <a class="btn btn-outline-danger" href="{% url 'management:user:list' %}">Annuler</a>
                     {% if not object %}
                     {% bootstrap_button button_type="submit" content="Créer" %}
                     {% else %}

@@ -15,15 +15,15 @@ class CompanyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class CompanyCreateView(LoginRequiredMixin, CreateView):
     model = Company
     fields = "__all__"
-    success_url = reverse_lazy("management:company-list")
+    success_url = reverse_lazy("management:company:list")
 
 
 class CompanyUpdateView(LoginRequiredMixin, UpdateView):
     model = Company
     fields = "__all__"
-    success_url = reverse_lazy("management:company-list")
+    success_url = reverse_lazy("management:company:list")
 
 
 class CompanyDeleteView(LoginRequiredMixin, DeleteView):
     model = Company
-    success_url = reverse_lazy("management:company-list")
+    success_url = reverse_lazy("management:company:list")

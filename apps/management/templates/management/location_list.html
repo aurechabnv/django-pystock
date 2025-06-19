@@ -11,7 +11,7 @@
                 <button class="btn btn-outline-primary" type="submit">{% bs_icon 'search' %}Rechercher</button>
             </form>
             <div class="text-end">
-                <a class="btn btn-primary" href="{% url 'management:location-add' %}">{% bs_icon 'plus-lg' size='1.5em' %}Créer un site</a>
+                <a class="btn btn-primary" href="{% url 'management:location:add' %}">{% bs_icon 'plus-lg' size='1.5em' %}Créer un site</a>
             </div>
         </div>
     </nav>
@@ -31,9 +31,9 @@
                 <td>{{ location.full_address }}</td>
                 <td class="text-center">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Boutons d'action">
-                      <a class="btn btn-outline-primary" href="{% url 'management:location-edit' location.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                      <a class="btn btn-outline-primary" href="{% url 'management:location:edit' location.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
                       <a class="btn btn-outline-secondary" href="{% url 'stock:list' %}?q={{ location.name }}" title="Voir les stocks">{% bs_icon 'boxes' %}</a>
-                      <a class="btn btn-outline-danger" href="{% url 'management:location-delete' location.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                      <a class="btn btn-outline-danger" href="{% url 'management:location:delete' location.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
                     </div>
                 </td>
             </tr>
