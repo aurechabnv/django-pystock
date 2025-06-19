@@ -1,8 +1,8 @@
 from django.urls import path
 
-from apps.management.views import CompanyListView, CompanyCreateView, CompanyUpdateView, CompanyDeleteView, \
-    LocationListView, LocationCreateView, LocationUpdateView, LocationDeleteView, \
-    UserListView, UserCreateView, UserUpdateView, UserDeleteView
+from apps.management.views.companies import CompanyListView, CompanyCreateView, CompanyUpdateView, CompanyDeleteView
+from apps.management.views.locations import LocationListView, LocationCreateView, LocationUpdateView, LocationDeleteView
+from apps.management.views.users import UserListView, UserCreateView, UserUpdateView, UserDeleteView
 
 app_name = "management"
 

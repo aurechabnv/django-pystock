@@ -1,19 +1,9 @@
-from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
-from apps.management.models import Company, Location
-
-User = get_user_model()
-
-
-class CompanyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    model = Company
-
-    def test_func(self):
-        return self.request.user.is_staff
+from apps.management.models import Location
 
 
 class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -53,53 +43,18 @@ class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    model = User
-
-    def test_func(self):
-        return self.request.user.is_staff
-
-
-class CompanyCreateView(LoginRequiredMixin, CreateView):
-    model = Company
-    fields = "__all__"
-    success_url = reverse_lazy("management:company-list")
-
-class CompanyUpdateView(LoginRequiredMixin, UpdateView):
-    model = Company
-    fields = "__all__"
-    success_url = reverse_lazy("management:company-list")
-
-class CompanyDeleteView(LoginRequiredMixin, DeleteView):
-    model = Company
-    success_url = reverse_lazy("management:company-list")
-
-
 class LocationCreateView(LoginRequiredMixin, CreateView):
     model = Location
     fields = "__all__"
     success_url = reverse_lazy("management:location-list")
+
 
 class LocationUpdateView(LoginRequiredMixin, UpdateView):
     model = Location
     fields = "__all__"
     success_url = reverse_lazy("management:location-list")
 
+
 class LocationDeleteView(LoginRequiredMixin, DeleteView):
     model = Location
     success_url = reverse_lazy("management:location-list")
-
-
-class UserCreateView(LoginRequiredMixin, CreateView):
-    model = User
-    fields = "__all__"
-    success_url = reverse_lazy("management:user-list")
-
-class UserUpdateView(LoginRequiredMixin, UpdateView):
-    model = User
-    fields = "__all__"
-    success_url = reverse_lazy("management:user-list")
-
-class UserDeleteView(LoginRequiredMixin, DeleteView):
-    model = User
-    success_url = reverse_lazy("management:user-list")
