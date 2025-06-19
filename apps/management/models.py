@@ -1,10 +1,6 @@
 from collections import defaultdict
 
-from django.contrib.auth import get_user_model
 from django.db import models
-
-
-User = get_user_model()
 
 
 class Company(models.Model):
@@ -13,7 +9,6 @@ class Company(models.Model):
     phone = models.CharField(max_length=11, blank=True, verbose_name="Téléphone")
     website = models.URLField(blank=True, verbose_name="Site internet")
     email = models.EmailField(blank=True, verbose_name="Email de contact")
-    users = models.ManyToManyField(User, blank=True, verbose_name="Utilisateurs", related_name="companies")
     created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
 
