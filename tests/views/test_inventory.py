@@ -13,102 +13,6 @@ def test_inventory_view_unauthenticated_access(client: Client):
     assert response.status_code == 302
 
 
-def test_stock_add_view_unauthenticated_access(client: Client):
-    """
-    Test that a visitor cannot access the view without authentication
-    """
-    response = client.get(reverse("stock:add"))
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_stock_edit_view_unauthenticated_access(client: Client, stock1):
-    """
-    Test that a visitor cannot access the view without authentication
-    """
-    response = client.get(reverse("stock:edit", args=[stock1.pk]))
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_stock_delete_view_unauthenticated_access(client: Client, stock1):
-    """
-    Test that a visitor cannot access the view without authentication
-    """
-    response = client.get(reverse("stock:delete", args=[stock1.pk]))
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_stock_add_view_authenticated_access(client: Client, user1):
-    """
-    Test that an authenticated user can access the view
-    """
-    client.force_login(user1)
-    response = client.get(reverse("stock:add"))
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_stock_edit_view_authenticated_access(client: Client, user1, stock1):
-    """
-    Test that an authenticated user can access the view
-    """
-    client.force_login(user1)
-    response = client.get(reverse("stock:edit", args=[stock1.pk]))
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_stock_delete_view_authenticated_access(client: Client, user1, stock1):
-    """
-    Test that an authenticated user can access the view
-    """
-    client.force_login(user1)
-    response = client.get(reverse("stock:delete", args=[stock1.pk]))
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_stock_edit_view_unauthorized_access(client: Client, user1, stock3):
-    """
-    Test that the view is unavailable if user does not have proper rights to the stock location's company
-    """
-    client.force_login(user1)
-    response = client.get(reverse("stock:edit", args=[stock3.pk]))
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_stock_delete_unauthorized_access(client: Client, user1, stock3):
-    """
-    Test that the view is unavailable if user does not have proper rights to the stock location's company
-    """
-    client.force_login(user1)
-    response = client.get(reverse("stock:delete", args=[stock3.pk]))
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_stock_edit_view_authorized_access(client: Client, user2, stock3):
-    """
-    Test that the view is unavailable if user does not have proper rights to the stock location's company
-    """
-    client.force_login(user2)
-    response = client.get(reverse("stock:edit", args=[stock3.pk]))
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_stock_delete_unauthorized_access(client: Client, user2, stock3):
-    """
-    Test that the view is unavailable if user does not have proper rights to the stock location's company
-    """
-    client.force_login(user2)
-    response = client.get(reverse("stock:delete", args=[stock3.pk]))
-    assert response.status_code == 200
-
-
 @pytest.mark.django_db
 def test_inventory_view_authenticated_access_user(client: Client, user1, stock1, stock2, stock3):
     """
@@ -163,6 +67,24 @@ def test_inventory_view_low_stock_filter(client: Client, user2, stock1, stock2, 
     assert response.status_code == 200
 
 
+def test_stock_add_view_unauthenticated_access(client: Client):
+    """
+    Test that a visitor cannot access the view without authentication
+    """
+    response = client.get(reverse("stock:add"))
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_stock_add_view_authenticated_access(client: Client, user1):
+    """
+    Test that an authenticated user can access the view
+    """
+    client.force_login(user1)
+    response = client.get(reverse("stock:add"))
+    assert response.status_code == 200
+
+
 @pytest.mark.django_db
 def test_stock_add_view_post_qty_error(client: Client, user1, stock1):
     """
@@ -174,6 +96,45 @@ def test_stock_add_view_post_qty_error(client: Client, user1, stock1):
     errors = response.context["form"].errors.as_data()
     assert "quantity" in errors
     assert "invalid_qty" in [e.code for e in errors["quantity"]]
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_stock_edit_view_unauthenticated_access(client: Client, stock1):
+    """
+    Test that a visitor cannot access the view without authentication
+    """
+    response = client.get(reverse("stock:edit", args=[stock1.pk]))
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_stock_edit_view_authenticated_access(client: Client, user1, stock1):
+    """
+    Test that an authenticated user can access the view
+    """
+    client.force_login(user1)
+    response = client.get(reverse("stock:edit", args=[stock1.pk]))
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_stock_edit_view_unauthorized_access(client: Client, user1, stock3):
+    """
+    Test that the view is unavailable if user does not have proper rights to the stock location's company
+    """
+    client.force_login(user1)
+    response = client.get(reverse("stock:edit", args=[stock3.pk]))
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_stock_edit_view_authorized_access(client: Client, user2, stock3):
+    """
+    Test that the view is available if user has proper rights to the stock location's company
+    """
+    client.force_login(user2)
+    response = client.get(reverse("stock:edit", args=[stock3.pk]))
     assert response.status_code == 200
 
 
@@ -224,3 +185,42 @@ def test_stock_edit_view_post_success(client: Client, user1, stock1, stock2):
     assert stock1.quantity == 80
     assert stock2.quantity == 100
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_stock_delete_view_unauthenticated_access(client: Client, stock1):
+    """
+    Test that a visitor cannot access the view without authentication
+    """
+    response = client.get(reverse("stock:delete", args=[stock1.pk]))
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_stock_delete_view_authenticated_access(client: Client, user1, stock1):
+    """
+    Test that an authenticated user can access the view
+    """
+    client.force_login(user1)
+    response = client.get(reverse("stock:delete", args=[stock1.pk]))
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_stock_delete_unauthorized_access(client: Client, user1, stock3):
+    """
+    Test that the view is unavailable if user does not have proper rights to the stock location's company
+    """
+    client.force_login(user1)
+    response = client.get(reverse("stock:delete", args=[stock3.pk]))
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_stock_delete_view_authorized_access(client: Client, user2, stock3):
+    """
+    Test that the view is unavailable if user does not have proper rights to the stock location's company
+    """
+    client.force_login(user2)
+    response = client.get(reverse("stock:delete", args=[stock3.pk]))
+    assert response.status_code == 200
