@@ -10,7 +10,7 @@
             <th>Nom d'utilisateur</th>
             <th>Adresse e-mail</th>
             <th>Rôle</th>
-            <th>Accès entreprise</th>
+            <th>Périmètre d'action</th>
             <th class="text-center">Actions</th>
         </tr>
         {% for user in object_list %}
@@ -20,11 +20,22 @@
                 <td>{{ user.email }}</td>
                 <td>{% if user.is_staff %}Manager{% else %}Employé{% endif %}</td>
                 <td>
-                    {% for company in user.companies.all %}
-                        {{ company.name }}
-                    {% empty %}
-
-                    {% endfor %}
+                    {% if user.is_staff %}
+                        Toutes les entreprises
+                    {% elif user.companies.count > 0 %}
+                    <a data-bs-toggle="collapse" href="#collapse{{ user.id }}" role="button" aria-expanded="false" aria-controls="collapse{{ user.id }}">
+                        Voir les entreprises
+                    </a>
+                    <div class="collapse" id="collapse{{ user.id }}">
+                        <ul class="list-group list-group-flush">
+                        {% for company in user.companies.all %}
+                            <li class="list-group-item px-0">{{ company.name }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% else %}
+                        Aucune entreprise
+                    {% endif %}
                 </td>
                 <td class="text-center">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Boutons d'action">

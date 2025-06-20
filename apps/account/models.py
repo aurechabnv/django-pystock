@@ -5,4 +5,4 @@ from apps.management.models import Company
 
 
 class User(AbstractUser):
-    companies = models.ManyToManyField(Company, verbose_name="Entreprises", help_text="Entreprises auxquelles l'utilisateur a accès", related_name="users")
+    companies = models.ManyToManyField(Company, blank=True, verbose_name="Entreprises", help_text="Entreprises auxquelles l'utilisateur a accès", related_name="users")
