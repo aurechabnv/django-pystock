@@ -1,0 +1,51 @@
+{% extends 'management/index.html' %}
+{% load bootstrap_icons %}
+
+{% block tab %}
+    <a class="btn btn-primary my-3" href="{% url 'management:user:add' %}">{% bs_icon 'person-fill-add' size='1.5em' %}Créer un utilisateur</a>
+
+    <table class="table">
+        <tr>
+            <th class="text-center">Actif</th>
+            <th>Nom d'utilisateur</th>
+            <th>Adresse e-mail</th>
+            <th>Rôle</th>
+            <th>Périmètre d'action</th>
+            <th class="text-center">Actions</th>
+        </tr>
+        {% for user in object_list %}
+            <tr>
+                <td class="text-center">{% if user.is_active %}{% bs_icon 'check-circle-fill' color='green'%}{% else %}{% bs_icon 'x-circle-fill' color='grey'%}{% endif %}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{% if user.is_staff %}Manager{% else %}Employé{% endif %}</td>
+                <td>
+                    {% if user.is_staff %}
+                        Toutes les entreprises
+                    {% elif user.companies.count > 0 %}
+                    <a data-bs-toggle="collapse" href="#collapse{{ user.id }}" role="button" aria-expanded="false" aria-controls="collapse{{ user.id }}">
+                        Voir les entreprises
+                    </a>
+                    <div class="collapse" id="collapse{{ user.id }}">
+                        <ul class="list-group list-group-flush">
+                        {% for company in user.companies.all %}
+                            <li class="list-group-item px-0">{{ company.name }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% else %}
+                        Aucune entreprise
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Boutons d'action">
+                      <a class="btn btn-outline-primary" href="{% url 'management:user:edit' user.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                      <a class="btn btn-outline-danger" href="{% url 'management:user:delete' user.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                    </div>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td>Pas d'utilisateurs</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}

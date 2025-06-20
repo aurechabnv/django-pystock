@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+            {% if not object %}
+            Création d'entreprise
+            {% else %}
+            Mise à jour de l'entreprise #{{ object.id }}
+            {% endif %}
+{% endblock %}
+
+{% block content %}
+    <main id="catalog-page" class="container">
+        <div class="content mt-3 p-6 reduced-width">
+            {% if not object %}
+            <h3 class="text-center">Création d'entreprise</h3>
+            {% else %}
+            <h3 class="text-center">Mise à jour de l'entreprise #{{ object.id }}</h3>
+            {% endif %}
+            {% bootstrap_messages %}
+            <form method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form layout="floating" %}
+                <div class="text-center">
+                    <a class="btn btn-outline-danger" href="{% url 'management:company:list' %}">Annuler</a>
+                    {% if not object %}
+                    {% bootstrap_button button_type="submit" name="create" content="Créer" %}
+                    {% bootstrap_button button_type="submit" name="create_and_add_site" content="Créer et ajouter un site" %}
+                    {% else %}
+                    {% bootstrap_button button_type="submit" content="Mettre à jour" %}
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

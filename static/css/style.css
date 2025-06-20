@@ -1,6 +1,15 @@
-body {
-    font-size: 12px;
+.py-sidebar {
+    position: sticky;
+    top: 3rem;
+    display: block !important;
+    height: calc(100vh - 6rem);
 }
+.py-layout {
+    display: grid;
+    grid-template-areas: "sidebar main";
+    grid-template-columns: 150px 1fr;
+}
+
 svg.bi {
     margin-top: -2px;
 }

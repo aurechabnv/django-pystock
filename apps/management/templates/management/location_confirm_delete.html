@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Suppression de site{% endblock %}
+
+{% block content %}
+<main id="management-page" class="container">
+    <div class="content mt-3 p-6 reduced-width">
+        <h3 class="text-center">Suppression du site #{{ object.id }}</h3>
+        {% bootstrap_messages %}
+        <form method="POST">
+            {% csrf_token %}
+            <p class="text-center">Êtes-vous certain de vouloir supprimer le site suivant ?</p>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ object.get_type_display }}</td>
+                    </tr>
+                    <tr>
+                        <th>Raison sociale</th>
+                        <td>{{ object.name }}</td>
+                    </tr>
+                    {% if object.siret %}
+                    <tr>
+                        <th>N° de SIRET</th>
+                        <td>{{ object.siret }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th>Adresse</th>
+                        <td>{{ object.full_address }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% if object.stock_set.all.count > 0 %}
+            <p>Les stocks du site seront également supprimés.
+                <a data-bs-toggle="collapse" href="#collapseStocks" role="button" aria-expanded="false" aria-controls="collapseStocks">
+                    Afficher les stocks.
+                </a>
+            </p>
+            <div class="collapse" id="collapseStocks">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Quantité</th>
+                            <th>Produit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for stock in object.stock_set.all %}
+                        <tr>
+                            <td>{{ stock.quantity }}</td>
+                            <td>{{ stock.product }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+            <div class="text-center">
+                <a class="btn btn-outline-danger" href="{% url 'management:location:list' %}">Annuler</a>
+                {% bootstrap_button button_type="submit" content="Confirmer" %}
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

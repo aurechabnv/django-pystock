@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load bootstrap_icons %}
+
+{% block title %}Accès refusé{% endblock %}
+
+{% block content %}
+    <main id="home-page" class="container text-center">
+        <div class="mt-4">
+            <p>{% bs_icon 'sign-stop' size='4.5em' %}</p>
+            <p class="fs-5 fw-bold">Vous n'êtes pas autorisé à accéder à cette page.</p>
+        </div>
+    </main>
+{% endblock %}

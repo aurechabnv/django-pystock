@@ -2,29 +2,10 @@ import pytest
 from django.contrib.auth import get_user_model
 
 from apps.catalog.models import Product, Category
-from apps.inventory.models import Company, Location, Stock, Movement
-
+from apps.inventory.models import Stock, Movement
+from apps.management.models import Company, Location
 
 User = get_user_model()
-
-
-@pytest.fixture
-def user1():
-    return User.objects.create_user(
-        username='user1',
-        email='user1@example.com',
-        password='azerty123*',
-    )
-
-
-@pytest.fixture
-def user2():
-    return User.objects.create_user(
-        username='user2',
-        email='user2@example.com',
-        password='azerty123*',
-        is_superuser=True,
-    )
 
 
 @pytest.fixture
@@ -54,12 +35,11 @@ def product2():
 
 
 @pytest.fixture
-def company1(user1):
+def company1():
     company = Company.objects.create(
         name='Great Place for Computer Parts',
         siret='12345678912345',
     )
-    company.users.set((user1,))
     return company
 
 
@@ -178,4 +158,25 @@ def movement4(product1, location3):
         quantity=75,
         type=Movement.MovementType.INBOUND,
         synced=True,
+    )
+
+
+@pytest.fixture
+def user1(company1):
+    user = User.objects.create_user(
+        username='user1',
+        email='user1@example.com',
+        password='azerty123*',
+    )
+    user.companies.add(company1)
+    return user
+
+
+@pytest.fixture
+def user2():
+    return User.objects.create_user(
+        username='user2',
+        email='user2@example.com',
+        password='azerty123*',
+        is_staff=True,
     )

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Suppression d'utilisateur{% endblock %}
+
+{% block content %}
+<main id="management-page" class="container">
+    <div class="content mt-3 p-6 reduced-width">
+        <h3 class="text-center">Suppression de l'utilisateur #{{ object.id }}</h3>
+        {% bootstrap_messages %}
+        <form method="POST">
+            {% csrf_token %}
+            <p class="text-center">Êtes-vous certain de vouloir supprimer l'utilisateur suivant ?</p>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Nom d'utilisateur</th>
+                        <td>{{ object.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Adresse email</th>
+                        <td>{{ object.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Rôle</th>
+                        <td>{% if object.is_staff %}Manager{% else %}Employé{% endif %}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <a class="btn btn-outline-danger" href="{% url 'management:user:list' %}">Annuler</a>
+                {% bootstrap_button button_type="submit" content="Confirmer" %}
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

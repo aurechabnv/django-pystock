@@ -1,6 +1,6 @@
 [
 {
-    "model": "inventory.company",
+    "model": "management.company",
     "pk": 1,
     "fields": {
         "name": "Great Place for Computer Parts",
@@ -9,12 +9,11 @@
         "website": "https://gpcp.com",
         "email": "contact@gpcp.com",
         "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
-        "users": []
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
-    "model": "inventory.company",
+    "model": "management.company",
     "pk": 3,
     "fields": {
         "name": "Open Computer Market",
@@ -23,12 +22,11 @@
         "website": "https://opm-group.com",
         "email": "service-client@opm-group.com",
         "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
-        "users": []
+        "last_modified": "2025-05-10T12:28:35.210Z"
     }
 },
 {
-    "model": "inventory.location",
+    "model": "management.location",
     "pk": 1,
     "fields": {
         "type": "SH",
@@ -44,7 +42,7 @@
     }
 },
 {
-    "model": "inventory.location",
+    "model": "management.location",
     "pk": 2,
     "fields": {
         "type": "WH",
@@ -60,7 +58,7 @@
     }
 },
 {
-    "model": "inventory.location",
+    "model": "management.location",
     "pk": 3,
     "fields": {
         "type": "SH",
@@ -76,7 +74,7 @@
     }
 },
 {
-    "model": "inventory.location",
+    "model": "management.location",
     "pk": 4,
     "fields": {
         "type": "SH",
@@ -92,7 +90,7 @@
     }
 },
 {
-    "model": "inventory.location",
+    "model": "management.location",
     "pk": 5,
     "fields": {
         "type": "SH",
@@ -108,7 +106,7 @@
     }
 },
 {
-    "model": "inventory.location",
+    "model": "management.location",
     "pk": 6,
     "fields": {
         "type": "SH",
@@ -124,7 +122,7 @@
     }
 },
 {
-    "model": "inventory.location",
+    "model": "management.location",
     "pk": 7,
     "fields": {
         "type": "WH",
@@ -140,7 +138,7 @@
     }
 },
 {
-    "model": "inventory.location",
+    "model": "management.location",
     "pk": 8,
     "fields": {
         "type": "WH",

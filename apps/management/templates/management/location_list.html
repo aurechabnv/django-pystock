@@ -1,0 +1,48 @@
+{% extends 'management/index.html' %}
+{% load bootstrap_icons %}
+{% load django_bootstrap5 %}
+
+{% block tab %}
+    {% bootstrap_messages %}
+    <nav class="navbar">
+        <div class="container-fluid">
+            <form class="d-flex w-75" role="search" id="search">
+                <input class="form-control me-2 w-50" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un site par nom, entreprise ou ville" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">{% bs_icon 'search' %}Rechercher</button>
+            </form>
+            <div class="text-end">
+                <a class="btn btn-primary" href="{% url 'management:location:add' %}">{% bs_icon 'plus-lg' size='1.5em' %}Créer un site</a>
+            </div>
+        </div>
+    </nav>
+    <table class="table">
+        <tr>
+            <th>Type</th>
+            <th>Entreprise</th>
+            <th>Site</th>
+            <th>Adresse</th>
+            <th class="text-center">Actions</th>
+        </tr>
+        {% for location in object_list %}
+            <tr>
+                <td>{{ location.get_type_display }}</td>
+                <td>{{ location.company.name }}</td>
+                <td>{{ location.full_name }}</td>
+                <td>{{ location.full_address }}</td>
+                <td class="text-center">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Boutons d'action">
+                      <a class="btn btn-outline-primary" href="{% url 'management:location:edit' location.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                      <a class="btn btn-outline-secondary" href="{% url 'stock:list' %}?q={{ location.name }}" title="Voir les stocks">{% bs_icon 'boxes' %}</a>
+                      <a class="btn btn-outline-danger" href="{% url 'management:location:delete' location.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                    </div>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5">Pas de sites</td></tr>
+        {% endfor %}
+    </table>
+    <div class="paginator-container">
+        {% bootstrap_pagination page_obj url=request.get_full_path pages_to_show=5 %}
+        <p class="side total text-end">{{ page_obj.paginator.count }} résultat{% if page_obj.paginator.count > 1 %}s{% endif %}</p>
+    </div>
+{% endblock %}
