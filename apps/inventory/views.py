@@ -135,9 +135,10 @@ class MovementsView(LoginRequiredMixin, ListView):
 
         # Make sure normal user has company access
         if not self.request.user.is_staff:
+            user_companies = self.request.user.companies.all()
             queryset = queryset.filter(
-                Q(to_location__company__in=self.request.user.companies.all()) |
-                Q(from_location__company__in=self.request.user.companies.all())
+                Q(to_location__company__in=user_companies) |
+                Q(from_location__company__in=user_companies)
             )
 
         product = self.request.GET.get("p")
