@@ -38,8 +38,8 @@ class Location(models.Model):
     class Meta:
         verbose_name = "site"
 
-    type = models.CharField(max_length=2, choices=LocationType)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="Société", related_name="locations")
+    type = models.CharField(max_length=2, choices=LocationType)
     name = models.CharField(max_length=100, verbose_name="Raison sociale")
     siret = models.CharField(max_length=14, blank=True, unique=True, null=True)
     address_line_1 = models.CharField(max_length=100, verbose_name="Adresse ligne 1")

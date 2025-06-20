@@ -24,7 +24,8 @@
                 <div class="text-center">
                     <a class="btn btn-outline-danger" href="{% url 'management:company:list' %}">Annuler</a>
                     {% if not object %}
-                    {% bootstrap_button button_type="submit" content="Créer" %}
+                    {% bootstrap_button button_type="submit" name="create" content="Créer" %}
+                    {% bootstrap_button button_type="submit" name="create_and_add_site" content="Créer et ajouter un site" %}
                     {% else %}
                     {% bootstrap_button button_type="submit" content="Mettre à jour" %}
                     {% endif %}

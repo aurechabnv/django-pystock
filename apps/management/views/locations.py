@@ -3,13 +3,13 @@ from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
-from apps.management.models import Location
+from apps.management.models import Location, Company
 
 
 class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Location
     paginate_by = 10
-    ordering = ('name',)
+    ordering = ['-created']
 
     def test_func(self):
         return self.request.user.is_staff
@@ -50,6 +50,23 @@ class LocationCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.is_staff
+
+
+class LocationCreateFromCompanyView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Location
+    fields = "__all__"
+    success_url = reverse_lazy("management:location:list")
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_object(self, queryset=None):
+        queryset = Company.objects.all()
+        return super().get_object(queryset)
+
+    def get_initial(self):
+        company = self.get_object()
+        return {'company': company}
 
 
 class LocationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
