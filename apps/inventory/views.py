@@ -22,7 +22,7 @@ class InventoryView(LoginRequiredMixin, ListView):
         Filter the queryset based on user company rights, and user filter input
         :return: Queryset of stocks
         """
-        queryset = super().get_queryset()
+        queryset = Stock.objects.select_related("product", "location", "location__company")
 
         # Make sure normal user has company access
         if not self.request.user.is_staff:
@@ -41,7 +41,7 @@ class InventoryView(LoginRequiredMixin, ListView):
                 Q(location__company__name__icontains=query)
             )
 
-        return queryset
+        return queryset.all()
 
     def get_context_data(self, **kwargs):
         """
@@ -131,7 +131,7 @@ class MovementsView(LoginRequiredMixin, ListView):
         Filter the queryset based on user company rights, and user filter input
         :return: Queryset of movements
         """
-        queryset = super().get_queryset()
+        queryset = Movement.objects.select_related("product", "to_location", "from_location")
 
         # Make sure normal user has company access
         if not self.request.user.is_staff:
@@ -157,7 +157,7 @@ class MovementsView(LoginRequiredMixin, ListView):
                 Q(from_location__name__icontains=query)
             )
 
-        return queryset
+        return queryset.all()
 
     def get_context_data(self, **kwargs):
         """

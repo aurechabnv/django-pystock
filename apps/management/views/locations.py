@@ -19,7 +19,7 @@ class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         Filter the queryset based on user company rights, and user filter input
         :return: Queryset of stocks
         """
-        queryset = super().get_queryset()
+        queryset = Location.objects.select_related("company")
 
         query = self.request.GET.get("q")
         if query:
@@ -29,7 +29,7 @@ class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                 Q(company__name__icontains=query)
             )
 
-        return queryset
+        return queryset.all()
 
     def get_context_data(self, **kwargs):
         """

@@ -9,6 +9,7 @@ User = get_user_model()
 
 class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
+    queryset = User.objects.prefetch_related("companies").all()
 
     def test_func(self):
         return self.request.user.is_staff

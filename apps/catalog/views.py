@@ -19,7 +19,7 @@ class CatalogView(LoginRequiredMixin, ListView):
         Support queryset filtering based on user input
         :return: Queryset of products
         """
-        queryset = super().get_queryset()
+        queryset = Product.objects.prefetch_related('categories')
 
         query = self.request.GET.get("q")
         if query:
@@ -27,7 +27,7 @@ class CatalogView(LoginRequiredMixin, ListView):
                 Q(sku__icontains=query) | Q(name__icontains=query)
             )
 
-        return queryset
+        return queryset.all()
 
     def get_context_data(self, **kwargs):
         """

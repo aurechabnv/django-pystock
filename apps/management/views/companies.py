@@ -7,6 +7,7 @@ from apps.management.models import Company
 
 class CompanyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Company
+    queryset = Company.objects.prefetch_related("users", "locations").all()
 
     def test_func(self):
         return self.request.user.is_staff
