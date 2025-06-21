@@ -9,6 +9,9 @@ User = get_user_model()
 
 class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
+    paginate_by = 10
+    ordering = ['-date_joined']
+    queryset = User.objects.prefetch_related("companies").all()
 
     def test_func(self):
         return self.request.user.is_staff

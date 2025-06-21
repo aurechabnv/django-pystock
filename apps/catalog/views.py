@@ -12,14 +12,13 @@ class CatalogView(LoginRequiredMixin, ListView):
     model = Product
     context_object_name = 'products'
     paginate_by = 8
-    ordering = ['-last_modified']
 
     def get_queryset(self):
         """
         Support queryset filtering based on user input
         :return: Queryset of products
         """
-        queryset = super().get_queryset()
+        queryset = Product.objects.prefetch_related('categories')
 
         query = self.request.GET.get("q")
         if query:
@@ -27,7 +26,7 @@ class CatalogView(LoginRequiredMixin, ListView):
                 Q(sku__icontains=query) | Q(name__icontains=query)
             )
 
-        return queryset
+        return queryset.order_by("-last_modified")
 
     def get_context_data(self, **kwargs):
         """
