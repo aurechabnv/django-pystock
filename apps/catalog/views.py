@@ -12,7 +12,6 @@ class CatalogView(LoginRequiredMixin, ListView):
     model = Product
     context_object_name = 'products'
     paginate_by = 8
-    ordering = ['-last_modified']
 
     def get_queryset(self):
         """
@@ -27,7 +26,7 @@ class CatalogView(LoginRequiredMixin, ListView):
                 Q(sku__icontains=query) | Q(name__icontains=query)
             )
 
-        return queryset.all()
+        return queryset.order_by("-last_modified")
 
     def get_context_data(self, **kwargs):
         """

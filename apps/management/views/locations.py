@@ -9,7 +9,6 @@ from apps.management.models import Location, Company
 class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Location
     paginate_by = 10
-    ordering = ['-created']
 
     def test_func(self):
         return self.request.user.is_staff
@@ -29,7 +28,7 @@ class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                 Q(company__name__icontains=query)
             )
 
-        return queryset.all()
+        return queryset.order_by("-created")
 
     def get_context_data(self, **kwargs):
         """

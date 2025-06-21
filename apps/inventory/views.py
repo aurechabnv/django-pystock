@@ -1,10 +1,9 @@
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
-from django.forms import Form
 from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import ListView, DeleteView
 
 from apps.catalog.models import Product
 from apps.inventory.forms import MovementForm, StockForm
@@ -15,7 +14,6 @@ class InventoryView(LoginRequiredMixin, ListView):
     model = Stock
     context_object_name = "stocks"
     paginate_by = 10
-    ordering = ['-last_modified']
 
     def get_queryset(self):
         """
@@ -41,7 +39,7 @@ class InventoryView(LoginRequiredMixin, ListView):
                 Q(location__company__name__icontains=query)
             )
 
-        return queryset.all()
+        return queryset.order_by("-last_modified")
 
     def get_context_data(self, **kwargs):
         """
@@ -56,75 +54,84 @@ class InventoryView(LoginRequiredMixin, ListView):
         return context
 
 
-@login_required()
-def inventory_create_view(request):
-    if request.method == "POST":
-        form = StockForm(request.POST, user=request.user)
+class InventoryCreateView(LoginRequiredMixin, View):
+    form_class = StockForm
+    template_name = "inventory/stock_form.html"
+
+    def get(self, request):
+        form = self.form_class(user=request.user)
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request):
+        form = self.form_class(request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("stock:list")
+
+        return render(request, self.template_name, {"form": form})
+
+
+class InventoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
+    form_class = MovementForm
+    template_name = "inventory/movement_form.html"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.stock = None
+
+    def test_func(self):
+        """
+        User must have access to the location's company to access stock.
+        This check prevents access to unauthorized items from direct url.
+        """
+        self.stock = Stock.objects.select_related("location").get(pk=self.kwargs["pk"])
+        return self.request.user.is_staff or self.stock.location.company in self.request.user.companies.all()
+
+    def get_initial(self):
+        return {
+            "type": Movement.MovementType.INBOUND,
+            "quantity": 0,
+            "product": self.stock.product.id,
+            "to_location": self.stock.location.id,
+        }
+
+    def get_context_data(self, form):
+        return {
+            'initial_location': self.stock.location.id,
+            'stock_id': self.stock.id,
+            'form': form,
+        }
+
+    def get(self, request, pk):
+        form = self.form_class(initial=self.get_initial(), user=request.user)
+        return render(request, self.template_name, self.get_context_data(form))
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('stock:list')
-    else:
-        form = StockForm(user=request.user)
 
-    return render(request, 'inventory/stock_form.html', { 'form': form })
+        return render(request, self.template_name, self.get_context_data(form))
 
 
-@login_required()
-def inventory_update_view(request, pk):
-    stock = Stock.objects.get(pk=pk)
-    defaults = {
-        "type": Movement.MovementType.INBOUND,
-        "quantity": 0,
-        "product": stock.product.id,
-        "to_location": stock.location.id,
-    }
+class InventoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Stock
+    success_url = reverse_lazy("stock:list")
 
-    # user must have access to the location's company to access stock
-    # this check prevents access to unauthorized items from direct url
-    if not request.user.is_staff and stock.location.company not in request.user.companies.all():
-        messages.error(request, "Vous n'avez pas accès à ce stock")
-        return redirect("stock:list")
-
-    if request.method == "POST":
-        form = MovementForm(request.POST, user=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('stock:list')
-    else:
-        form = MovementForm(initial=defaults, user=request.user)
-
-    return render(request, 'inventory/movement_form.html', {
-        'initial_location': stock.location.id,
-        'stock_id': stock.id,
-        'form': form,
-    })
-
-
-@login_required()
-def inventory_delete_view(request, pk):
-    stock = Stock.objects.get(pk=pk)
-
-    # user must have access to the location's company to access stock
-    # this check prevents access to unauthorized items from direct url
-    if not request.user.is_staff and stock.location.company not in request.user.companies.all():
-        messages.error(request, "Vous n'avez pas accès à ce stock")
-        return redirect("stock:list")
-
-    if request.method == "POST":
-        form = Form(request.POST)
-        if form.is_valid():
-            stock.delete()
-            messages.success(request, "Stock supprimé")
-            return redirect('stock:list')
-
-    return render(request, 'inventory/stock_confirm_delete.html', { 'object': stock })
+    def test_func(self):
+        """
+        User must have access to the location's company to access stock.
+        This check prevents access to unauthorized items from direct url.
+        """
+        stock = Stock.objects.select_related("location").get(pk=self.kwargs["pk"])
+        return self.request.user.is_staff or stock.location.company in self.request.user.companies.all()
 
 
 class MovementsView(LoginRequiredMixin, ListView):
     model = Movement
     context_object_name = "movements"
     paginate_by = 10
-    ordering = ['-date']
 
     def get_queryset(self):
         """
@@ -157,7 +164,7 @@ class MovementsView(LoginRequiredMixin, ListView):
                 Q(from_location__name__icontains=query)
             )
 
-        return queryset.all()
+        return queryset.order_by("-date")
 
     def get_context_data(self, **kwargs):
         """

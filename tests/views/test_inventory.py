@@ -125,7 +125,7 @@ def test_stock_edit_view_unauthorized_access(client: Client, user1, stock3):
     """
     client.force_login(user1)
     response = client.get(reverse("stock:edit", args=[stock3.pk]))
-    assert response.status_code == 302
+    assert response.status_code == 403
 
 
 @pytest.mark.django_db
@@ -213,7 +213,7 @@ def test_stock_delete_unauthorized_access(client: Client, user1, stock3):
     """
     client.force_login(user1)
     response = client.get(reverse("stock:delete", args=[stock3.pk]))
-    assert response.status_code == 302
+    assert response.status_code == 403
 
 
 @pytest.mark.django_db
