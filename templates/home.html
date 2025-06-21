@@ -13,7 +13,7 @@
                 <li class="list-group-item">mettre à jour et tracer les mouvements de stocks (entrées, sorties, transferts)</li>
                 <li class="list-group-item">définir des seuils d'alerte de stock par produit</li>
             </ul>
-            {% if not user.is_authenticated %}
+            {% if not request.user.is_authenticated %}
             <br>
             <a class="btn btn-primary" href="{% url 'login' %}">Connexion</a>
 {#            <a class="btn btn-outline-primary" href="{% url 'register' %}">S'inscrire</a>#}
