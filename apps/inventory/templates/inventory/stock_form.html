@@ -12,6 +12,7 @@
                 {% csrf_token %}
                 {% bootstrap_form form layout="floating" %}
                 <div class="text-center">
+                    <a class="btn btn-outline-danger" href="{% url 'stock:list' %}">Annuler</a>
                     {% bootstrap_button button_type="submit" content="Créer" %}
                 </div>
             </form>
