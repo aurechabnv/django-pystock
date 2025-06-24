@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.reporting.views import dashboard
 from pystock.views import home
 
 urlpatterns = [
@@ -27,5 +26,5 @@ urlpatterns = [
     path('', include('apps.catalog.urls')),
     path('', include('apps.inventory.urls')),
     path('management/', include('apps.management.urls')),
-    path('dashboard/', dashboard, name='dashboard'),
+    path('', include('apps.reporting.urls')),
 ]

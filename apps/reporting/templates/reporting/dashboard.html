@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Tableau de bord{% endblock %}
 
@@ -7,26 +8,25 @@
     <div class="row mt-3 justify-content-between">
         <div class="col-8">
             <div class="card">
-                <div class="card-header">Évolution mensuelle</div>
+                <div class="card-header">Évolution de l'inventaire sur 6 mois</div>
                 <div class="card-body">
-                    <canvas id="myChart"></canvas>
+                    <canvas id="myLineChart" data-url="{% url 'api_stock_evolution' %}"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-4">
             <div class="card">
                 <div class="card-header">État des produits</div>
-{#                <div class="card-body"></div>#}
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-danger">?? en alerte</li>
-                    <li class="list-group-item">?? au total</li>
+                    <li class="list-group-item text-danger"><a class="text-danger" href="{% url 'stock:list' %}?low_stock=on">{{ product_low_count }} en alerte</a></li>
+                    <li class="list-group-item">{{ product_count }} au total</li>
                 </ul>
             </div>
             <div class="card mt-4">
                 <div class="card-header">Répartition par catégorie</div>
                 <div class="card-body">
                     <div class="card-text">
-                        <canvas id="myPieChart"></canvas>
+                        <canvas id="myPieChart" data-url="{% url 'api_categories' %}"></canvas>
                     </div>
                 </div>
             </div>
@@ -34,50 +34,6 @@
     </div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const ctx1 = document.getElementById('myChart');
-  const ctx2 = document.getElementById('myPieChart');
-
-const mixedChart = new Chart(ctx1, {
-    data: {
-        datasets: [{
-            type: 'bar',
-            label: 'Bar Dataset',
-            data: [10, 20, 30, 40]
-        }, {
-            type: 'line',
-            label: 'Line Dataset',
-            data: [50, 50, 50, 50],
-        }],
-        labels: ['January', 'February', 'March', 'April']
-    },
-    options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  }
-});
-
-  new Chart(ctx2, {
-      type: 'doughnut',
-      data: {
-      labels: [
-        'Red',
-        'Blue',
-        'Yellow'
-      ],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [300, 50, 100],
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)'
-        ],
-        hoverOffset: 4
-      }]
-    }});
-</script>
+<script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'js/charts.js' %}"></script>
 {% endblock %}
