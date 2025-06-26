@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -10,7 +10,7 @@ from apps.inventory.forms import MovementForm, StockForm
 from apps.inventory.models import Stock, Movement, Location
 
 
-class InventoryView(LoginRequiredMixin, ListView):
+class InventoryView(ListView):
     model = Stock
     context_object_name = "stocks"
     paginate_by = 10
@@ -54,7 +54,7 @@ class InventoryView(LoginRequiredMixin, ListView):
         return context
 
 
-class InventoryCreateView(LoginRequiredMixin, View):
+class InventoryCreateView(View):
     form_class = StockForm
     template_name = "inventory/stock_form.html"
 
@@ -71,7 +71,7 @@ class InventoryCreateView(LoginRequiredMixin, View):
         return render(request, self.template_name, {"form": form})
 
 
-class InventoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
+class InventoryUpdateView(UserPassesTestMixin, View):
     form_class = MovementForm
     template_name = "inventory/movement_form.html"
 
@@ -115,7 +115,7 @@ class InventoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
         return render(request, self.template_name, self.get_context_data(form))
 
 
-class InventoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class InventoryDeleteView(UserPassesTestMixin, DeleteView):
     model = Stock
     success_url = reverse_lazy("stock:list")
 
@@ -128,7 +128,7 @@ class InventoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user.is_staff or stock.location.company in self.request.user.companies.all()
 
 
-class MovementsView(LoginRequiredMixin, ListView):
+class MovementsView(ListView):
     model = Movement
     context_object_name = "movements"
     paginate_by = 10

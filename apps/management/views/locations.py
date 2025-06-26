@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
@@ -6,7 +6,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from apps.management.models import Location, Company
 
 
-class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class LocationListView(UserPassesTestMixin, ListView):
     model = Location
     paginate_by = 10
 
@@ -42,7 +42,7 @@ class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-class LocationCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class LocationCreateView(UserPassesTestMixin, CreateView):
     model = Location
     fields = "__all__"
     success_url = reverse_lazy("management:location:list")
@@ -51,7 +51,7 @@ class LocationCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return self.request.user.is_staff
 
 
-class LocationCreateFromCompanyView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class LocationCreateFromCompanyView(UserPassesTestMixin, CreateView):
     model = Location
     fields = "__all__"
     success_url = reverse_lazy("management:location:list")
@@ -68,7 +68,7 @@ class LocationCreateFromCompanyView(LoginRequiredMixin, UserPassesTestMixin, Cre
         return {'company': company}
 
 
-class LocationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class LocationUpdateView(UserPassesTestMixin, UpdateView):
     model = Location
     fields = "__all__"
     success_url = reverse_lazy("management:location:list")
@@ -77,7 +77,7 @@ class LocationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user.is_staff
 
 
-class LocationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class LocationDeleteView(UserPassesTestMixin, DeleteView):
     model = Location
     success_url = reverse_lazy("management:location:list")
 

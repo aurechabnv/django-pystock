@@ -1,11 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
 from apps.management.models import Company
 
 
-class CompanyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class CompanyListView(UserPassesTestMixin, ListView):
     model = Company
     queryset = Company.objects.prefetch_related("users", "locations").all()
 
@@ -13,7 +13,7 @@ class CompanyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return self.request.user.is_staff
 
 
-class CompanyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class CompanyCreateView(UserPassesTestMixin, CreateView):
     model = Company
     fields = "__all__"
 
@@ -27,7 +27,7 @@ class CompanyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             return reverse_lazy("management:company:list")
 
 
-class CompanyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CompanyUpdateView(UserPassesTestMixin, UpdateView):
     model = Company
     fields = "__all__"
     success_url = reverse_lazy("management:company:list")
@@ -36,7 +36,7 @@ class CompanyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user.is_staff
 
 
-class CompanyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class CompanyDeleteView(UserPassesTestMixin, DeleteView):
     model = Company
     success_url = reverse_lazy("management:company:list")
 

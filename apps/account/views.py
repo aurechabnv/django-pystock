@@ -1,8 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login, get_user_model
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.views.generic import FormView
+from django.contrib.auth.decorators import login_not_required
+from django.shortcuts import render, redirect
 
 from apps.account.forms import RegisterForm, ProfileForm
 
@@ -10,28 +9,22 @@ from apps.account.forms import RegisterForm, ProfileForm
 User = get_user_model()
 
 
-class RegisterView(FormView):
-    template_name = "account/register.html"
-    form_class = RegisterForm
-    redirect_authenticated_user = True
-    success_url = "/"
-
-    def form_valid(self, form):
+@login_not_required
+def register_view(request):
+    form = RegisterForm(request.POST or None)
+    if form.is_valid():
         user: User = form.save()
         if user:
-            login(self.request, user)
+            login(request, user)
+            return redirect("home")
 
-        return super(RegisterView, self).form_valid(form)
+    return render(request, "account/register.html", {"form": form})
 
 
-@login_required()
 def profile_view(request):
-    if request.method == "POST":
-        form = ProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Votre profil a été mis à jour.")
-    else:
-        form = ProfileForm(instance=request.user)
+    form = ProfileForm(request.POST or None, instance=request.user)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Votre profil a été mis à jour.")
 
     return render(request, "account/profile.html", {"form": form})

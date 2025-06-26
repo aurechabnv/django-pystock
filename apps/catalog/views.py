@@ -1,4 +1,3 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -8,7 +7,7 @@ from apps.catalog.models import Product
 from apps.inventory.models import Stock
 
 
-class CatalogView(LoginRequiredMixin, ListView):
+class CatalogView(ListView):
     model = Product
     context_object_name = 'products'
     paginate_by = 8
@@ -40,19 +39,19 @@ class CatalogView(LoginRequiredMixin, ListView):
         return context
 
 
-class CatalogCreateView(LoginRequiredMixin, CreateView):
+class CatalogCreateView(CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('product:list')
 
 
-class CatalogUpdateView(LoginRequiredMixin, UpdateView):
+class CatalogUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('product:list')
 
 
-class CatalogDeleteView(LoginRequiredMixin, DeleteView):
+class CatalogDeleteView(DeleteView):
     model = Product
     success_url = reverse_lazy('product:list')
 
