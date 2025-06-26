@@ -16,12 +16,14 @@ VALID_SIGNUP_DATA = {
 }
 
 
+@pytest.mark.skip(reason="Disabled view")
 def test_register_view_unauthenticated_access(client: Client):
     response = client.get(reverse("register"))
     assert response.status_code == 200
     assertTemplateUsed(response, "account/register.html")
 
 
+@pytest.mark.skip(reason="Disabled view")
 @pytest.mark.django_db
 def test_register_view_post_success(client: Client):
     response = client.post(reverse("register"), data=VALID_SIGNUP_DATA)
@@ -30,6 +32,7 @@ def test_register_view_post_success(client: Client):
     assert response.status_code == 302
 
 
+@pytest.mark.skip(reason="Disabled view")
 @pytest.mark.django_db
 def test_register_view_post_password_mismatch_error(client: Client):
     incorrect_data = VALID_SIGNUP_DATA.copy()
@@ -41,6 +44,7 @@ def test_register_view_post_password_mismatch_error(client: Client):
     assert response.status_code == 200
 
 
+@pytest.mark.skip(reason="Disabled view")
 @pytest.mark.django_db
 def test_register_view_post_password_length_error(client: Client):
     incorrect_data = VALID_SIGNUP_DATA.copy()

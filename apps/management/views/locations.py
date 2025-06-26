@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
@@ -6,9 +6,10 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from apps.management.models import Location, Company
 
 
-class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class LocationListView(PermissionRequiredMixin, UserPassesTestMixin, ListView):
     model = Location
     paginate_by = 10
+    permission_required = "management.view_location"
 
     def test_func(self):
         return self.request.user.is_staff
@@ -42,19 +43,21 @@ class LocationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-class LocationCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class LocationCreateView(PermissionRequiredMixin, UserPassesTestMixin, CreateView):
     model = Location
     fields = "__all__"
     success_url = reverse_lazy("management:location:list")
+    permission_required = "management.add_location"
 
     def test_func(self):
         return self.request.user.is_staff
 
 
-class LocationCreateFromCompanyView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class LocationCreateFromCompanyView(PermissionRequiredMixin, UserPassesTestMixin, CreateView):
     model = Location
     fields = "__all__"
     success_url = reverse_lazy("management:location:list")
+    permission_required = "management.add_location"
 
     def test_func(self):
         return self.request.user.is_staff
@@ -68,18 +71,20 @@ class LocationCreateFromCompanyView(LoginRequiredMixin, UserPassesTestMixin, Cre
         return {'company': company}
 
 
-class LocationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class LocationUpdateView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Location
     fields = "__all__"
     success_url = reverse_lazy("management:location:list")
+    permission_required = "management.change_location"
 
     def test_func(self):
         return self.request.user.is_staff
 
 
-class LocationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class LocationDeleteView(PermissionRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Location
     success_url = reverse_lazy("management:location:list")
+    permission_required = "management.delete_location"
 
     def test_func(self):
         return self.request.user.is_staff

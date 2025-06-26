@@ -21,7 +21,7 @@ class StockAdmin(admin.ModelAdmin):
     link_to_product.short_description = 'Product'
 
     def link_to_location(self, obj):
-        link = reverse("admin:inventory_location_change", args=[obj.location.id])
+        link = reverse("admin:management_location_change", args=[obj.location.id])
         return format_html('<a href="{}">{}</a>', link, obj.location)
     link_to_location.short_description = 'Location'
 

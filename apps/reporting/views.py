@@ -2,7 +2,7 @@ import calendar
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Count
 from django.db.models.aggregates import Sum
 from django.http import JsonResponse
@@ -14,7 +14,7 @@ from apps.catalog.models import Product, Category
 from apps.inventory.models import Movement
 
 
-class DashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class DashboardView(UserPassesTestMixin, TemplateView):
     template_name = 'reporting/dashboard.html'
 
     def test_func(self):
@@ -29,7 +29,7 @@ class DashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         }
 
 
-class ApiCategoriesView(LoginRequiredMixin, UserPassesTestMixin, View):
+class ApiCategoriesView(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.is_staff
 
@@ -41,7 +41,7 @@ class ApiCategoriesView(LoginRequiredMixin, UserPassesTestMixin, View):
         }, safe=False)
 
 
-class ApiStockPerMonthView(LoginRequiredMixin, UserPassesTestMixin, View):
+class ApiStockPerMonthView(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.is_staff
 

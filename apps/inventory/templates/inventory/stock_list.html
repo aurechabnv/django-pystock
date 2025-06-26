@@ -18,9 +18,11 @@
                     <label class="form-check-label" for="switchLowStock">Voir les stocks en alerte</label>
                 </div>
             </form>
+            {% if perms.inventory.add_stock %}
             <div class="text-end">
                 <a class="btn btn-primary" href="{% url 'stock:add' %}">{% bs_icon 'plus-lg' %}Ajouter un stock</a>
             </div>
+            {% endif %}
         </div>
     </nav>
     <table class="table align-middle">
@@ -59,9 +61,15 @@
                 </td>
                 <td class="text-center">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Boutons d'action">
+                        {% if perms.inventory.change_stock %}
                         <a class="btn btn-outline-primary" href="{% url 'stock:edit' stock.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                        {% endif %}
+                        {% if perms.inventory.view_movement %}
                         <a class="btn btn-outline-secondary" href="{% url 'stock:movements' %}?p={{ stock.product.id }}&l={{ stock.location.id }}" title="Voir les mouvements de stock">{% bs_icon 'graph-up' %}</a>
+                        {% endif %}
+                        {% if perms.inventory.delete_stock %}
                         <a class="btn btn-outline-danger" href="{% url 'stock:delete' stock.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                        {% endif %}
                     </div>
                 </td>
             </tr>

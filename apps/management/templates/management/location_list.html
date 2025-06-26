@@ -10,9 +10,11 @@
                 <input class="form-control me-2 w-50" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un site par nom, entreprise ou ville" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">{% bs_icon 'search' %}Rechercher</button>
             </form>
+            {% if perms.management.add_location %}
             <div class="text-end">
                 <a class="btn btn-primary" href="{% url 'management:location:add' %}">{% bs_icon 'plus-lg' size='1.5em' %}Créer un site</a>
             </div>
+            {% endif %}
         </div>
     </nav>
     <table class="table">
@@ -31,9 +33,15 @@
                 <td>{{ location.full_address }}</td>
                 <td class="text-center">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Boutons d'action">
-                      <a class="btn btn-outline-primary" href="{% url 'management:location:edit' location.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
-                      <a class="btn btn-outline-secondary" href="{% url 'stock:list' %}?q={{ location.name }}" title="Voir les stocks">{% bs_icon 'boxes' %}</a>
-                      <a class="btn btn-outline-danger" href="{% url 'management:location:delete' location.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                        {% if perms.management.change_location %}
+                        <a class="btn btn-outline-primary" href="{% url 'management:location:edit' location.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                        {% endif %}
+                        {% if perms.inventory.view_stock %}
+                        <a class="btn btn-outline-secondary" href="{% url 'stock:list' %}?q={{ location.name }}" title="Voir les stocks">{% bs_icon 'boxes' %}</a>
+                        {% endif %}
+                        {% if perms.management.delete_location %}
+                        <a class="btn btn-outline-danger" href="{% url 'management:location:delete' location.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                        {% endif %}
                     </div>
                 </td>
             </tr>
