@@ -2,7 +2,11 @@
 {% load bootstrap_icons %}
 
 {% block tab %}
+    {% if perms.management.add_company %}
     <a class="btn btn-primary my-3" href="{% url 'management:company:add' %}">{% bs_icon 'building-fill-add' size='1.5em' %}Créer une entreprise</a>
+    {% else %}
+    <div>&nbsp;</div>
+    {% endif %}
 
     <div class="row row-cols-3 row-cols-md-3 g-3">
     {% for company in object_list %}
@@ -22,10 +26,16 @@
                         <li class="list-group-item">Stocks gérés par <span class="fw-bold">{{ company.users.count }} utilisateur{% if company.users.count > 1 %}s{% endif %}</span></li>
                     {% endwith %}
                 </ul>
+                {% if perms.management.add_company or perms.management.delete_company %}
                 <div class="card-footer text-center">
+                    {% if perms.management.change_company %}
                     <a class="btn btn-outline-primary" href="{% url 'management:company:edit' company.pk %}">{% bs_icon 'pencil-fill' %}Modifier</a>
+                    {% endif %}
+                    {% if perms.management.delete_company %}
                     <a class="btn btn-outline-danger" href="{% url 'management:company:delete' company.pk %}">{% bs_icon 'trash-fill' %}Supprimer</a>
+                    {% endif %}
                 </div>
+                {% endif %}
             </div>
         </div>
     {% endfor %}

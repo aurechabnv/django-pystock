@@ -12,11 +12,21 @@ def test_company_list_view_unauthenticated_access(client: Client):
 
 
 @pytest.mark.django_db
-def test_company_list_unauthorized_access(client: Client, user1):
+def test_company_list_view_unauthorized_access(client: Client, user1):
     """
     Test that a non-staff member cannot access the view
     """
     client.force_login(user1)
+    response = client.get(reverse("management:company:list"))
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_company_list_view_unauthorized_staff_access(client: Client, user4):
+    """
+    Test that a staff member without permissions cannot access the view
+    """
+    client.force_login(user4)
     response = client.get(reverse("management:company:list"))
     assert response.status_code == 403
 
@@ -51,6 +61,16 @@ def test_company_add_view_unauthorized_access(client: Client, user1):
 
 
 @pytest.mark.django_db
+def test_company_add_view_unauthorized_staff_access(client: Client, user4):
+    """
+    Test that a staff member without permissions cannot access the view
+    """
+    client.force_login(user4)
+    response = client.get(reverse("management:company:add"))
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
 def test_company_add_view_authenticated_access(client: Client, user2):
     """
     Test that the view is unavailable if user does not have proper rights to the stock location's company
@@ -80,6 +100,16 @@ def test_company_edit_view_unauthorized_access(client: Client, user1, company1):
 
 
 @pytest.mark.django_db
+def test_company_edit_view_unauthorized_staff_access(client: Client, user4, company1):
+    """
+    Test that a staff member without permissions cannot access the view
+    """
+    client.force_login(user4)
+    response = client.get(reverse("management:company:edit", args=[company1.pk]))
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
 def test_company_edit_view_authenticated_access(client: Client, user2, company1):
     """
     Test that the view is unavailable if user does not have proper rights to the stock location's company
@@ -104,6 +134,16 @@ def test_company_delete_unauthorized_access(client: Client, user1, company1):
     Test that the view is unavailable if user does not have proper rights to the stock location's company
     """
     client.force_login(user1)
+    response = client.get(reverse("management:company:delete", args=[company1.pk]))
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_company_list_unauthorized_staff_access(client: Client, user4, company1):
+    """
+    Test that a staff member without permissions cannot access the view
+    """
+    client.force_login(user4)
     response = client.get(reverse("management:company:delete", args=[company1.pk]))
     assert response.status_code == 403
 

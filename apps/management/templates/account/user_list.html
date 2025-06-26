@@ -3,7 +3,11 @@
 {% load django_bootstrap5 %}
 
 {% block tab %}
+    {% if perms.account.add_user %}
     <a class="btn btn-primary my-3" href="{% url 'management:user:add' %}">{% bs_icon 'person-fill-add' size='1.5em' %}Créer un utilisateur</a>
+    {% else %}
+    <div>&nbsp;</div>
+    {% endif %}
 
     <table class="table">
         <tr>
@@ -12,7 +16,9 @@
             <th>Adresse e-mail</th>
             <th>Rôle</th>
             <th>Périmètre d'action</th>
+            {% if perms.account.change_user or perms.account.delete_user %}
             <th class="text-center">Actions</th>
+            {% endif %}
         </tr>
         {% for user in object_list %}
             <tr>
@@ -38,12 +44,18 @@
                         Aucune entreprise
                     {% endif %}
                 </td>
+                {% if perms.account.change_user or perms.account.delete_user %}
                 <td class="text-center">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Boutons d'action">
-                      <a class="btn btn-outline-primary" href="{% url 'management:user:edit' user.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
-                      <a class="btn btn-outline-danger" href="{% url 'management:user:delete' user.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                        {% if perms.account.change_user %}
+                        <a class="btn btn-outline-primary" href="{% url 'management:user:edit' user.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                        {% endif %}
+                        {% if perms.account.delete_user %}
+                        <a class="btn btn-outline-danger" href="{% url 'management:user:delete' user.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                        {% endif %}
                     </div>
                 </td>
+                {% endif %}
             </tr>
         {% empty %}
             <tr><td>Pas d'utilisateurs</td></tr>

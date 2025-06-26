@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -10,9 +10,10 @@ from apps.inventory.forms import MovementForm, StockForm
 from apps.inventory.models import Stock, Movement, Location
 
 
-class InventoryView(ListView):
+class InventoryView(PermissionRequiredMixin, ListView):
     model = Stock
     context_object_name = "stocks"
+    permission_required = "inventory.view_stock"
     paginate_by = 10
 
     def get_queryset(self):
@@ -54,9 +55,10 @@ class InventoryView(ListView):
         return context
 
 
-class InventoryCreateView(View):
+class InventoryCreateView(PermissionRequiredMixin, View):
     form_class = StockForm
     template_name = "inventory/stock_form.html"
+    permission_required = "inventory.add_stock"
 
     def get(self, request):
         form = self.form_class(user=request.user)
@@ -71,9 +73,10 @@ class InventoryCreateView(View):
         return render(request, self.template_name, {"form": form})
 
 
-class InventoryUpdateView(UserPassesTestMixin, View):
+class InventoryUpdateView(PermissionRequiredMixin, UserPassesTestMixin, View):
     form_class = MovementForm
     template_name = "inventory/movement_form.html"
+    permission_required = "inventory.change_stock"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -115,9 +118,10 @@ class InventoryUpdateView(UserPassesTestMixin, View):
         return render(request, self.template_name, self.get_context_data(form))
 
 
-class InventoryDeleteView(UserPassesTestMixin, DeleteView):
+class InventoryDeleteView(PermissionRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Stock
     success_url = reverse_lazy("stock:list")
+    permission_required = "inventory.delete_stock"
 
     def test_func(self):
         """
@@ -128,9 +132,10 @@ class InventoryDeleteView(UserPassesTestMixin, DeleteView):
         return self.request.user.is_staff or stock.location.company in self.request.user.companies.all()
 
 
-class MovementsView(ListView):
+class MovementsView(PermissionRequiredMixin, ListView):
     model = Movement
     context_object_name = "movements"
+    permission_required = "inventory.view_movement"
     paginate_by = 10
 
     def get_queryset(self):

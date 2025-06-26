@@ -13,9 +13,11 @@
                 <input class="form-control me-2 w-50" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un produit par nom ou SKU" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">{% bs_icon 'search' %}Rechercher</button>
             </form>
+            {% if perms.catalog.add_product %}
             <div class="text-end">
                 <a class="btn btn-primary" href="{% url 'product:add' %}">{% bs_icon 'plus-lg' %}Ajouter un produit</a>
             </div>
+            {% endif %}
         </div>
     </nav>
     <table class="table align-middle">
@@ -41,9 +43,15 @@
                 <td>{{ product.get_categories }}</td>
                 <td class="text-center">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Boutons d'action">
-                      <a class="btn btn-outline-primary" href="{% url 'product:edit' product.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
-                      <a class="btn btn-outline-secondary" href="{% url 'stock:list' %}?q={{ product.sku }}" title="Voir les stocks">{% bs_icon 'boxes' %}</a>
-                      <a class="btn btn-outline-danger" href="{% url 'product:delete' product.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                        {% if perms.catalog.change_product %}
+                        <a class="btn btn-outline-primary" href="{% url 'product:edit' product.id %}" title="Modifier">{% bs_icon 'pencil-fill' %}</a>
+                        {% endif %}
+                        {% if perms.inventory.view_stock %}
+                        <a class="btn btn-outline-secondary" href="{% url 'stock:list' %}?q={{ product.sku }}" title="Voir les stocks">{% bs_icon 'boxes' %}</a>
+                        {% endif %}
+                        {% if perms.catalog.delete_product %}
+                        <a class="btn btn-outline-danger" href="{% url 'product:delete' product.id %}" title="Supprimer">{% bs_icon 'trash-fill' %}</a>
+                        {% endif %}
                     </div>
                 </td>
             </tr>

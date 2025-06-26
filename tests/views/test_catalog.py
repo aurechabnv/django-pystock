@@ -11,6 +11,13 @@ def test_catalog_view_unauthenticated_access(client: Client):
 
 
 @pytest.mark.django_db
+def test_catalog_view_unauthorized_access(client: Client, user3):
+    client.force_login(user3)
+    response = client.get(reverse("product:list"))
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
 def test_catalog_view_authenticated_access(client: Client, user1, product1, product2):
     client.force_login(user1)
     response = client.get(reverse("product:list"))
@@ -28,10 +35,16 @@ def test_catalog_view_query_filter(client: Client, user1, product1, product2):
     assert response.status_code == 200
 
 
-@pytest.mark.django_db
 def test_product_add_view_unauthenticated_access(client: Client):
     response = client.get(reverse("product:add"))
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_product_add_view_unauthorized_access(client: Client, user3):
+    client.force_login(user3)
+    response = client.get(reverse("product:add"))
+    assert response.status_code == 403
 
 
 @pytest.mark.django_db
@@ -45,6 +58,13 @@ def test_product_add_view_authenticated_access(client: Client, user1):
 def test_product_edit_view_unauthenticated_access(client: Client, product1):
     response = client.get(reverse("product:edit", args=[product1.pk]))
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_product_edit_view_unauthorized_access(client: Client, user3, product1):
+    client.force_login(user3)
+    response = client.get(reverse("product:edit", args=[product1.pk]))
+    assert response.status_code == 403
 
 
 @pytest.mark.django_db
@@ -88,6 +108,13 @@ def test_product_edit_view_post_success(client: Client, user1, product1):
 def test_product_delete_view_unauthenticated_access(client: Client, product1):
     response = client.get(reverse("product:delete", args=[product1.pk]))
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_product_delete_view_unauthorized_access(client: Client, user3, product1):
+    client.force_login(user3)
+    response = client.get(reverse("product:delete", args=[product1.pk]))
+    assert response.status_code == 403
 
 
 @pytest.mark.django_db
