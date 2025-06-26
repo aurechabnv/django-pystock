@@ -8,7 +8,7 @@ from apps.account.views import register_view, profile_view
 urlpatterns = [
     path('login/', LoginView.as_view(template_name="account/login.html", next_page="home"), name="login"),
     path('logout/', LogoutView.as_view(next_page="login"), name="logout"),
-    path('register/', register_view, name="register"),
+    # path('register/', register_view, name="register"),
     path('profile/', profile_view, name="profile"),
     path('password-change/', PasswordChangeView.as_view(template_name="account/password_change.html"),
          name="password_change"),
