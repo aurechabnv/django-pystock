@@ -17,13 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from pystock import views
+from pystock.views import home
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', home, name='home'),
     path('backend/', admin.site.urls),
     path('auth/', include('apps.account.urls')),
     path('', include('apps.catalog.urls')),
     path('', include('apps.inventory.urls')),
     path('management/', include('apps.management.urls')),
+    path('', include('apps.reporting.urls')),
 ]
