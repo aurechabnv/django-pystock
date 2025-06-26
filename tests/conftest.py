@@ -9,15 +9,23 @@ User = get_user_model()
 
 
 @pytest.fixture
-def product1():
+def category1():
+    return Category.objects.create(name="Composants PC")
+
+
+@pytest.fixture
+def category2():
+    return Category.objects.create(name="Cartes graphiques")
+
+
+@pytest.fixture
+def product1(category1, category2):
     product = Product.objects.create(
         sku='gpu-radeon-rx-9070-xt',
         name='RADEON RX 9070 XT',
         price=700.0,
         stock_threshold=100,
     )
-    category1 = Category.objects.create(name='Composants PC')
-    category2 = Category.objects.create(name='Cartes graphiques')
     product.categories.set((category1, category2,))
     return product
 
