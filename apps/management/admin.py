@@ -20,6 +20,6 @@ class LocationAdmin(admin.ModelAdmin):
     autocomplete_fields = ('company',)
 
     def link_to_company(self, obj):
-        link = reverse("admin:inventory_company_change", args=[obj.company.id])
+        link = reverse("admin:management_company_change", args=[obj.company.id])
         return format_html('<a href="{}">{}</a>', link, obj.company)
     link_to_company.short_description = 'Company'
