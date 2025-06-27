@@ -132,6 +132,8 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = '/home/lrwa6501/pystock.keltpoint.com/static'
 
+STATICFILES_DIRS = ['static/']
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
