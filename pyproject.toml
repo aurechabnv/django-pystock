@@ -13,6 +13,7 @@ dependencies = [
     "ruff>=0.11.8",
     "django-bootstrap-icons>=0.9.0",
     "psycopg>=3.2.9",
+    "psycopg2-binary>=2.9.10",
 ]
 
 [tool.pytest.ini_options]
