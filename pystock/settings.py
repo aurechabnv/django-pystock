@@ -148,8 +148,7 @@ filterwarnings(
 )
 FORMS_URLFIELD_ASSUME_HTTPS = True
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_HOST_PORT = env.int("EMAIL_HOST_PORT")
 EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
