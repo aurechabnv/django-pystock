@@ -14,6 +14,8 @@ from warnings import filterwarnings
 import environ
 from pathlib import Path
 
+import pymysql
+
 env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,6 +32,9 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
+
+
+ALLOWED_HOSTS = ['127.0.0.1', 'pystock.keltpoint.com']
 
 
 # Application definition
@@ -79,6 +84,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pystock.wsgi.application'
+
+
+# Install PyMySQL as MySQLdb
+# https://adamj.eu/tech/2020/02/04/how-to-use-pymysql-with-django/
+pymysql.install_as_MySQLdb()
 
 
 # Password validation
@@ -137,3 +147,15 @@ filterwarnings(
     'ignore', 'The FORMS_URLFIELD_ASSUME_HTTPS transitional setting is deprecated.'
 )
 FORMS_URLFIELD_ASSUME_HTTPS = True
+
+
+# Email configuration
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = "Contact Test<pystock@labs.keltpoint.com>"
