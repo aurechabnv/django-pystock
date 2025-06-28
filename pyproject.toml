@@ -12,8 +12,7 @@ dependencies = [
     "pytest-django>=4.11.1",
     "ruff>=0.11.8",
     "django-bootstrap-icons>=0.9.0",
-    "psycopg>=3.2.9",
-    "psycopg2-binary>=2.9.10",
+    "mysqlclient>=2.2.7",
 ]
 
 [tool.pytest.ini_options]
