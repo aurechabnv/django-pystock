@@ -27,6 +27,7 @@ jobs:
         run: |
           sudo systemctl start mysql.service
           sudo mysql --user=root --password=root
+          SHOW DATABASES;
           CREATE DATABASE local_pystock;
           USE local_pystock;
           exit
