@@ -26,11 +26,7 @@ jobs:
       - name: Setup database
         run: |
           sudo systemctl start mysql.service
-          sudo mysql --user=root --password=root
-          SHOW DATABASES;
-          CREATE DATABASE local_pystock;
-          USE local_pystock;
-          exit
+          sudo mysql --user=root --password=root -e "CREATE DATABASE local_pystock;"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
