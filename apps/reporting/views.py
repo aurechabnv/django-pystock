@@ -34,7 +34,7 @@ class ApiCategoriesView(UserPassesTestMixin, View):
         return self.request.user.is_staff
 
     def get(self, request, *args, **kwargs):
-        data = Category.objects.values("name", nb_of_items=Count('products'))
+        data = Category.objects.values("name", nb_of_items=Count('products')).order_by('name')
         return JsonResponse({
             "labels": [obj["name"] for obj in data],
             "data": [obj["nb_of_items"] for obj in data],
