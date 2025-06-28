@@ -1,9 +1,13 @@
 name: pystock
 
-on: [workflow_dispatch, push, pull_request]
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - main
 
 env:
-  ENV_NAME: ${{ vars.ENV_NAME }}
+  ENV_NAME: Development
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
   DEBUG: ${{ vars.DEBUG }}
 
