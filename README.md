@@ -47,7 +47,6 @@ Enfin, il doit être en mesure d'exporter et importer des données si nécessair
 4. Initialiser la base de données
     - `python manage.py makemigrations`
     - `python manage.py migrate`
-    - `python manage.py loaddata fixtures/default_groups.json`
     - `python manage.py loaddata fixtures/initial_data.json`
 
 

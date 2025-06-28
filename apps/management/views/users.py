@@ -32,12 +32,12 @@ class UserCreateView(PermissionRequiredMixin, UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save()
 
-        group_employee = Group.objects.get(name="Employee")
+        group_employee = Group.objects.get(name="employee")
         self.object.groups.add(group_employee)
 
         if self.object.is_staff:
-            group_staff = Group.objects.get(name="Staff")
-            self.object.groups.add(group_staff)
+            group_manager = Group.objects.get(name="manager")
+            self.object.groups.add(group_manager)
 
         return redirect(self.get_success_url())
 

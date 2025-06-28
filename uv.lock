@@ -198,6 +198,7 @@ dependencies = [
     { name = "django-bootstrap-icons" },
     { name = "django-bootstrap5" },
     { name = "django-environ" },
+    { name = "pymysql" },
     { name = "pytest-cov" },
     { name = "pytest-django" },
     { name = "ruff" },
@@ -209,6 +210,7 @@ requires-dist = [
     { name = "django-bootstrap-icons", specifier = ">=0.9.0" },
     { name = "django-bootstrap5", specifier = ">=25.1" },
     { name = "django-environ", specifier = ">=0.12.0" },
+    { name = "pymysql", specifier = ">=1.1.1" },
     { name = "pytest-cov", specifier = ">=6.1.1" },
     { name = "pytest-django", specifier = ">=4.11.1" },
     { name = "ruff", specifier = ">=0.11.8" },
@@ -248,6 +250,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/96/2d/02d4312c973c6050a18b314a5ad0b3210edb65a906f868e31c111dede4a6/pluggy-1.5.0.tar.gz", hash = "sha256:2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1", size = 67955 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/88/5f/e351af9a41f866ac3f1fac4ca0613908d9a41741cfcf2228f4ad853b697d/pluggy-1.5.0-py3-none-any.whl", hash = "sha256:44e1ad92c8ca002de6377e165f3e0f1be63266ab4d554740532335b9d75ea669", size = 20556 },
+]
+
+[[package]]
+name = "pymysql"
+version = "1.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b3/8f/ce59b5e5ed4ce8512f879ff1fa5ab699d211ae2495f1adaa5fbba2a1eada/pymysql-1.1.1.tar.gz", hash = "sha256:e127611aaf2b417403c60bf4dc570124aeb4a57f5f37b8e95ae399a42f904cd0", size = 47678 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0c/94/e4181a1f6286f545507528c78016e00065ea913276888db2262507693ce5/PyMySQL-1.1.1-py3-none-any.whl", hash = "sha256:4de15da4c61dc132f4fb9ab763063e693d521a80fd0e87943b9a453dd4c19d6c", size = 44972 },
 ]
 
 [[package]]
