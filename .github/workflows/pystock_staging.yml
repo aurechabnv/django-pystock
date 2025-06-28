@@ -1,4 +1,4 @@
-name: pystock
+name: pystock_staging
 
 on:
   workflow_dispatch:

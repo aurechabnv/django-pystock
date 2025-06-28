@@ -1,4 +1,4 @@
-name: pystock
+name: pystock_dev
 
 on:
   workflow_dispatch:
