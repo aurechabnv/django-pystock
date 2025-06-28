@@ -11,8 +11,8 @@ env:
   ENV_NAME: Staging
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
   DEBUG: ${{ vars.DEBUG }}
-  DB_USERNAME: root
-  DB_PASSWORD: testrootpass
+  DATABASE_USERNAME: root
+  DATABASE_PASSWORD: testrootpass
   EMAIL_HOST_USER: ${{ vars.EMAIL_HOST_USER }}
   EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
 
