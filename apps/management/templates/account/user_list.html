@@ -22,7 +22,7 @@
         </tr>
         {% for user in object_list %}
             <tr>
-                <td class="text-center">{% if user.is_active %}{% bs_icon 'check-circle-fill' color='green'%}{% else %}{% bs_icon 'x-circle-fill' color='grey'%}{% endif %}</td>
+                <td class="text-center">{% if user.is_active and user.password %}{% bs_icon 'check-circle-fill' color='green'%}{% else %}{% bs_icon 'x-circle-fill' color='grey'%}{% endif %}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>{% if user.is_staff %}Manager{% else %}Employé{% endif %}</td>
