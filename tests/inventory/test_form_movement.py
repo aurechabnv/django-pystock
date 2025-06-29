@@ -4,12 +4,13 @@ from apps.inventory.forms import MovementForm
 from apps.inventory.models import Movement
 
 
-MOVEMENT_FORM_DATA = {
-    "product": "1",
-    "quantity": 5,
-    "from_location": "1",
-    "to_location": "2",
-}
+def movement_form_data(product1, location1, location2):
+    return {
+        "product": product1.pk,
+        "quantity": 5,
+        "from_location": location1.pk,
+        "to_location": location2.pk,
+    }
 
 
 @pytest.mark.django_db
@@ -54,7 +55,7 @@ def test_movement_form_inbound_cleaned(product1, location1, location2, user1):
     Test that the unnecessary `from_location` field is cleared
     when the `type` is INBOUND
     """
-    data = MOVEMENT_FORM_DATA.copy()
+    data = movement_form_data(product1, location1, location2)
     data["type"] = Movement.MovementType.INBOUND
     form = MovementForm(data, user=user1)
     assert form.is_valid() == True
@@ -67,7 +68,7 @@ def test_movement_form_outbound_cleaned(product1, location1, location2, user1):
     Test that the unnecessary `to_location` field is cleared
     when the `type` is OUTBOUND
     """
-    data = MOVEMENT_FORM_DATA.copy()
+    data = movement_form_data(product1, location1, location2)
     data["type"] = Movement.MovementType.OUTBOUND
     form = MovementForm(data, user=user1)
     assert form.is_valid() == True
@@ -79,7 +80,7 @@ def test_movement_form_filter_location_fields_user(user1, product1, location1, l
     """
     Test that the location fields are filtered based on user company rights
     """
-    data = MOVEMENT_FORM_DATA.copy()
+    data = movement_form_data(product1, location1, location2)
     data["type"] = Movement.MovementType.TRANSFER
     form = MovementForm(user=user1)
     queryset = form.fields["to_location"].queryset
@@ -92,7 +93,7 @@ def test_movement_form_filter_location_fields_superuser(user2, product1, locatio
     """
     Test that the location fields are not filtered for a superuser
     """
-    data = MOVEMENT_FORM_DATA.copy()
+    data = movement_form_data(product1, location1, location2)
     data["type"] = Movement.MovementType.TRANSFER
     form = MovementForm(user=user2)
     assert form.fields["to_location"].queryset.count() == 3

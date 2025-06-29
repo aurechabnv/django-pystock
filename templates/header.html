@@ -6,7 +6,11 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
-                <a class="navbar-brand" href="/">{% bs_icon 'box-seam' size='1.5em' %}PyStock</a>
+                <a class="navbar-brand" href="/">{% bs_icon 'box-seam' size='1.5em' %}PyStock
+                    {% if ENV_NAME != "Production" %}
+                        <span class="badge rounded-pill text-bg-{% if ENV_NAME == "Staging" %}warning{% else %}info{% endif %}">{{ ENV_NAME|upper }}</span>
+                    {% endif %}
+                </a>
 
                 {% if request.user.is_authenticated %}
                     <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0">

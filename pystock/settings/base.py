@@ -14,6 +14,8 @@ from warnings import filterwarnings
 import environ
 from pathlib import Path
 
+import pymysql
+
 env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,6 +32,9 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
+
+
+ALLOWED_HOSTS = ['127.0.0.1', 'pystock.keltpoint.com']
 
 
 # Application definition
@@ -73,12 +78,18 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'pystock.context_processors.export_vars',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'pystock.wsgi.application'
+
+
+# Install PyMySQL as MySQLdb
+# https://adamj.eu/tech/2020/02/04/how-to-use-pymysql-with-django/
+pymysql.install_as_MySQLdb()
 
 
 # Password validation
@@ -109,7 +120,8 @@ TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
-USE_TZ = True
+# Disabled as timezones cannot currently be loaded in the o2switch sql instance
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -137,3 +149,14 @@ filterwarnings(
     'ignore', 'The FORMS_URLFIELD_ASSUME_HTTPS transitional setting is deprecated.'
 )
 FORMS_URLFIELD_ASSUME_HTTPS = True
+
+
+# Email configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = f'PyStock<{EMAIL_HOST_USER}>'

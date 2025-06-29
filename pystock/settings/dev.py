@@ -1,10 +1,7 @@
 """
 Django DEVELOPMENT settings for pystock project.
 """
-from pystock.settings.base import *
-
-
-ALLOWED_HOSTS = ['127.0.0.1']
+from pystock.settings.base import BASE_DIR
 
 
 # Database
@@ -16,8 +13,3 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-
-# Email configuration
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

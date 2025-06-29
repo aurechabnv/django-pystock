@@ -1,6 +1,5 @@
 import calendar
 from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Count
@@ -34,7 +33,7 @@ class ApiCategoriesView(UserPassesTestMixin, View):
         return self.request.user.is_staff
 
     def get(self, request, *args, **kwargs):
-        data = Category.objects.values("name", nb_of_items=Count('products'))
+        data = Category.objects.values("name", nb_of_items=Count('products')).order_by('name')
         return JsonResponse({
             "labels": [obj["name"] for obj in data],
             "data": [obj["nb_of_items"] for obj in data],
@@ -47,7 +46,7 @@ class ApiStockPerMonthView(UserPassesTestMixin, View):
 
     def get(self, request, *args, **kwargs):
         # Filter movements based on date
-        today = datetime.now(tz=ZoneInfo("Europe/Paris"))
+        today = datetime.now()
         six_months_prior = today - timedelta(days=30*6)
         movements = Movement.objects.filter(date__gt=six_months_prior)
 

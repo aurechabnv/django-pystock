@@ -1,12 +1,7 @@
 """
 Django PRODUCTION settings for pystock project.
 """
-import pymysql
-
-from pystock.settings.base import *
-
-
-ALLOWED_HOSTS = ['pystock.keltpoint.com']
+from pystock.settings.base import env
 
 
 # Database
@@ -15,34 +10,19 @@ ALLOWED_HOSTS = ['pystock.keltpoint.com']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
+        'NAME': 'lrwa6501_pystock',
+        'USER': env('DATABASE_USERNAME'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
         'HOST': 'localhost',
         'PORT': '3306',
     }
 }
-
-# Install PyMySQL as MySQLdb
-# https://adamj.eu/tech/2020/02/04/how-to-use-pymysql-with-django/
-pymysql.install_as_MySQLdb()
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_ROOT = '/home/lrwa6501/pystock.keltpoint.com/static'
-
-
-# Email configuration
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env('EMAIL_HOST')
-EMAIL_HOST_PORT = env.int('EMAIL_HOST_PORT')
-EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS')
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = "Contact Test<pystock@labs.keltpoint.com>"
 
 
 # Security parameters
