@@ -1,7 +1,7 @@
 """
 Django STAGING settings for pystock project.
 """
-from pystock.settings import env
+from pystock.settings.base import env
 
 
 # Database
