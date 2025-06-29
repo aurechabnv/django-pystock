@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Group
 from django.shortcuts import redirect
@@ -32,10 +33,17 @@ class UserCreateView(PermissionRequiredMixin, UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save()
 
+        # Send password reset email to new user so they can set their password
+        password_reset = PasswordResetForm(data={"email": self.object.email})
+        if password_reset.is_valid():
+            password_reset.save(request=self.request)
+
+        # Add default permission group to the user
         group_employee = Group.objects.get(name="employee")
         self.object.groups.add(group_employee)
 
         if self.object.is_staff:
+            # If user is manager, add specific permission group
             group_manager = Group.objects.get(name="manager")
             self.object.groups.add(group_manager)
 
