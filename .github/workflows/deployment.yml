@@ -9,6 +9,7 @@ defaults:
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   deploy:
