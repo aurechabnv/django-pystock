@@ -10,7 +10,7 @@ env:
   ENV_NAME: Development
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
   DEBUG: ${{ vars.DEBUG }}
-  EMAIL_HOST_USER: ${{ vars.EMAIL_HOST_USER }}
+  EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
   EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
 
 jobs:
