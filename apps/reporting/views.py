@@ -1,6 +1,5 @@
 import calendar
 from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Count
@@ -47,7 +46,7 @@ class ApiStockPerMonthView(UserPassesTestMixin, View):
 
     def get(self, request, *args, **kwargs):
         # Filter movements based on date
-        today = datetime.now(tz=ZoneInfo("Europe/Paris"))
+        today = datetime.now()
         six_months_prior = today - timedelta(days=30*6)
         movements = Movement.objects.filter(date__gt=six_months_prior)
 

@@ -120,7 +120,8 @@ TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
-USE_TZ = True
+# Disabled as timezones cannot currently be loaded in the o2switch sql instance
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
