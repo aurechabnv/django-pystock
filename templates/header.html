@@ -7,8 +7,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <a class="navbar-brand" href="/">{% bs_icon 'box-seam' size='1.5em' %}PyStock
-                    {% if ENV_NAME == "Staging" %} <span class="badge rounded-pill text-bg-warning">{{ ENV_NAME|upper }}</span>{% endif %}
-                    {% if ENV_NAME == "Development" %} <span class="badge rounded-pill text-bg-info">DEV</span>{% endif %}
+                    {% if ENV_NAME != "Production" %}
+                        <span class="badge rounded-pill text-bg-{% if ENV_NAME == "Staging" %}warning{% else %}info{% endif %}">{{ ENV_NAME|upper }}</span>
+                    {% endif %}
                 </a>
 
                 {% if request.user.is_authenticated %}
