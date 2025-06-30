@@ -1,0 +1,41 @@
+# Source: https://github.com/spooky063/deploy-o2switch-ftp
+# The deployment consists in sending a single file via ftp to the server.
+# The server watches that file's state and will execute actions (git pull, etc.) in case of an update.
+name: Deployment
+
+defaults:
+  run:
+    shell: bash -ieo pipefail {0}
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+     name: "Trigger deployment on o2switch"
+     runs-on: ubuntu-latest
+     environment: production
+
+     steps:
+       - uses: actions/checkout@v4
+
+       - name: Create file to source
+         uses: 1arp/create-a-file-action@0.4.5
+         with:
+           path: "deployment/pystock"
+           isAbsolutePath: false
+           file: "production"
+           content: |
+             ${{ github.sha }}
+
+       - name: Send file to server via FTP
+         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+         with:
+           server: ${{ secrets.FTP_HOST }}
+           username: ${{ secrets.FTP_USERNAME }}
+           password: ${{ secrets.FTP_PASSWORD }}
+           local-dir: "deployment/pystock/"
+           server-dir: "deployment/pystock/"
