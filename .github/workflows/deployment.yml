@@ -8,9 +8,9 @@ defaults:
     shell: bash -ieo pipefail {0}
 
 on:
-  status:
-    types:
-      - success
+  workflow_run:
+    workflows: ["pystock_dev"]
+    types: [completed]
 #    branches:
 #      - main
 
