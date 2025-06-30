@@ -9,8 +9,10 @@ defaults:
 
 on:
   status:
-    types: [ success ]
-    branches: [ update-deployment-trigger ]
+    types:
+      - success
+#    branches:
+#      - main
 
 jobs:
   deploy:
