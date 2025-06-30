@@ -2,6 +2,8 @@
 from django.contrib.auth.management import create_permissions
 from django.db import migrations
 
+from apps.account.models import UserRole
+
 
 def create_default_groups(apps, schema_editor):
     Group = apps.get_model("auth", "Group")
@@ -14,22 +16,15 @@ def create_default_groups(apps, schema_editor):
         create_permissions(app_config, verbosity=0)
         app_config.models_module = None
 
-    employee_perms = Permission.objects.filter(codename__in=[
-        "view_product", "add_product", "change_product", "delete_product",
-        "view_stock", "add_stock", "change_stock", "delete_stock",
-        "view_movement"
-    ])
-    employee_group = Group.objects.create(name="employee")
-    employee_group.permissions.set(list(employee_perms))
+    if not Group.objects.filter(name=UserRole.EMPLOYEE).exists():
+        employee_perms = Permission.objects.filter(codename__in=UserRole.EMPLOYEE_PERMS)
+        employee_group = Group.objects.create(name=UserRole.EMPLOYEE)
+        employee_group.permissions.set(list(employee_perms))
 
-    manager_perms = Permission.objects.filter(codename__in=[
-        "view_company", "add_company", "change_company", "delete_company",
-        "view_location", "add_location", "change_location", "delete_location",
-        "view_user", "add_user", "change_user", "delete_user",
-        "view_category", "add_category", "change_category", "delete_category"
-    ])
-    manager_group = Group.objects.create(name="manager")
-    manager_group.permissions.set(list(manager_perms))
+    if not Group.objects.filter(name=UserRole.MANAGER).exists():
+        manager_perms = Permission.objects.filter(codename__in=UserRole.MANAGER_PERMS)
+        manager_group = Group.objects.create(name=UserRole.MANAGER)
+        manager_group.permissions.set(list(manager_perms))
 
 
 class Migration(migrations.Migration):
