@@ -10,11 +10,9 @@ defaults:
 on:
   workflow_run:
     workflows:
-      - pystock_dev
+      - pystock_staging
     types:
       - completed
-#    branches:
-#      - main
 
 jobs:
   deploy:
