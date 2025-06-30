@@ -1,7 +1,7 @@
 # Source: https://github.com/spooky063/deploy-o2switch-ftp
 # The deployment consists in sending a single file via ftp to the server.
 # The server watches that file's state and will execute actions (git pull, etc.) in case of an update.
-name: Deployment
+name: PyStock Deployment
 
 defaults:
   run:
