@@ -8,6 +8,7 @@ def create_default_groups(apps, schema_editor):
     Permission = apps.get_model("auth", "Permission")
 
     # Permissions have to be created before applying them
+    # https://dandavies99.github.io/posts/2021/11/django-permissions/#goal-2-set-up-groups-when-the-project-is-initialised-using-a-data-migration
     for app_config in apps.get_app_configs():
         app_config.models_module = True
         create_permissions(app_config, verbosity=0)
