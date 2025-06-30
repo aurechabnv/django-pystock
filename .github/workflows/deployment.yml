@@ -8,11 +8,9 @@ defaults:
     shell: bash -ieo pipefail {0}
 
 on:
-  workflow_run:
-    workflows:
-      - pystock_staging
-    types:
-      - completed
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
