@@ -8,8 +8,8 @@
         "phone": "0123435325",
         "website": "https://gpcp.com",
         "email": "contact@gpcp.com",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -21,8 +21,8 @@
         "phone": "0123466564",
         "website": "https://opm-group.com",
         "email": "service-client@opm-group.com",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -37,8 +37,8 @@
         "address_line_2": "",
         "zip_code": "34000",
         "city": "Montpellier",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -53,8 +53,8 @@
         "address_line_2": "ZAE",
         "zip_code": "78000",
         "city": "Versailles",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -69,8 +69,8 @@
         "address_line_2": "",
         "zip_code": "78000",
         "city": "Versailles",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -85,8 +85,8 @@
         "address_line_2": "",
         "zip_code": "59000",
         "city": "Lille",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -101,8 +101,8 @@
         "address_line_2": "",
         "zip_code": "35000",
         "city": "Rennes",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -117,8 +117,8 @@
         "address_line_2": "",
         "zip_code": "31555",
         "city": "Toulouse",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -133,8 +133,8 @@
         "address_line_2": "",
         "zip_code": "31000",
         "city": "Toulouse",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -149,8 +149,8 @@
         "address_line_2": "",
         "zip_code": "21000",
         "city": "Dijon",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -160,8 +160,8 @@
         "location": 1,
         "product": 1,
         "quantity": 250,
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-06-03T11:30:02.589Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-06-03T11:30:02.589",
         "synch": true
     }
 },
@@ -172,8 +172,8 @@
         "location": 2,
         "product": 1,
         "quantity": 260,
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-20T12:28:35.209Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-20T12:28:35.209",
         "synch": true
     }
 },
@@ -184,8 +184,8 @@
         "location": 4,
         "product": 2,
         "quantity": 200,
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-20T23:00:50.155Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-20T23:00:50.155",
         "synch": true
     }
 },
@@ -196,8 +196,8 @@
         "location": 7,
         "product": 3,
         "quantity": 120,
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-20T23:06:50.555Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-20T23:06:50.555",
         "synch": true
     }
 },
@@ -208,8 +208,8 @@
         "location": 3,
         "product": 1,
         "quantity": 150,
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-06-03T11:30:02.595Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-06-03T11:30:02.595",
         "synch": true
     }
 },
@@ -220,8 +220,8 @@
         "location": 7,
         "product": 5,
         "quantity": 270,
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-06-03T11:34:15.729Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-06-03T11:34:15.729",
         "synch": true
     }
 },
@@ -232,8 +232,8 @@
         "location": 4,
         "product": 5,
         "quantity": 30,
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-06-03T11:34:15.734Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-06-03T11:34:15.734",
         "synch": true
     }
 },
@@ -246,7 +246,7 @@
         "to_location": 1,
         "type": "I",
         "quantity": 100,
-        "date": "2025-05-20T10:26:48.158Z",
+        "date": "2025-05-20T10:26:48.158",
         "synced": false
     }
 },
@@ -259,7 +259,7 @@
         "to_location": 2,
         "type": "I",
         "quantity": 250,
-        "date": "2025-05-20T12:11:43.479Z",
+        "date": "2025-05-20T12:11:43.479",
         "synced": false
     }
 },
@@ -272,7 +272,7 @@
         "to_location": null,
         "type": "O",
         "quantity": 40,
-        "date": "2025-05-20T12:23:12.290Z",
+        "date": "2025-05-20T12:23:12.290",
         "synced": false
     }
 },
@@ -285,7 +285,7 @@
         "to_location": 2,
         "type": "T",
         "quantity": 50,
-        "date": "2025-05-20T12:28:35.210Z",
+        "date": "2025-05-20T12:28:35.210",
         "synced": false
     }
 },
@@ -298,7 +298,7 @@
         "to_location": 1,
         "type": "I",
         "quantity": 100,
-        "date": "2025-05-20T22:58:27.083Z",
+        "date": "2025-05-20T22:58:27.083",
         "synced": false
     }
 },
@@ -311,7 +311,7 @@
         "to_location": 4,
         "type": "I",
         "quantity": 200,
-        "date": "2025-05-20T23:00:50.156Z",
+        "date": "2025-05-20T23:00:50.156",
         "synced": false
     }
 },
@@ -324,7 +324,7 @@
         "to_location": 7,
         "type": "I",
         "quantity": 120,
-        "date": "2025-05-20T23:06:50.556Z",
+        "date": "2025-05-20T23:06:50.556",
         "synced": false
     }
 },
@@ -337,7 +337,7 @@
         "to_location": null,
         "type": "O",
         "quantity": 50,
-        "date": "2025-05-20T23:08:02.278Z",
+        "date": "2025-05-20T23:08:02.278",
         "synced": false
     }
 },
@@ -350,7 +350,7 @@
         "to_location": 1,
         "type": "I",
         "quantity": 400,
-        "date": "2025-06-03T11:29:26.190Z",
+        "date": "2025-06-03T11:29:26.190",
         "synced": true
     }
 },
@@ -363,7 +363,7 @@
         "to_location": 3,
         "type": "T",
         "quantity": 150,
-        "date": "2025-06-03T11:30:02.596Z",
+        "date": "2025-06-03T11:30:02.596",
         "synced": true
     }
 },
@@ -376,7 +376,7 @@
         "to_location": 7,
         "type": "I",
         "quantity": 300,
-        "date": "2025-06-03T11:33:41.953Z",
+        "date": "2025-06-03T11:33:41.953",
         "synced": true
     }
 },
@@ -389,7 +389,7 @@
         "to_location": 4,
         "type": "T",
         "quantity": 30,
-        "date": "2025-06-03T11:34:15.735Z",
+        "date": "2025-06-03T11:34:15.735",
         "synced": true
     }
 },
@@ -399,8 +399,8 @@
     "fields": {
         "name": "Audio",
         "slug": "audio",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -409,8 +409,8 @@
     "fields": {
         "name": "Cartes graphiques",
         "slug": "cartes-graphiques",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -419,8 +419,8 @@
     "fields": {
         "name": "Composants PC",
         "slug": "composants-pc",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -429,8 +429,8 @@
     "fields": {
         "name": "Processeurs",
         "slug": "processeurs",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z"
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210"
     }
 },
 {
@@ -443,8 +443,8 @@
         "vat": 0.2,
         "stock_threshold": 30,
         "description": "",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210",
         "categories": [
             5,
             6
@@ -461,8 +461,8 @@
         "vat": 0.2,
         "stock_threshold": 35,
         "description": "",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210",
         "categories": [
             5,
             6
@@ -479,8 +479,8 @@
         "vat": 0.2,
         "stock_threshold": 25,
         "description": "",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210",
         "categories": [
             5,
             6
@@ -497,8 +497,8 @@
         "vat": 0.2,
         "stock_threshold": 50,
         "description": "",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210",
         "categories": [
             6,
             7
@@ -515,8 +515,8 @@
         "vat": 0.2,
         "stock_threshold": 40,
         "description": "",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210",
         "categories": [
             6,
             7
@@ -533,8 +533,8 @@
         "vat": 0.2,
         "stock_threshold": 40,
         "description": "",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210",
         "categories": [
             6,
             7
@@ -551,8 +551,8 @@
         "vat": 0.2,
         "stock_threshold": 20,
         "description": "",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210",
         "categories": [
             6,
             7
@@ -569,8 +569,8 @@
         "vat": 0.2,
         "stock_threshold": 10,
         "description": "",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210",
         "categories": [
             3
         ]
@@ -586,8 +586,8 @@
         "vat": 0.2,
         "stock_threshold": 20,
         "description": "Enceinte portable Bluetooth",
-        "created": "2025-05-10T12:28:35.210Z",
-        "last_modified": "2025-05-10T12:28:35.210Z",
+        "created": "2025-05-10T12:28:35.210",
+        "last_modified": "2025-05-10T12:28:35.210",
         "categories": [
             3
         ]
