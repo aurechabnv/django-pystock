@@ -6,64 +6,65 @@
 
 {% block content %}
 <main id="movements-page" class="container">
-    {% bootstrap_messages %}
-    <nav class="navbar">
-        <div class="container-fluid">
-            <form class="d-flex w-75" role="search" id="search">
-                <input class="form-control me-2 w-50" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un stock par produit, origine ou destination" aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit">{% bs_icon 'search' %}Rechercher</button>
-            </form>
+    <div class="content mt-2">
+        {% bootstrap_messages %}
+        <nav class="navbar">
+            <div class="container-fluid">
+                <form class="d-flex w-75" role="search" id="search">
+                    <input class="form-control me-2 w-50" type="search" name="q" value="{{ filters.q }}" placeholder="Chercher un stock par produit, origine ou destination" aria-label="Search">
+                    <button class="btn btn-outline-primary" type="submit">{% bs_icon 'search' %}Rechercher</button>
+                </form>
+            </div>
+        </nav>
+        {% if filters.product and filters.location %}
+        <div class="alert alert-secondary alert-dismissible alert-filter">
+            <div><span class="fw-bold">Produit&nbsp;:</span> {{ filters.product }}</div>
+            <div><span class="fw-bold">Site&nbsp;:</span> {{ filters.location }}</div>
+            <a href="{% url 'stock:movements' %}" class="btn-close" aria-label="Retirer le filtre produit/site"></a>
         </div>
-    </nav>
-    {% if filters.product and filters.location %}
-    <div class="alert alert-secondary alert-dismissible alert-filter">
-        <div><span class="fw-bold">Produit&nbsp;:</span> {{ filters.product }}</div>
-        <div><span class="fw-bold">Site&nbsp;:</span> {{ filters.location }}</div>
-        <a href="{% url 'stock:movements' %}" class="btn-close" aria-label="Retirer le filtre produit/site"></a>
-    </div>
-    {% endif %}
-    <table class="table align-middle">
-        <thead>
-            <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Type</th>
-                <th scope="col">Quantité</th>
-                <th scope="col">Origine</th>
-                <th scope="col">Destination</th>
-                <th scope="col">Produit</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for obj in movements %}
-            <tr>
-                <td>{{ obj.date }}</td>
-                <td>{{ obj.get_type_display }}</td>
-                <td>{{ obj.quantity }}</td>
-                <td>{{ obj.from_location.name }}</td>
-                <td>{{ obj.to_location.name }}</td>
-                <td>{{ obj.product.name }}
-                    <a class="btn-icon" data-bs-toggle="collapse" href="#collapseProduct{{ obj.id }}" role="button" aria-expanded="false" aria-controls="collapseProduct{{ obj.id }}" title="Voir les détails">{% bs_icon 'info-circle' %}</a>
-                    <div class="collapse" id="collapseProduct{{ obj.id }}">
-                        <div>
-                            <table class="mt-2">
-                                <tr><th style="width:50px;">SKU</th><td>{{ obj.product.sku }}</td></tr>
-                                <tr><th>Prix</th><td>{{ obj.product.price }}&nbsp;€</td></tr>
-                                <tr><th>TVA</th><td>{{ obj.product.get_vat }}&nbsp;%</td></tr>
-                            </table>
+        {% endif %}
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Origine</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Produit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in movements %}
+                <tr>
+                    <td>{{ obj.date }}</td>
+                    <td>{{ obj.get_type_display }}</td>
+                    <td>{{ obj.quantity }}</td>
+                    <td>{{ obj.from_location.name }}</td>
+                    <td>{{ obj.to_location.name }}</td>
+                    <td>{{ obj.product.name }}
+                        <a class="btn-icon" data-bs-toggle="collapse" href="#collapseProduct{{ obj.id }}" role="button" aria-expanded="false" aria-controls="collapseProduct{{ obj.id }}" title="Voir les détails">{% bs_icon 'info-circle' %}</a>
+                        <div class="collapse" id="collapseProduct{{ obj.id }}">
+                            <div>
+                                <table class="mt-2">
+                                    <tr><th style="width:50px;">SKU</th><td>{{ obj.product.sku }}</td></tr>
+                                    <tr><th>Prix</th><td>{{ obj.product.price }}&nbsp;€ ({{ obj.product.get_vat }}&nbsp;% TVA)</td></tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="6">Aucun mouvement</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="paginator-container">
-        {% bootstrap_pagination page_obj url=request.get_full_path pages_to_show=5 %}
-        <p class="side total text-end">{{ page_obj.paginator.count }} résultat{% if page_obj.paginator.count > 1 %}s{% endif %}</p>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">Aucun mouvement</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="paginator-container">
+            {% bootstrap_pagination page_obj url=request.get_full_path pages_to_show=5 %}
+            <p class="side total text-end">{{ page_obj.paginator.count }} résultat{% if page_obj.paginator.count > 1 %}s{% endif %}</p>
+        </div>
     </div>
 </main>
 {% endblock %}
