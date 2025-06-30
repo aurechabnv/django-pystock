@@ -2,6 +2,7 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
 
+from apps.account.models import UserRole
 from apps.catalog.models import Product, Category
 from apps.inventory.models import Stock, Movement
 from apps.management.models import Company, Location
@@ -178,7 +179,7 @@ def user1(company1):
         password='azerty123*',
     )
     user.companies.add(company1)
-    user.groups.add(Group.objects.get(name='employee'))
+    user.groups.add(Group.objects.get(name=UserRole.EMPLOYEE))
     return user
 
 
@@ -190,8 +191,8 @@ def user2():
         password='azerty123*',
         is_staff=True,
     )
-    user.groups.add(Group.objects.get(name='employee'))
-    user.groups.add(Group.objects.get(name='manager'))
+    user.groups.add(Group.objects.get(name=UserRole.EMPLOYEE))
+    user.groups.add(Group.objects.get(name=UserRole.MANAGER))
     return user
 
 

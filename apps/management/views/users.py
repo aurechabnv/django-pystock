@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
+from apps.account.models import UserRole
 
 User = get_user_model()
 
@@ -39,13 +40,11 @@ class UserCreateView(PermissionRequiredMixin, UserPassesTestMixin, CreateView):
             password_reset.save(request=self.request)
 
         # Add default permission group to the user
-        group_employee = Group.objects.get(name="employee")
-        self.object.groups.add(group_employee)
+        self.object.groups.add(Group.objects.get(name=UserRole.EMPLOYEE))
 
         if self.object.is_staff:
             # If user is manager, add specific permission group
-            group_manager = Group.objects.get(name="manager")
-            self.object.groups.add(group_manager)
+            self.object.groups.add(Group.objects.get(name=UserRole.MANAGER))
 
         return redirect(self.get_success_url())
 
