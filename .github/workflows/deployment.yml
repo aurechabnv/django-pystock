@@ -13,9 +13,9 @@ on:
 
 jobs:
   deploy:
-     name: "File deployment for production environment"
-
+     name: "Trigger deployment on o2switch"
      runs-on: ubuntu-latest
+     environment: production
 
      steps:
        - uses: actions/checkout@v4
