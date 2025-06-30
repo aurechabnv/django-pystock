@@ -1,7 +1,6 @@
-name: pystock_dev
+name: PyStock Dev
 
 on:
-  workflow_dispatch:
   push:
     branches-ignore:
       - main
