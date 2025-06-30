@@ -171,59 +171,27 @@ def movement4(product1, location3):
 
 
 @pytest.fixture
-def group1():
-    group = Group.objects.create(name="Employee")
-    group.permissions.add(Permission.objects.get(codename='view_product'))
-    group.permissions.add(Permission.objects.get(codename='add_product'))
-    group.permissions.add(Permission.objects.get(codename='change_product'))
-    group.permissions.add(Permission.objects.get(codename='delete_product'))
-    group.permissions.add(Permission.objects.get(codename='view_stock'))
-    group.permissions.add(Permission.objects.get(codename='add_stock'))
-    group.permissions.add(Permission.objects.get(codename='change_stock'))
-    group.permissions.add(Permission.objects.get(codename='delete_stock'))
-    group.permissions.add(Permission.objects.get(codename='view_movement'))
-    return group
-
-
-@pytest.fixture
-def group2():
-    group = Group.objects.create(name="Staff")
-    group.permissions.add(Permission.objects.get(codename='view_user'))
-    group.permissions.add(Permission.objects.get(codename='add_user'))
-    group.permissions.add(Permission.objects.get(codename='change_user'))
-    group.permissions.add(Permission.objects.get(codename='delete_user'))
-    group.permissions.add(Permission.objects.get(codename='view_company'))
-    group.permissions.add(Permission.objects.get(codename='add_company'))
-    group.permissions.add(Permission.objects.get(codename='change_company'))
-    group.permissions.add(Permission.objects.get(codename='delete_company'))
-    group.permissions.add(Permission.objects.get(codename='view_location'))
-    group.permissions.add(Permission.objects.get(codename='add_location'))
-    group.permissions.add(Permission.objects.get(codename='change_location'))
-    group.permissions.add(Permission.objects.get(codename='delete_location'))
-    return group
-
-
-@pytest.fixture
-def user1(company1, group1):
+def user1(company1):
     user = User.objects.create_user(
         username='user1',
         email='user1@example.com',
         password='azerty123*',
     )
     user.companies.add(company1)
-    user.groups.set((group1,))
+    user.groups.add(Group.objects.get(name='employee'))
     return user
 
 
 @pytest.fixture
-def user2(group1, group2):
+def user2():
     user = User.objects.create_user(
         username='user2',
         email='user2@example.com',
         password='azerty123*',
         is_staff=True,
     )
-    user.groups.set((group1, group2,))
+    user.groups.add(Group.objects.get(name='employee'))
+    user.groups.add(Group.objects.get(name='manager'))
     return user
 
 
