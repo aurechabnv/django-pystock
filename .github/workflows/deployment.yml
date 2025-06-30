@@ -9,8 +9,7 @@ defaults:
 
 on:
   push:
-    branches:
-      - main
+    branches: [ $default-branch ]
 
 jobs:
   deploy:
