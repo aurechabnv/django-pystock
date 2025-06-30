@@ -2,8 +2,7 @@ name: PyStock Dev
 
 on:
   push:
-    branches-ignore:
-      - main
+    branches-ignore: [ main ]
 
 env:
   ENV_NAME: Development
