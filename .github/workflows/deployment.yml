@@ -9,8 +9,10 @@ defaults:
 
 on:
   workflow_run:
-    workflows: ["pystock_dev"]
-    types: [completed]
+    workflows:
+      - pystock_dev
+    types:
+      - completed
 #    branches:
 #      - main
 
