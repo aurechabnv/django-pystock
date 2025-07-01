@@ -14,8 +14,6 @@ from warnings import filterwarnings
 import environ
 from pathlib import Path
 
-import pymysql
-
 env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -87,11 +85,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'pystock.wsgi.application'
 
 
-# Install PyMySQL as MySQLdb
-# https://adamj.eu/tech/2020/02/04/how-to-use-pymysql-with-django/
-pymysql.install_as_MySQLdb()
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -160,3 +153,7 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = f'PyStock<{EMAIL_HOST_USER}>'
+
+FIXTURE_DIRS = [
+    BASE_DIR / 'fixtures',
+]

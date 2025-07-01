@@ -16,31 +16,47 @@ class Stock(models.Model):
     def __str__(self):
         return f"{self.product.sku} - {self.location.company.name} - {self.location.name} ({self.location.LocationType(self.location.type).label})"
 
-    def save(self, *args, **kwargs):
-        # Update the stock `is_low` flag on save
+    def _update_low_stock_flag(self):
+        """Met à jour le flag d'alerte de stock faible."""
         self.is_low = self.quantity <= self.product.stock_threshold
 
-        # Create a stock movement in case of create/update if synch is enabled
-        # Make sure to set the movement's attribute `synched` to True to prevent loop update Stock<>Movement
-        if self.synch:
-            if self.id:
-                cur_obj = Stock.objects.get(pk=self.id)
-                delta = self.quantity - cur_obj.quantity
-            else:
-                delta = self.quantity
+    def _calculate_quantity_delta(self):
+        """Calcule la différence de quantité par rapport à l'état précédent."""
+        if self.id:
+            cur_obj = Stock.objects.get(pk=self.id)
+            return self.quantity - cur_obj.quantity
+        return self.quantity
 
-            if delta != 0:
-                is_inbound = delta > 0
-                movement_type = Movement.MovementType.INBOUND if is_inbound else Movement.MovementType.OUTBOUND
-                movement = Movement(type=movement_type, quantity=delta, product=self.product, synced=True)
+    def _create_stock_movement(self, delta):
+        """Crée un mouvement de stock automatique basé sur le delta de quantité."""
+        is_inbound = delta > 0
+        movement_type = Movement.MovementType.INBOUND if is_inbound else Movement.MovementType.OUTBOUND
+        
+        movement = Movement(
+            type=movement_type,
+            quantity=delta,
+            product=self.product,
+            synced=True
+        )
 
-                if is_inbound:
-                    movement.to_location = self.location
-                else:
-                    movement.from_location = self.location
-                movement.save()
+        if is_inbound:
+            movement.to_location = self.location
         else:
-            # If synch has been bypassed by a movement direct update, re-enable it
+            movement.from_location = self.location
+            
+        movement.save()
+
+    def save(self, *args, **kwargs):
+        # Mise à jour du flag d'alerte de stock faible
+        self._update_low_stock_flag()
+
+        # Gestion de la synchronisation avec les mouvements
+        if self.synch:
+            delta = self._calculate_quantity_delta()
+            if delta != 0:
+                self._create_stock_movement(delta)
+        else:
+            # Réactivation de la synchronisation si elle avait été désactivée
             self.synch = True
 
         super().save(*args, **kwargs)
@@ -66,31 +82,48 @@ class Movement(models.Model):
     def __str__(self):
         return f"{self.MovementType(self.type).label} du {self.date.strftime('%d-%m-%Y %H:%M')}"
 
+    def _update_origin_stock(self):
+        """Met à jour le stock d'origine pour les mouvements OUTBOUND et TRANSFER."""
+        from_stock, _ = Stock.objects.get_or_create(
+            location=self.from_location,
+            product=self.product,
+            defaults={'quantity': 0, 'synch': False}
+        )
+        from_stock.quantity -= self.quantity
+        from_stock.synch = False
+        from_stock.save()
+
+    def _update_destination_stock(self):
+        """Met à jour le stock de destination pour les mouvements INBOUND et TRANSFER."""
+        to_stock, _ = Stock.objects.get_or_create(
+            location=self.to_location,
+            product=self.product,
+            defaults={'quantity': 0, 'synch': False}
+        )
+        to_stock.quantity += self.quantity
+        to_stock.synch = False
+        to_stock.save()
+
+    def _should_update_origin_stock(self):
+        """Détermine si le stock d'origine doit être mis à jour."""
+        return self.type != Movement.MovementType.INBOUND
+
+    def _should_update_destination_stock(self):
+        """Détermine si le stock de destination doit être mis à jour."""
+        return self.type != Movement.MovementType.OUTBOUND
+
     def save(self, *args, **kwargs):
-        # Make sure to only update stocks if movement is not synched yet
-        # Movement will be defaulted synched=True if it has been created from a stock update directly
+        # Mise à jour des stocks uniquement si le mouvement n'est pas encore synchronisé
+        # Les mouvements créés automatiquement par Stock ont synced=True par défaut
         if not self.synced:
             self.synced = True
-            # Get or create origin stock for OUTBOUND and TRANSFER
-            if self.type != Movement.MovementType.INBOUND:
-                from_stock, created = Stock.objects.get_or_create(
-                    location=self.from_location,
-                    product=self.product,
-                    defaults={'quantity': 0, 'synch': False}
-                )
-                from_stock.quantity -= self.quantity
-                from_stock.synch = False
-                from_stock.save()
+            
+            # Mise à jour du stock d'origine pour OUTBOUND et TRANSFER
+            if self._should_update_origin_stock():
+                self._update_origin_stock()
 
-            # Get or create destination stock for INBOUND and TRANSFER
-            if self.type != Movement.MovementType.OUTBOUND:
-                to_stock, created = Stock.objects.get_or_create(
-                    location=self.to_location,
-                    product=self.product,
-                    defaults={'quantity': 0, 'synch': False}
-                )
-                to_stock.quantity += self.quantity
-                to_stock.synch = False
-                to_stock.save()
+            # Mise à jour du stock de destination pour INBOUND et TRANSFER
+            if self._should_update_destination_stock():
+                self._update_destination_stock()
 
         super().save(*args, **kwargs)
