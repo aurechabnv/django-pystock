@@ -1,7 +1,7 @@
 """
 Django DEVELOPMENT settings for pystock project.
 """
-from pystock.settings.base import BASE_DIR
+from .base import *
 
 
 # Database
